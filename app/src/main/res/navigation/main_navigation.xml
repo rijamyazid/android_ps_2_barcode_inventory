@@ -9,5 +9,18 @@
         android:id="@+id/bnm_scan"
         android:name="com.rmyfactory.rmyinventorybarcode.view.CameraFragment"
         android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" />
+        tools:layout="@layout/fragment_camera">
+        <action
+            android:id="@+id/action_bnm_scan_to_detailActivity"
+            app:destination="@id/detailActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/detailActivity"
+        android:name="com.rmyfactory.rmyinventorybarcode.view.DetailActivity"
+        android:label="activity_detail"
+        tools:layout="@layout/activity_detail">
+        <argument
+            android:name="item_id"
+            app:argType="string" />
+    </activity>
 </navigation>

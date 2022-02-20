@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.util.Size
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +14,9 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentCameraBinding
@@ -36,19 +35,24 @@ class CameraFragment : Fragment() {
     private lateinit var barcodeAnalyzer: BarcodeAnalyzer
     private lateinit var cameraExecutor: ExecutorService
 
-    private val perReqLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
-        val granted = it.entries.all {
-            it.value == true
+    private var isScanSuccess = false
+
+    private val perReqLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+            val granted = it.entries.all {
+                it.value == true
+            }
+            if (granted) {
+                startCamera()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.camera_not_granted),
+                    Toast.LENGTH_SHORT
+                ).show()
+                requireActivity().finish()
+            }
         }
-        if (granted) {
-            startCamera()
-        } else {
-            Toast.makeText(requireContext(),
-                getString(R.string.camera_not_granted),
-                Toast.LENGTH_SHORT).show()
-            requireActivity().finish()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +77,7 @@ class CameraFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        isScanSuccess = false
         imageAnalyzer.clearAnalyzer()
         imageAnalyzer.setAnalyzer(cameraExecutor, barcodeAnalyzer)
     }
@@ -85,8 +90,12 @@ class CameraFragment : Fragment() {
 
         barcodeAnalyzer = BarcodeAnalyzer(
             onScanSuccess = { barcode ->
-                barcode?.let {
-                    onScanSuccess(barcode)
+                if (!isScanSuccess) {
+                    barcode?.let {
+                        onScanSuccess(it)
+                    }.also {
+                        isScanSuccess = true
+                    }
                 }
             })
     }
@@ -124,9 +133,12 @@ class CameraFragment : Fragment() {
 
     private fun onScanSuccess(itemId: String?) {
         itemId?.let {
-            Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
+            navigateToDetailActivity(it)
         }
-//        navigateToItemActivity(itemId)
+    }
+
+    private fun navigateToDetailActivity(itemId: String) {
+        findNavController().navigate(CameraFragmentDirections.actionBnmScanToDetailActivity(itemId))
     }
 
     companion object {
