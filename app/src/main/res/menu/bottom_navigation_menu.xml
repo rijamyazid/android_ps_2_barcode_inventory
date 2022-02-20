@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bnm_scan"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="@string/bnm_scan_single" />
+    <item
+        android:id="@+id/bnm_items"
+        android:icon="@drawable/ic_baseline_list_alt_24"
+        android:title="@string/bnm_items" />
+    <item
+        android:id="@+id/bnm_transactions"
+        android:icon="@drawable/ic_baseline_transaction_24"
+        android:title="@string/bnm_scan_multiple" />
+</menu>
