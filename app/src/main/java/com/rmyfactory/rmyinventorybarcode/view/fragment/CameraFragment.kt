@@ -1,4 +1,4 @@
-package com.rmyfactory.rmyinventorybarcode.view
+package com.rmyfactory.rmyinventorybarcode.view.fragment
 
 import android.Manifest
 import android.content.pm.PackageManager

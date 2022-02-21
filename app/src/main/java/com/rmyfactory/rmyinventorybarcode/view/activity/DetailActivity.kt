@@ -1,4 +1,4 @@
-package com.rmyfactory.rmyinventorybarcode.view
+package com.rmyfactory.rmyinventorybarcode.view.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
