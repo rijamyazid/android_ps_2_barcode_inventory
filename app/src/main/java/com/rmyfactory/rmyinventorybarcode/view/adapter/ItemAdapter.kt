@@ -1,23 +1,50 @@
 package com.rmyfactory.rmyinventorybarcode.view.adapter
 
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderItemBinding
+import com.rmyfactory.rmyinventorybarcode.model.data.local.ItemModel
 
-class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+class ItemAdapter(private val onclick: (itemId: String) -> Unit) :
+    RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+
+    private val itemList = mutableListOf<ItemModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        TODO("Not yet implemented")
+        val binding =
+            ItemHolderItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val itemModel = itemList[position]
+        holder.bind(itemModel)
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+    override fun getItemCount() = itemList.size
+
+    fun addItems(items: List<ItemModel>) {
+        itemList.clear()
+        itemList.addAll(items)
+        notifyDataSetChanged()
     }
 
-    inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class ItemViewHolder(
+        private val binding: ItemHolderItemBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: ItemModel) {
+            binding.tvItemIdItem.text = item.itemId
+            binding.tvItemNameItem.text = item.itemName
+            binding.tvItemStockItem.text = item.itemStock.toString()
+            binding.tvItemPriceItem.text = item.itemPrice
+
+            binding.root.setOnClickListener {
+                onclick(item.itemId)
+            }
+        }
+
+    }
 
 }

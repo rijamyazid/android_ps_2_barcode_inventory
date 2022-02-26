@@ -22,4 +22,7 @@ interface ItemDao {
     @Query("SELECT * FROM item_table")
     fun readItems(): LiveData<List<ItemModel>>
 
+    @Query("DELETE FROM item_table WHERE id=:itemId")
+    fun deleteItemById(itemId: String)
+
 }

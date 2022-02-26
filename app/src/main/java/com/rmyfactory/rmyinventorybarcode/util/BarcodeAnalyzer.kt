@@ -14,7 +14,7 @@ class BarcodeAnalyzer(
 
     private val barcodeScanner by lazy {
         val optionsBuilder = BarcodeScannerOptions.Builder()
-            .setBarcodeFormats(Barcode.FORMAT_QR_CODE, Barcode.FORMAT_CODABAR)
+            .setBarcodeFormats(Barcode.FORMAT_QR_CODE, Barcode.FORMAT_UPC_A, Barcode.FORMAT_UPC_E)
         BarcodeScanning.getClient(optionsBuilder.build())
     }
 

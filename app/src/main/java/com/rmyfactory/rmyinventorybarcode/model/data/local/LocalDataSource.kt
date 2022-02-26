@@ -15,4 +15,16 @@ class LocalDataSource
         return itemDao.readItems()
     }
 
+    fun readItemById(itemId: String): LiveData<ItemModel> {
+        return itemDao.readItem(itemId)
+    }
+
+    fun deleteItemById(itemId: String) {
+        itemDao.deleteItemById(itemId)
+    }
+
+    fun updateItem(item: ItemModel) {
+        itemDao.updateItem(item)
+    }
+
 }

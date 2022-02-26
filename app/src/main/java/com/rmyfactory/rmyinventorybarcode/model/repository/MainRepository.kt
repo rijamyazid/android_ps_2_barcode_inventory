@@ -16,4 +16,16 @@ class MainRepository
         return localDataSource.readItems()
     }
 
+    fun readItemById(itemId: String): LiveData<ItemModel> {
+        return localDataSource.readItemById(itemId)
+    }
+
+    fun deleteItemById(itemId: String) {
+        localDataSource.deleteItemById(itemId)
+    }
+
+    fun updateItem(item: ItemModel) {
+        localDataSource.updateItem(item)
+    }
+
 }

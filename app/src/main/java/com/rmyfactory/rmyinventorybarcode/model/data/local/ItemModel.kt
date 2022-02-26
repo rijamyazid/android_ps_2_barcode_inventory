@@ -7,6 +7,11 @@ import androidx.room.Entity
 data class ItemModel(
 
     @ColumnInfo(name = "id")
-    val itemId: String
-
+    val itemId: String,
+    @ColumnInfo(name = "name")
+    var itemName: String,
+    @ColumnInfo(name = "price")
+    var itemPrice: String,
+    @ColumnInfo(name = "stock")
+    var itemStock: Int
 )
