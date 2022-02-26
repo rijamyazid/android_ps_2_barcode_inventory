@@ -36,5 +36,9 @@
         android:id="@+id/bnm_transactions"
         android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.TransactionFragment"
         android:label="fragment_transaction"
-        tools:layout="@layout/fragment_transaction" />
+        tools:layout="@layout/fragment_transaction">
+        <action
+            android:id="@+id/action_bnm_transactions_to_detailActivity"
+            app:destination="@id/detailActivity" />
+    </fragment>
 </navigation>

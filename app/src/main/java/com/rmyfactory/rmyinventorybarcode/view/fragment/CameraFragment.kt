@@ -142,9 +142,9 @@ class CameraFragment : Fragment() {
     }
 
     companion object {
-        private const val TAG = "RMYFactory"
+        const val TAG = "RMYFactory"
         private const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+        val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 
 }
