@@ -11,7 +11,7 @@ import javax.inject.Inject
 class TransactionViewModel
 @Inject constructor(private val repository: MainRepository) : ViewModel() {
 
-    val itemList = mutableListOf<Map<String, String>>()
+    val itemList = mutableListOf<MutableMap<String, String>>()
 
     fun readItemById(itemId: String): LiveData<ItemModel> {
         return repository.readItemById(itemId)

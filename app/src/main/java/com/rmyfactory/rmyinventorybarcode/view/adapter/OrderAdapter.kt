@@ -8,7 +8,7 @@ import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderOrderItemBinding
 class OrderAdapter(private val onclickQty: (Int, Boolean) -> Unit) :
     RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
-    private val orderList = mutableListOf<Map<String, String>>()
+    private val orderList = mutableListOf<MutableMap<String, String>>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val binding =
@@ -23,7 +23,7 @@ class OrderAdapter(private val onclickQty: (Int, Boolean) -> Unit) :
 
     override fun getItemCount() = orderList.size
 
-    fun addOrder(orders: List<Map<String, String>>) {
+    fun addOrder(orders: List<MutableMap<String, String>>) {
         orderList.clear()
         orderList.addAll(orders)
         notifyDataSetChanged()

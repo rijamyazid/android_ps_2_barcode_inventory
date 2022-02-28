@@ -80,6 +80,11 @@ class TransactionFragment : Fragment() {
             adapter = orderAdapter
         }
 
+        binding.btnClearOrder.setOnClickListener {
+            viewModel.itemList.clear()
+            orderAdapter.addOrder(viewModel.itemList)
+        }
+
         setupCamera()
         if (cameraPermissionsGranted()) {
             startCamera()
@@ -92,17 +97,12 @@ class TransactionFragment : Fragment() {
     private fun initVars() {
         orderAdapter = OrderAdapter(
             onclickQty = { position, isIncreased ->
-                Log.d(CameraFragment.TAG, "1")
-                viewModel.itemList[position] = if (isIncreased) {
-                    viewModel.itemList[position].toMutableMap().apply {
-                        this["orderQty"] = (this["orderQty"].toString().toInt() + 1).toString()
+                viewModel.itemList[position]["orderQty"] =
+                    if (isIncreased) {
+                        (viewModel.itemList[position]["orderQty"].toString().toInt() + 1).toString()
+                    } else {
+                        (viewModel.itemList[position]["orderQty"].toString().toInt() - 1).toString()
                     }
-                } else {
-                    viewModel.itemList[position].toMutableMap().apply {
-                        this["orderQty"] = (this["orderQty"].toString().toInt() - 1).toString()
-                    }
-                }
-                Log.d(CameraFragment.TAG, viewModel.itemList[position].toString())
             }
         )
     }
@@ -169,7 +169,7 @@ class TransactionFragment : Fragment() {
             viewModel.readItemById(it).observe(viewLifecycleOwner, { item ->
                 item?.let { _item ->
                     if (!checkIdOnMapList(_item.itemId, viewModel.itemList)) {
-                        val orderMap = mapOf(
+                        val orderMap = mutableMapOf(
                             "orderId" to _item.itemId,
                             "orderName" to _item.itemName,
                             "orderPrice" to _item.itemPrice,
