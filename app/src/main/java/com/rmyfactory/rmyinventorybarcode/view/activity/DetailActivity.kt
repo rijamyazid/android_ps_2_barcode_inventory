@@ -6,7 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
 import com.rmyfactory.rmyinventorybarcode.databinding.ActivityDetailBinding
-import com.rmyfactory.rmyinventorybarcode.model.data.local.ItemModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
 import com.rmyfactory.rmyinventorybarcode.viewmodel.DetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

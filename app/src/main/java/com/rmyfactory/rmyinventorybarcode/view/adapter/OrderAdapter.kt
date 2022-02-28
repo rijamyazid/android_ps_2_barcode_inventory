@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderOrderItemBinding
 
-class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
+class OrderAdapter(private val onclickQty: (Int, Boolean) -> Unit) :
+    RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     private val orderList = mutableListOf<Map<String, String>>()
 
@@ -17,7 +18,7 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = orderList[position]
-        holder.bind(order)
+        holder.bind(order, position)
     }
 
     override fun getItemCount() = orderList.size
@@ -31,7 +32,7 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
     inner class OrderViewHolder(private val binding: ItemHolderOrderItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(order: Map<String, String>) {
+        fun bind(order: Map<String, String>, position: Int) {
             try {
                 binding.tvItemNameItem.text = order["orderName"]
                 binding.tvItemIdItem.text = order["orderId"]
@@ -42,12 +43,14 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
             }
 
             binding.imgIncreaseQty.setOnClickListener {
+                onclickQty(position, true)
                 binding.tvItemQtyItem.text =
                     (binding.tvItemQtyItem.text.toString().toInt() + 1).toString()
             }
 
             binding.imgDecreaseQty.setOnClickListener {
                 if (binding.tvItemQtyItem.text.toString().toInt() > 1) {
+                    onclickQty(position, false)
                     binding.tvItemQtyItem.text =
                         (binding.tvItemQtyItem.text.toString().toInt() - 1).toString()
                 }

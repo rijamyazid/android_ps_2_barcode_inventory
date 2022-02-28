@@ -90,7 +90,21 @@ class TransactionFragment : Fragment() {
     }
 
     private fun initVars() {
-        orderAdapter = OrderAdapter()
+        orderAdapter = OrderAdapter(
+            onclickQty = { position, isIncreased ->
+                Log.d(CameraFragment.TAG, "1")
+                viewModel.itemList[position] = if (isIncreased) {
+                    viewModel.itemList[position].toMutableMap().apply {
+                        this["orderQty"] = (this["orderQty"].toString().toInt() + 1).toString()
+                    }
+                } else {
+                    viewModel.itemList[position].toMutableMap().apply {
+                        this["orderQty"] = (this["orderQty"].toString().toInt() - 1).toString()
+                    }
+                }
+                Log.d(CameraFragment.TAG, viewModel.itemList[position].toString())
+            }
+        )
     }
 
     override fun onResume() {
