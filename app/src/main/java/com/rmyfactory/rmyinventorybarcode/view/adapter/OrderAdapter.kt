@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderOrderItemBinding
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder
 
 class OrderAdapter(private val onclickQty: (Int, Boolean) -> Unit) :
     RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
-    private val orderList = mutableListOf<MutableMap<String, String>>()
+    private val orderList = mutableListOf<OrderHolder>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val binding =
@@ -23,7 +24,7 @@ class OrderAdapter(private val onclickQty: (Int, Boolean) -> Unit) :
 
     override fun getItemCount() = orderList.size
 
-    fun addOrder(orders: List<MutableMap<String, String>>) {
+    fun addOrder(orders: List<OrderHolder>) {
         orderList.clear()
         orderList.addAll(orders)
         notifyDataSetChanged()
@@ -32,12 +33,12 @@ class OrderAdapter(private val onclickQty: (Int, Boolean) -> Unit) :
     inner class OrderViewHolder(private val binding: ItemHolderOrderItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(order: Map<String, String>, position: Int) {
+        fun bind(order: OrderHolder, position: Int) {
             try {
-                binding.tvItemNameItem.text = order["orderName"]
-                binding.tvItemIdItem.text = order["orderId"]
-                binding.tvItemPriceItem.text = order["orderPrice"]
-                binding.tvItemQtyItem.text = order["orderQty"]
+                binding.tvItemNameItem.text = order.itemName
+                binding.tvItemIdItem.text = order.itemId
+                binding.tvItemPriceItem.text = order.itemPrice
+                binding.tvItemQtyItem.text = order.itemQty.toString()
             } catch (e: Exception) {
 
             }

@@ -16,10 +16,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentTransactionBinding
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder
 import com.rmyfactory.rmyinventorybarcode.util.BarcodeAnalyzer
 import com.rmyfactory.rmyinventorybarcode.view.adapter.OrderAdapter
 import com.rmyfactory.rmyinventorybarcode.viewmodel.TransactionViewModel
@@ -80,6 +82,14 @@ class TransactionFragment : Fragment() {
             adapter = orderAdapter
         }
 
+        binding.btnConfirmOrder.setOnClickListener {
+            findNavController()
+                .navigate(
+                    TransactionFragmentDirections
+                        .actionBnmTransactionsToOrderConfirmationFragment(viewModel.itemList.toTypedArray())
+                )
+        }
+
         binding.btnClearOrder.setOnClickListener {
             viewModel.itemList.clear()
             orderAdapter.addOrder(viewModel.itemList)
@@ -97,11 +107,11 @@ class TransactionFragment : Fragment() {
     private fun initVars() {
         orderAdapter = OrderAdapter(
             onclickQty = { position, isIncreased ->
-                viewModel.itemList[position]["orderQty"] =
+                viewModel.itemList[position].itemQty =
                     if (isIncreased) {
-                        (viewModel.itemList[position]["orderQty"].toString().toInt() + 1).toString()
+                        viewModel.itemList[position].itemQty + 1
                     } else {
-                        (viewModel.itemList[position]["orderQty"].toString().toInt() - 1).toString()
+                        viewModel.itemList[position].itemQty - 1
                     }
             }
         )
@@ -168,14 +178,20 @@ class TransactionFragment : Fragment() {
         itemId?.let {
             viewModel.readItemById(it).observe(viewLifecycleOwner, { item ->
                 item?.let { _item ->
-                    if (!checkIdOnMapList(_item.itemId, viewModel.itemList)) {
-                        val orderMap = mutableMapOf(
-                            "orderId" to _item.itemId,
-                            "orderName" to _item.itemName,
-                            "orderPrice" to _item.itemPrice,
-                            "orderQty" to "1"
+                    if (!checkIdOnList(_item.itemId, viewModel.itemList)) {
+                        val order = OrderHolder(
+                            _item.itemId,
+                            _item.itemName,
+                            _item.itemPrice,
+                            1
                         )
-                        viewModel.itemList.add(orderMap)
+//                        val orderMap = mutableMapOf(
+//                            "orderId" to _item.itemId,
+//                            "orderName" to _item.itemName,
+//                            "orderPrice" to _item.itemPrice,
+//                            "orderQty" to "1"
+//                        )
+                        viewModel.itemList.add(order)
                         orderAdapter.addOrder(viewModel.itemList)
                     } else {
                         Toast
@@ -199,6 +215,17 @@ class TransactionFragment : Fragment() {
         list.forEach { map ->
             if (map.containsKey("orderId")) {
                 if (map["orderId"] == id) isInMap = true
+            }
+        }
+        return isInMap
+    }
+
+    private fun checkIdOnList(id: String, list: List<OrderHolder>): Boolean {
+
+        var isInMap = false
+        list.forEach { order ->
+            if (order.itemId == id) {
+                isInMap = true
             }
         }
         return isInMap

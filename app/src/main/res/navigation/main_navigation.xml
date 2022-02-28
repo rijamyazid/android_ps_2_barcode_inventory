@@ -40,5 +40,17 @@
         <action
             android:id="@+id/action_bnm_transactions_to_detailActivity"
             app:destination="@id/detailActivity" />
+        <action
+            android:id="@+id/action_bnm_transactions_to_orderConfirmationFragment"
+            app:destination="@id/orderConfirmationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderConfirmationFragment"
+        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.OrderConfirmationFragment"
+        android:label="fragment_order_confirmation"
+        tools:layout="@layout/fragment_order_confirmation">
+        <argument
+            android:name="orderItems"
+            app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder[]" />
     </fragment>
 </navigation>
