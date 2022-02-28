@@ -2,6 +2,7 @@ package com.rmyfactory.rmyinventorybarcode.model.data.local
 
 import androidx.lifecycle.LiveData
 import com.rmyfactory.rmyinventorybarcode.model.data.local.dao.ItemDao
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
 import javax.inject.Inject
 
 class LocalDataSource

@@ -1,8 +1,8 @@
 package com.rmyfactory.rmyinventorybarcode.model.repository
 
 import androidx.lifecycle.LiveData
-import com.rmyfactory.rmyinventorybarcode.model.data.local.ItemModel
 import com.rmyfactory.rmyinventorybarcode.model.data.local.LocalDataSource
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
 import javax.inject.Inject
 
 class MainRepository

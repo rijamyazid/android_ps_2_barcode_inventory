@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderItemBinding
-import com.rmyfactory.rmyinventorybarcode.model.data.local.ItemModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
 
 class ItemAdapter(private val onclick: (itemId: String) -> Unit) :
     RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {

@@ -16,13 +16,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentTransactionBinding
 import com.rmyfactory.rmyinventorybarcode.util.BarcodeAnalyzer
-import com.rmyfactory.rmyinventorybarcode.view.adapter.ItemAdapter
+import com.rmyfactory.rmyinventorybarcode.view.adapter.OrderAdapter
 import com.rmyfactory.rmyinventorybarcode.viewmodel.TransactionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
@@ -33,7 +32,7 @@ class TransactionFragment : Fragment() {
 
     private lateinit var binding: FragmentTransactionBinding
     private val viewModel: TransactionViewModel by viewModels()
-    private lateinit var itemAdapter: ItemAdapter
+    private lateinit var orderAdapter: OrderAdapter
 
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private lateinit var cameraProvider: ProcessCameraProvider
@@ -78,7 +77,7 @@ class TransactionFragment : Fragment() {
 
         binding.rvTransaction.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = itemAdapter
+            adapter = orderAdapter
         }
 
         setupCamera()
@@ -91,17 +90,13 @@ class TransactionFragment : Fragment() {
     }
 
     private fun initVars() {
-        itemAdapter = ItemAdapter {
-            findNavController().navigate(
-                TransactionFragmentDirections.actionBnmTransactionsToDetailActivity(it)
-            )
-        }
+        orderAdapter = OrderAdapter()
     }
 
     override fun onResume() {
         super.onResume()
         scanTimeStamp = 0L
-        itemAdapter.addItems(viewModel.itemList)
+        orderAdapter.addOrder(viewModel.itemList)
         imageAnalyzer.clearAnalyzer()
         imageAnalyzer.setAnalyzer(cameraExecutor, barcodeAnalyzer)
     }
@@ -158,10 +153,16 @@ class TransactionFragment : Fragment() {
     private fun onScanSuccess(itemId: String?) {
         itemId?.let {
             viewModel.readItemById(it).observe(viewLifecycleOwner, { item ->
-                item?.let {
-                    if (item !in viewModel.itemList) {
-                        viewModel.itemList.add(item)
-                        itemAdapter.addItems(viewModel.itemList)
+                item?.let { _item ->
+                    if (!checkIdOnMapList(_item.itemId, viewModel.itemList)) {
+                        val orderMap = mapOf(
+                            "orderId" to _item.itemId,
+                            "orderName" to _item.itemName,
+                            "orderPrice" to _item.itemPrice,
+                            "orderQty" to "1"
+                        )
+                        viewModel.itemList.add(orderMap)
+                        orderAdapter.addOrder(viewModel.itemList)
                     } else {
                         Toast
                             .makeText(
@@ -176,6 +177,17 @@ class TransactionFragment : Fragment() {
                     .show()
             })
         }
+    }
+
+    private fun checkIdOnMapList(id: String, list: List<Map<String, String>>): Boolean {
+
+        var isInMap = false
+        list.forEach { map ->
+            if (map.containsKey("orderId")) {
+                if (map["orderId"] == id) isInMap = true
+            }
+        }
+        return isInMap
     }
 
 }
