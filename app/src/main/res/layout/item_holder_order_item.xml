@@ -20,13 +20,13 @@
         <LinearLayout
             android:id="@+id/ll_order_item_detail"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ll_order_item_qty"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -56,8 +56,8 @@
         <LinearLayout
             android:id="@+id/ll_order_item_qty"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -66,33 +66,40 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/img_increase_qty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_arrow_drop_up_24" />
+                android:id="@+id/img_decrease_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_baseline_remove_circle_24" />
 
-            <TextView
-                android:id="@+id/tv_item_qty_item_title"
-                style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Jumlah" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_item_qty_item"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                tools:text="50" />
+                <TextView
+                    android:id="@+id/tv_item_qty_item_title"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Jumlah" />
+
+                <TextView
+                    android:id="@+id/tv_item_qty_item"
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    tools:text="50" />
+
+            </LinearLayout>
 
             <ImageView
-                android:id="@+id/img_decrease_qty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24"
-                tools:layout_editor_absoluteY="8dp" />
+                android:id="@+id/img_increase_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_baseline_add_circle_24" />
 
         </LinearLayout>
 

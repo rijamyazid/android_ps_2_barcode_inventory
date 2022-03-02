@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderItemBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
+import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
 
 class ItemAdapter(private val onclick: (itemId: String) -> Unit) :
     RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
@@ -38,7 +39,7 @@ class ItemAdapter(private val onclick: (itemId: String) -> Unit) :
             binding.tvItemIdItem.text = item.itemId
             binding.tvItemNameItem.text = item.itemName
             binding.tvItemStockItem.text = item.itemStock.toString()
-            binding.tvItemPriceItem.text = item.itemPrice
+            binding.tvItemPriceItem.text = dotPriceIND(item.itemPrice)
 
             binding.root.setOnClickListener {
                 onclick(item.itemId)

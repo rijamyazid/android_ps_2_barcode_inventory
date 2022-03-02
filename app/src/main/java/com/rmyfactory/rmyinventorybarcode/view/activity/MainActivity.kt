@@ -1,6 +1,7 @@
 package com.rmyfactory.rmyinventorybarcode.view.activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -24,5 +25,20 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         binding.bnvMain.setupWithNavController(navController)
 
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.orderConfirmationFragment -> hideBottomNav()
+                else -> showBottomNav()
+            }
+        }
+    }
+
+    private fun showBottomNav() {
+        binding.bnvMain.visibility = View.VISIBLE
+    }
+
+    private fun hideBottomNav() {
+        binding.bnvMain.visibility = View.GONE
     }
 }
