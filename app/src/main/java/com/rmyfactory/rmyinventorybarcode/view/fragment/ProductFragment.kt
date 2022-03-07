@@ -7,25 +7,24 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rmyfactory.rmyinventorybarcode.databinding.FragmentItemBinding
-import com.rmyfactory.rmyinventorybarcode.view.adapter.ItemAdapter
+import com.rmyfactory.rmyinventorybarcode.databinding.FragmentProductBinding
+import com.rmyfactory.rmyinventorybarcode.view.adapter.ProductAdapter
 import com.rmyfactory.rmyinventorybarcode.viewmodel.ItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ItemFragment : BaseFragment() {
+class ProductFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentItemBinding
+    private lateinit var binding: FragmentProductBinding
     private val viewModel: ItemViewModel by viewModels()
 
-    private lateinit var itemAdapter: ItemAdapter
+    private lateinit var productAdapter: ProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentItemBinding.inflate(layoutInflater, container, false)
+    ): View {
+        binding = FragmentProductBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -36,19 +35,19 @@ class ItemFragment : BaseFragment() {
 
         binding.rvItems.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = itemAdapter
+            adapter = productAdapter
         }
 
         viewModel.readItems().observe(viewLifecycleOwner, {
-            itemAdapter.addItems(it)
+            productAdapter.addItems(it)
         })
 
     }
 
     private fun initVars() {
-        itemAdapter = ItemAdapter {
+        productAdapter = ProductAdapter {
             findNavController().navigate(
-                ItemFragmentDirections.actionItemFragmentToDetailActivity(
+                ProductFragmentDirections.actionItemFragmentToDetailActivity(
                     it
                 )
             )

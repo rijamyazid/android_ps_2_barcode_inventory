@@ -7,8 +7,8 @@ import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderItemBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
 import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
 
-class ItemAdapter(private val onclick: (itemId: String) -> Unit) :
-    RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+class ProductAdapter(private val onclick: (itemId: String) -> Unit) :
+    RecyclerView.Adapter<ProductAdapter.ItemViewHolder>() {
 
     private val itemList = mutableListOf<ItemModel>()
 

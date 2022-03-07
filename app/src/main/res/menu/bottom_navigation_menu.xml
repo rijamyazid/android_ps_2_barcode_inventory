@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/bnm_scan"
+        android:id="@+id/bnv_home"
         android:icon="@drawable/ic_baseline_search_24"
         android:title="@string/bnv_home" />
     <item
-        android:id="@+id/bnm_items"
+        android:id="@+id/bnv_product"
         android:icon="@drawable/ic_baseline_list_alt_24"
         android:title="@string/bnv_product" />
     <item
-        android:id="@+id/bnm_transactions"
+        android:id="@+id/bnv_cart"
         android:icon="@drawable/ic_baseline_transaction_24"
         android:title="@string/bnv_cart" />
 </menu>

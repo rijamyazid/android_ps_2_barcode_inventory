@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/bnm_scan">
+    app:startDestination="@id/bnv_home">
 
     <fragment
-        android:id="@+id/bnm_scan"
+        android:id="@+id/bnv_home"
         android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.CameraFragment"
         android:label="fragment_camera"
         tools:layout="@layout/fragment_camera">
@@ -24,16 +24,16 @@
             app:argType="string" />
     </activity>
     <fragment
-        android:id="@+id/bnm_items"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.ItemFragment"
+        android:id="@+id/bnv_product"
+        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.ProductFragment"
         android:label="fragment_item"
-        tools:layout="@layout/fragment_item">
+        tools:layout="@layout/fragment_product">
         <action
             android:id="@+id/action_itemFragment_to_detailActivity"
             app:destination="@id/detailActivity" />
     </fragment>
     <fragment
-        android:id="@+id/bnm_transactions"
+        android:id="@+id/bnv_cart"
         android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.TransactionFragment"
         android:label="fragment_transaction"
         tools:layout="@layout/fragment_transaction">
