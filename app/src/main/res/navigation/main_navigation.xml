@@ -34,9 +34,9 @@
     </fragment>
     <fragment
         android:id="@+id/bnv_cart"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.TransactionFragment"
+        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.CartFragment"
         android:label="fragment_transaction"
-        tools:layout="@layout/fragment_transaction">
+        tools:layout="@layout/fragment_cart">
         <action
             android:id="@+id/action_bnm_transactions_to_detailActivity"
             app:destination="@id/detailActivity" />

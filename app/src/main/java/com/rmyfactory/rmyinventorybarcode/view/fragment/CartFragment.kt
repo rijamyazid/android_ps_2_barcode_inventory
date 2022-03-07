@@ -19,21 +19,21 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
-import com.rmyfactory.rmyinventorybarcode.databinding.FragmentTransactionBinding
+import com.rmyfactory.rmyinventorybarcode.databinding.FragmentCartBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder
 import com.rmyfactory.rmyinventorybarcode.util.BarcodeAnalyzer
-import com.rmyfactory.rmyinventorybarcode.view.adapter.OrderAdapter
+import com.rmyfactory.rmyinventorybarcode.view.adapter.CartAdapter
 import com.rmyfactory.rmyinventorybarcode.viewmodel.TransactionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 @AndroidEntryPoint
-class TransactionFragment : BaseFragment() {
+class CartFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentTransactionBinding
+    private lateinit var binding: FragmentCartBinding
     private val viewModel: TransactionViewModel by viewModels()
-    private lateinit var orderAdapter: OrderAdapter
+    private lateinit var cartAdapter: CartAdapter
 
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private lateinit var cameraProvider: ProcessCameraProvider
@@ -45,9 +45,9 @@ class TransactionFragment : BaseFragment() {
     private var scanTimeStamp = 0L
 
     private val perReqLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-            val granted = it.entries.all {
-                it.value == true
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val granted = permissions.entries.all { permission ->
+                permission.value == true
             }
             if (granted) {
                 startCamera()
@@ -64,9 +64,9 @@ class TransactionFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        binding = FragmentTransactionBinding.inflate(layoutInflater, container, false)
+        binding = FragmentCartBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -78,13 +78,13 @@ class TransactionFragment : BaseFragment() {
 
         binding.rvTransaction.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = orderAdapter
+            adapter = cartAdapter
         }
 
         binding.btnConfirmOrder.setOnClickListener {
             findNavController()
                 .navigate(
-                    TransactionFragmentDirections
+                    CartFragmentDirections
                         .actionBnmTransactionsToOrderConfirmationFragment(viewModel.itemList.toTypedArray())
                 )
 //            findNavController()
@@ -96,7 +96,7 @@ class TransactionFragment : BaseFragment() {
 
         binding.btnClearOrder.setOnClickListener {
             viewModel.itemList.clear()
-            orderAdapter.addOrder(viewModel.itemList)
+            cartAdapter.addOrder(viewModel.itemList)
         }
 
         setupCamera()
@@ -109,7 +109,7 @@ class TransactionFragment : BaseFragment() {
     }
 
     private fun initVars() {
-        orderAdapter = OrderAdapter(
+        cartAdapter = CartAdapter(
             onclickQty = { position, isIncreased ->
                 viewModel.itemList[position].itemQty =
                     if (isIncreased) {
@@ -124,7 +124,7 @@ class TransactionFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         scanTimeStamp = 0L
-        orderAdapter.addOrder(viewModel.itemList)
+        cartAdapter.addOrder(viewModel.itemList)
         imageAnalyzer.clearAnalyzer()
         imageAnalyzer.setAnalyzer(cameraExecutor, barcodeAnalyzer)
     }
@@ -196,7 +196,7 @@ class TransactionFragment : BaseFragment() {
 //                            "orderQty" to "1"
 //                        )
                         viewModel.itemList.add(order)
-                        orderAdapter.addOrder(viewModel.itemList)
+                        cartAdapter.addOrder(viewModel.itemList)
                     } else {
                         Toast
                             .makeText(
@@ -213,26 +213,15 @@ class TransactionFragment : BaseFragment() {
         }
     }
 
-    private fun checkIdOnMapList(id: String, list: List<Map<String, String>>): Boolean {
-
-        var isInMap = false
-        list.forEach { map ->
-            if (map.containsKey("orderId")) {
-                if (map["orderId"] == id) isInMap = true
-            }
-        }
-        return isInMap
-    }
-
     private fun checkIdOnList(id: String, list: List<OrderHolder>): Boolean {
 
-        var isInMap = false
+        var isInList = false
         list.forEach { order ->
             if (order.itemId == id) {
-                isInMap = true
+                isInList = true
             }
         }
-        return isInMap
+        return isInList
     }
 
 }

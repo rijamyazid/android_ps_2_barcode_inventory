@@ -16,5 +16,5 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_holder_item" />
+        tools:listitem="@layout/item_holder_product" />
 </androidx.constraintlayout.widget.ConstraintLayout>

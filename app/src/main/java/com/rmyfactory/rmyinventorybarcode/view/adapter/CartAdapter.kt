@@ -3,18 +3,18 @@ package com.rmyfactory.rmyinventorybarcode.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderOrderItemBinding
+import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderCartBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder
 import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
 
-class OrderAdapter(private val onclickQty: (Int, Boolean) -> Unit) :
-    RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
+class CartAdapter(private val onclickQty: (Int, Boolean) -> Unit) :
+    RecyclerView.Adapter<CartAdapter.OrderViewHolder>() {
 
     private val orderList = mutableListOf<OrderHolder>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val binding =
-            ItemHolderOrderItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemHolderCartBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return OrderViewHolder(binding)
     }
 
@@ -31,7 +31,7 @@ class OrderAdapter(private val onclickQty: (Int, Boolean) -> Unit) :
         notifyDataSetChanged()
     }
 
-    inner class OrderViewHolder(private val binding: ItemHolderOrderItemBinding) :
+    inner class OrderViewHolder(private val binding: ItemHolderCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(order: OrderHolder, position: Int) {

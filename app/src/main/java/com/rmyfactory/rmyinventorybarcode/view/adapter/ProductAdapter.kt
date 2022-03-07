@@ -3,7 +3,7 @@ package com.rmyfactory.rmyinventorybarcode.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderItemBinding
+import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderProductBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
 import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
 
@@ -14,7 +14,7 @@ class ProductAdapter(private val onclick: (itemId: String) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding =
-            ItemHolderItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemHolderProductBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
     }
 
@@ -32,7 +32,7 @@ class ProductAdapter(private val onclick: (itemId: String) -> Unit) :
     }
 
     inner class ItemViewHolder(
-        private val binding: ItemHolderItemBinding,
+        private val binding: ItemHolderProductBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ItemModel) {
