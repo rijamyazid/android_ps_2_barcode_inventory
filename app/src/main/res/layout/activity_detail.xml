@@ -12,8 +12,8 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/scan_result"
         android:enabled="false"
+        android:hint="@string/edt_product_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_size_small"
-        android:hint="Item Name"
+        android:hint="@string/edt_product_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,9 +49,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_size_small"
-        android:hint="Item Price"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
+        android:hint="@string/edt_product_price"
+        app:hintTextColor="#757575"
+        app:layout_constraintEnd_toStartOf="@+id/spin_item_currency"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_item_name">
 
@@ -62,15 +65,30 @@
             android:maxLength="8" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Spinner
+        android:id="@+id/spin_item_currency"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_padding_size_small"
+        android:layout_marginBottom="@dimen/margin_padding_size_small"
+        app:layout_constraintBottom_toTopOf="@id/edt_item_stock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toEndOf="@id/edt_item_price"
+        app:layout_constraintTop_toBottomOf="@+id/edt_item_name"
+        tools:ignore="SpeakableTextPresentCheck" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edt_item_stock"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_size_small"
-        android:hint="Item Stock"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="@string/edt_product_stock"
+        app:layout_constraintEnd_toStartOf="@id/spin_item_unit"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_item_price">
 
@@ -81,15 +99,29 @@
             android:maxLength="4" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Spinner
+        android:id="@+id/spin_item_unit"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_padding_size_small"
+        android:layout_marginTop="@dimen/margin_padding_size_small"
+        app:layout_constraintBottom_toBottomOf="@id/edt_item_stock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_weight="0.1"
+        app:layout_constraintStart_toEndOf="@+id/edt_item_stock"
+        app:layout_constraintTop_toBottomOf="@+id/edt_item_price"
+        tools:ignore="SpeakableTextPresentCheck" />
+
     <Button
         android:id="@+id/btn_add_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Masukan kedalam database"
+        android:backgroundTint="@android:color/holo_green_dark"
+        android:text="@string/btn_add_product_database"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        android:backgroundTint="@android:color/holo_green_dark"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
@@ -103,22 +135,22 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_update_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_padding_size_small"
             android:layout_weight="1"
             android:backgroundTint="@android:color/holo_blue_dark"
-            android:text="Update Item" />
+            android:text="@string/btn_update_product_database" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_delete_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@android:color/holo_red_dark"
-            android:text="Hapus Item" />
+            android:text="@string/btn_delete_product_database" />
 
     </LinearLayout>
 

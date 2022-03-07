@@ -2,9 +2,11 @@ package com.rmyfactory.rmyinventorybarcode.view.activity
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
+import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.ActivityDetailBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
 import com.rmyfactory.rmyinventorybarcode.viewmodel.DetailViewModel
@@ -85,6 +87,24 @@ class DetailActivity : AppCompatActivity() {
                 binding.llButtonsDetail.visibility = View.GONE
             }
         })
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.product_currency,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinItemCurrency.adapter = adapter
+        }
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.product_unit,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinItemUnit.adapter = adapter
+        }
 
     }
 }

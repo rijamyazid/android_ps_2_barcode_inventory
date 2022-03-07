@@ -42,7 +42,14 @@
             app:destination="@id/detailActivity" />
         <action
             android:id="@+id/action_bnm_transactions_to_orderConfirmationFragment"
-            app:destination="@id/orderConfirmationFragment" />
+            app:destination="@id/orderConfirmationFragment"
+            app:enterAnim="@anim/slide_down_enter"
+            app:exitAnim="@anim/slide_down_exit"
+            app:popEnterAnim="@anim/slide_up_enter"
+            app:popExitAnim="@anim/slide_up_exit" />
+        <action
+            android:id="@+id/action_bnm_transactions_to_orderConfirmationActivity"
+            app:destination="@id/orderConfirmationActivity" />
     </fragment>
     <fragment
         android:id="@+id/orderConfirmationFragment"
@@ -53,4 +60,13 @@
             android:name="orderItems"
             app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder[]" />
     </fragment>
+    <activity
+        android:id="@+id/orderConfirmationActivity"
+        android:name="com.rmyfactory.rmyinventorybarcode.view.activity.OrderConfirmationActivity"
+        android:label="activity_order_confirmation"
+        tools:layout="@layout/activity_order_confirmation">
+        <argument
+            android:name="orders"
+            app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder[]" />
+    </activity>
 </navigation>

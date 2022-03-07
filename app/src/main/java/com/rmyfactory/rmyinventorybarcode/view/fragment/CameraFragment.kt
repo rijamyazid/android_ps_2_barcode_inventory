@@ -15,16 +15,17 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentCameraBinding
 import com.rmyfactory.rmyinventorybarcode.util.BarcodeAnalyzer
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraFragment : Fragment() {
+@AndroidEntryPoint
+class CameraFragment : BaseFragment() {
 
     private lateinit var binding: FragmentCameraBinding
 

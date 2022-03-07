@@ -8,4 +8,26 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="scan_result">Scan Result</string>
     <string name="order_conf_qty"> x (%s)</string>
+    <string name="bnv_home">Beranda</string>
+    <string name="bnv_product">Produk</string>
+    <string name="bnv_cart">Keranjang</string>
+    <string name="home_header_1">scan untuk menambahkan barang ke database</string>
+    <string name="chart_header_1">scan untuk menambahkan barang ke keranjang</string>
+    <string name="btn_clear">Bersihkan</string>
+    <string name="btn_confirm">Konfirmasi</string>
+    <string name="edt_product_name">Nama Produk</string>
+    <string name="edt_product_price">Harga Produk</string>
+    <string name="btn_add_product_database">Tambahkan Produk</string>
+    <string name="edt_product_stock">Stok Produk</string>
+    <string name="edt_product_id">ID Produk</string>
+    <string name="btn_update_product_database">Update Produk</string>
+    <string name="btn_delete_product_database">Hapus Produk</string>
+    <string-array name="product_currency">
+        <item>(Rp.) Rupiah</item>
+        <item>(USD.) USDollar</item>
+    </string-array>
+    <string-array name="product_unit">
+        <item>Buah</item>
+        <item>Renteng</item>
+    </string-array>
 </resources>

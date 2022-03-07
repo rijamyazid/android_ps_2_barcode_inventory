@@ -69,6 +69,7 @@
                 android:id="@+id/img_decrease_qty"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:paddingStart="@dimen/margin_padding_size_small"
                 app:srcCompat="@drawable/ic_baseline_remove_circle_24" />
 
             <LinearLayout
@@ -99,6 +100,7 @@
                 android:id="@+id/img_increase_qty"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:paddingEnd="@dimen/margin_padding_size_small"
                 android:src="@drawable/ic_baseline_add_circle_24" />
 
         </LinearLayout>

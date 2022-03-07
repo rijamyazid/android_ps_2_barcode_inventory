@@ -1,53 +1,45 @@
-package com.rmyfactory.rmyinventorybarcode.view.fragment
+package com.rmyfactory.rmyinventorybarcode.view.activity
 
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.fragment.navArgs
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentOrderConfirmationBinding
-import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
+import com.rmyfactory.rmyinventorybarcode.util.Functions
 import com.rmyfactory.rmyinventorybarcode.view.adapter.OrderConfAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OrderConfirmationFragment : BaseFragment() {
+class OrderConfirmationActivity : AppCompatActivity() {
 
     private lateinit var binding: FragmentOrderConfirmationBinding
-    private val args: OrderConfirmationFragmentArgs by navArgs()
+    private val args: OrderConfirmationActivityArgs by navArgs()
     private lateinit var orderConfAdapter: OrderConfAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentOrderConfirmationBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = FragmentOrderConfirmationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        orderConfAdapter = OrderConfAdapter(requireContext())
+        orderConfAdapter = OrderConfAdapter(this)
         binding.rvOrderConf.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = LinearLayoutManager(context)
             adapter = orderConfAdapter
         }
 
-        orderConfAdapter.addOrders(args.orderItems.toList())
+        orderConfAdapter.addOrders(args.orders.toList())
         var sumPrice = 0L
-        args.orderItems.forEach {
+        args.orders.forEach {
             sumPrice += (it.itemPrice.toLong() * it.itemQty)
         }
-        binding.tvOrderConfSummPrice.text = dotPriceIND(sumPrice.toString())
+        binding.tvOrderConfSummPrice.text = Functions.dotPriceIND(sumPrice.toString())
 
         binding.edtOrderConfPay.editText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                binding.tvOrderConfExchange.text = dotPriceIND("0")
+                binding.tvOrderConfExchange.text = Functions.dotPriceIND("0")
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -59,12 +51,12 @@ class OrderConfirmationFragment : BaseFragment() {
                         binding.tvOrderConfExchange.setTextColor(Color.GRAY)
                     }
                     binding.tvOrderConfExchange.text =
-                        dotPriceIND(exchange.toString())
+                        Functions.dotPriceIND(exchange.toString())
 
                 } else {
                     binding.tvOrderConfExchange.setTextColor(Color.GRAY)
                     binding.tvOrderConfExchange.text =
-                        dotPriceIND("0")
+                        Functions.dotPriceIND("0")
                 }
             }
 
@@ -75,5 +67,4 @@ class OrderConfirmationFragment : BaseFragment() {
         )
 
     }
-
 }

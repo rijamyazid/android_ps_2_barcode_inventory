@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.activity.MainActivity">
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_padding_size_medium"
+        android:layout_marginRight="@dimen/margin_padding_size_medium"
+        android:layout_marginBottom="@dimen/margin_padding_size_medium"
+        android:background="@drawable/bottom_navigation_background"
+        android:elevation="8dp"
+        app:itemIconTint="@drawable/bottom_navigation_icon_colors"
+        app:itemRippleColor="@drawable/bottom_navigation_ripple_effect"
+        app:itemTextColor="@drawable/bottom_navigation_icon_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu" />
+
+</LinearLayout>
