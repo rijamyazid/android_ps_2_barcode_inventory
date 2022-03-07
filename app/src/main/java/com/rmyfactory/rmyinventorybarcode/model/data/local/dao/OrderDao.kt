@@ -13,7 +13,7 @@ interface OrderDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertOrder(order: OrderModel)
 
-    @Query("SELECT * FROM order_table WHERE order_id=:orderId")
+    @Query("SELECT * FROM order_table WHERE id=:orderId")
     fun readOrderById(orderId: String): LiveData<OrderModel>
 
 }

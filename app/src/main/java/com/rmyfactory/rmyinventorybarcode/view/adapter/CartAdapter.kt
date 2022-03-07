@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderCartBinding
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.OrderHolder
 import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
 
 class CartAdapter(private val onclickQty: (Int, Boolean) -> Unit) :

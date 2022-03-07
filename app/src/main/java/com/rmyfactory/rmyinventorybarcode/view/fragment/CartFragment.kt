@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentCartBinding
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.OrderHolder
 import com.rmyfactory.rmyinventorybarcode.util.BarcodeAnalyzer
 import com.rmyfactory.rmyinventorybarcode.view.adapter.CartAdapter
 import com.rmyfactory.rmyinventorybarcode.viewmodel.TransactionViewModel
@@ -103,7 +103,7 @@ class CartFragment : BaseFragment() {
         if (cameraPermissionsGranted()) {
             startCamera()
         } else {
-            perReqLauncher.launch(CameraFragment.REQUIRED_PERMISSIONS)
+            perReqLauncher.launch(HomeFragment.REQUIRED_PERMISSIONS)
         }
 
     }
@@ -164,13 +164,13 @@ class CartFragment : BaseFragment() {
                 )
 
             } catch (exc: Exception) {
-                Log.e(CameraFragment.TAG, "Use case binding failed", exc)
+                Log.e(HomeFragment.TAG, "Use case binding failed", exc)
             }
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
     private fun cameraPermissionsGranted() = ContextCompat.checkSelfPermission(
-        requireContext(), CameraFragment.REQUIRED_PERMISSIONS.first()
+        requireContext(), HomeFragment.REQUIRED_PERMISSIONS.first()
     ) == PackageManager.PERMISSION_GRANTED
 
     override fun onDestroy() {

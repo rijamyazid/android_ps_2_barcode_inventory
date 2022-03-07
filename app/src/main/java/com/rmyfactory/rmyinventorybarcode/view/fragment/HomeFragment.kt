@@ -18,16 +18,16 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
-import com.rmyfactory.rmyinventorybarcode.databinding.FragmentCameraBinding
+import com.rmyfactory.rmyinventorybarcode.databinding.FragmentHomeBinding
 import com.rmyfactory.rmyinventorybarcode.util.BarcodeAnalyzer
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 @AndroidEntryPoint
-class CameraFragment : BaseFragment() {
+class HomeFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentCameraBinding
+    private lateinit var binding: FragmentHomeBinding
 
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private lateinit var cameraProvider: ProcessCameraProvider
@@ -39,9 +39,9 @@ class CameraFragment : BaseFragment() {
     private var isScanSuccess = false
 
     private val perReqLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-            val granted = it.entries.all {
-                it.value == true
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val granted = permissions.entries.all { permission ->
+                permission.value == true
             }
             if (granted) {
                 startCamera()
@@ -58,9 +58,8 @@ class CameraFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentCameraBinding.inflate(inflater, container, false)
+    ): View {
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -73,6 +72,12 @@ class CameraFragment : BaseFragment() {
             startCamera()
         } else {
             perReqLauncher.launch(REQUIRED_PERMISSIONS)
+        }
+
+        binding.btnLog.setOnClickListener {
+            findNavController().navigate(
+                HomeFragmentDirections.actionBnvHomeToOrderLogFragment()
+            )
         }
     }
 
@@ -139,7 +144,7 @@ class CameraFragment : BaseFragment() {
     }
 
     private fun navigateToDetailActivity(itemId: String) {
-        findNavController().navigate(CameraFragmentDirections.actionBnmScanToDetailActivity(itemId))
+        findNavController().navigate(HomeFragmentDirections.actionBnmScanToDetailActivity(itemId))
     }
 
     companion object {

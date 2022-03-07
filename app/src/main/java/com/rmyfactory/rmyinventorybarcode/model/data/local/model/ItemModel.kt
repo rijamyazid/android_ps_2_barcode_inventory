@@ -2,11 +2,13 @@ package com.rmyfactory.rmyinventorybarcode.model.data.local.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity(tableName = "item_table", primaryKeys = ["item_id"])
+@Entity(tableName = "item_table")
 data class ItemModel(
 
-    @ColumnInfo(name = "item_id")
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     val itemId: String,
     @ColumnInfo(name = "item_name")
     var itemName: String,

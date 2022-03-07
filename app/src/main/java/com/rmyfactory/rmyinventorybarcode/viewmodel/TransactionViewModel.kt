@@ -3,7 +3,7 @@ package com.rmyfactory.rmyinventorybarcode.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.OrderHolder
 import com.rmyfactory.rmyinventorybarcode.model.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

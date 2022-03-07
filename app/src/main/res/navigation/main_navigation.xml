@@ -7,12 +7,15 @@
 
     <fragment
         android:id="@+id/bnv_home"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.CameraFragment"
+        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.HomeFragment"
         android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera">
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_bnm_scan_to_detailActivity"
             app:destination="@id/detailActivity" />
+        <action
+            android:id="@+id/action_bnv_home_to_orderLogFragment"
+            app:destination="@id/orderLogFragment" />
     </fragment>
     <activity
         android:id="@+id/detailActivity"
@@ -58,7 +61,7 @@
         tools:layout="@layout/fragment_order_confirmation">
         <argument
             android:name="orderItems"
-            app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder[]" />
+            app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.OrderHolder[]" />
     </fragment>
     <activity
         android:id="@+id/orderConfirmationActivity"
@@ -67,6 +70,11 @@
         tools:layout="@layout/activity_order_confirmation">
         <argument
             android:name="orders"
-            app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder[]" />
+            app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.OrderHolder[]" />
     </activity>
+    <fragment
+        android:id="@+id/orderLogFragment"
+        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.OrderLogFragment"
+        android:label="fragment_order_log"
+        tools:layout="@layout/fragment_order_log" />
 </navigation>

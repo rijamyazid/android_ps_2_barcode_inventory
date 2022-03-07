@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderOrderConfirmationBinding
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderHolder
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.OrderHolder
 import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
 
 class OrderConfAdapter(private val context: Context) :
