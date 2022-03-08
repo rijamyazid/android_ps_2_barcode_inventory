@@ -4,17 +4,41 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.rmyfactory.rmyinventorybarcode.R
+import androidx.fragment.app.viewModels
+import com.rmyfactory.rmyinventorybarcode.databinding.FragmentOrderLogBinding
+import com.rmyfactory.rmyinventorybarcode.viewmodel.OrderLogViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class OrderLogFragment : Fragment() {
+@AndroidEntryPoint
+class OrderLogFragment : BaseFragment() {
+
+    private lateinit var binding: FragmentOrderLogBinding
+    private val viewModel: OrderLogViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_order_log, container, false)
+    ): View {
+        binding = FragmentOrderLogBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.readOrderWithItems().observe(viewLifecycleOwner, {
+            var text = ""
+            it.forEach { o ->
+                text += "Order: ${o.order.orderId}\n"
+                o.orderWithItems.forEach { oi ->
+                    text += "Item name: ${oi.item.itemName}\n" +
+                            "Item qty: ${oi.orderItemModel.qty}\n\n"
+                }
+                text += "\n"
+            }
+            binding.text.text = text
+        })
+
     }
 
 }

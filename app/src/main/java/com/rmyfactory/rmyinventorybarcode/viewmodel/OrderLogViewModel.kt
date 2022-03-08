@@ -7,4 +7,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrderLogViewModel
-@Inject constructor(private val repository: MainRepository) : ViewModel()
+@Inject constructor(private val repository: MainRepository) : ViewModel() {
+
+    fun readOrderWithItems() = repository.readOrderWithItems()
+
+}

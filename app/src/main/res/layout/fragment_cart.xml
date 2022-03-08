@@ -60,7 +60,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_clear_order"
+                    android:id="@+id/btn_clear_cart"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_padding_size_small"
@@ -72,7 +72,7 @@
                     app:iconTint="@android:color/holo_red_dark" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_confirm_order"
+                    android:id="@+id/btn_confirm_cart"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

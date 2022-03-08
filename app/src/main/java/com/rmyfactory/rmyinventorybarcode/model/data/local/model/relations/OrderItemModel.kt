@@ -7,12 +7,13 @@ import androidx.room.Entity
 data class OrderItemModel(
 
     @ColumnInfo(name = "order_id", index = true)
-    val orderId: String,
+    var orderId: String,
     @ColumnInfo(name = "item_id", index = true)
-    val itemId: String,
+    var itemId: String,
     @ColumnInfo(name = "quantity")
     val qty: Int,
     @ColumnInfo(name = "price")
-    val price: String
-
+    val price: String,
+    @ColumnInfo(name = "total_price")
+    val totalPrice: String
 )

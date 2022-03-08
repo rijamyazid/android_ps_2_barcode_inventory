@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.rmyfactory.rmyinventorybarcode.model.data.local.LocalDataSource
 import com.rmyfactory.rmyinventorybarcode.model.data.local.dao.ItemDao
+import com.rmyfactory.rmyinventorybarcode.model.data.local.dao.OrderDao
+import com.rmyfactory.rmyinventorybarcode.model.data.local.dao.OrderItemDao
 import com.rmyfactory.rmyinventorybarcode.model.data.local.database.MainDatabase
 import com.rmyfactory.rmyinventorybarcode.model.repository.MainRepository
 import dagger.Module
@@ -28,10 +30,24 @@ object MainInjection {
         return mainDatabase.itemDao()
     }
 
+    @Provides
+    fun provideOrderDao(mainDatabase: MainDatabase): OrderDao {
+        return mainDatabase.orderDao()
+    }
+
+    @Provides
+    fun provideOrderItemDao(mainDatabase: MainDatabase): OrderItemDao {
+        return mainDatabase.orderItemDao()
+    }
+
     @Singleton
     @Provides
-    fun provideLocalDataSource(itemDao: ItemDao): LocalDataSource {
-        return LocalDataSource(itemDao)
+    fun provideLocalDataSource(
+        itemDao: ItemDao,
+        orderDao: OrderDao,
+        orderItemDao: OrderItemDao
+    ): LocalDataSource {
+        return LocalDataSource(itemDao, orderDao, orderItemDao)
     }
 
     @Singleton

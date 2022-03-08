@@ -11,6 +11,10 @@ data class OrderModel(
     @ColumnInfo(name = "id")
     val orderId: String,
     @ColumnInfo(name = "order_total_price")
-    val orderTotalPrice: String
+    val orderTotalPrice: String,
+    @ColumnInfo(name = "order_pay")
+    val orderPay: String,
+    @ColumnInfo(name = "order_exchange")
+    val orderExchange: String
 
 )

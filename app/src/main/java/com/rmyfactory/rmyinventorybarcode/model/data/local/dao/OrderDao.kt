@@ -1,11 +1,9 @@
 package com.rmyfactory.rmyinventorybarcode.model.data.local.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.OrderWithItems
 
 @Dao
 interface OrderDao {
@@ -15,5 +13,9 @@ interface OrderDao {
 
     @Query("SELECT * FROM order_table WHERE id=:orderId")
     fun readOrderById(orderId: String): LiveData<OrderModel>
+
+    @Transaction
+    @Query("SELECT * FROM order_table")
+    fun readOrderWithItems(): LiveData<List<OrderWithItems>>
 
 }

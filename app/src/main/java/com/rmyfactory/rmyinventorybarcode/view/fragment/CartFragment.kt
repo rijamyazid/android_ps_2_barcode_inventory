@@ -81,7 +81,7 @@ class CartFragment : BaseFragment() {
             adapter = cartAdapter
         }
 
-        binding.btnConfirmOrder.setOnClickListener {
+        binding.btnConfirmCart.setOnClickListener {
             findNavController()
                 .navigate(
                     CartFragmentDirections
@@ -94,7 +94,7 @@ class CartFragment : BaseFragment() {
 //                )
         }
 
-        binding.btnClearOrder.setOnClickListener {
+        binding.btnClearCart.setOnClickListener {
             viewModel.itemList.clear()
             cartAdapter.addOrder(viewModel.itemList)
         }
