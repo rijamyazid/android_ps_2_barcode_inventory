@@ -38,7 +38,7 @@ class ProductFragment : BaseFragment() {
             adapter = productAdapter
         }
 
-        viewModel.readItems().observe(viewLifecycleOwner, {
+        viewModel.readItemWithUnits().observe(viewLifecycleOwner, {
             productAdapter.addItems(it)
         })
 

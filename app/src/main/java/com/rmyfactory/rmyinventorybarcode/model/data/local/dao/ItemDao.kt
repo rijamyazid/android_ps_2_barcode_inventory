@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemWithOrders
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemWithUnits
 
 @Dao
 interface ItemDao {
@@ -29,5 +30,13 @@ interface ItemDao {
     @Transaction
     @Query("SELECT * FROM item_table")
     fun readItemsWithOrders(): LiveData<List<ItemWithOrders>>
+
+    @Transaction
+    @Query("SELECT * FROM item_table")
+    fun readItemWithUnits(): LiveData<List<ItemWithUnits>>
+
+    @Transaction
+    @Query("SELECT * FROM item_table WHERE id=:itemId")
+    fun readItemByIdWithUnits(itemId: String): LiveData<ItemWithUnits>
 
 }

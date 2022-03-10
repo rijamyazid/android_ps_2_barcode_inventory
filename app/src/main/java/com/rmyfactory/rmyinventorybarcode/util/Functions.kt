@@ -1,7 +1,17 @@
 package com.rmyfactory.rmyinventorybarcode.util
 
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.ProductDetailHolder
 import java.text.SimpleDateFormat
 import java.util.*
+
+fun String.ifEmptySetDefault(default: String): String {
+    return if (this.isEmpty()) {
+        default
+    } else {
+        this
+
+    }
+}
 
 object Functions {
 
@@ -25,5 +35,14 @@ object Functions {
         }
         return "Rp. ${dotPriced.reversed()}"
     }
+
+    fun fillProductDetailHolder() = ProductDetailHolder(
+        productId = "null",
+        productName = "null",
+        productUnit = mutableListOf(),
+        productPrice = mutableListOf(),
+        productStock = mutableListOf(),
+        productQty = 0
+    )
 
 }

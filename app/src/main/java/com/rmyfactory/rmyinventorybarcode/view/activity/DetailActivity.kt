@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
 import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.ActivityDetailBinding
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.ProductDetailHolder
+import com.rmyfactory.rmyinventorybarcode.util.Functions.fillProductDetailHolder
+import com.rmyfactory.rmyinventorybarcode.util.ifEmptySetDefault
 import com.rmyfactory.rmyinventorybarcode.viewmodel.DetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,9 +20,12 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private val args: DetailActivityArgs by navArgs()
     private val viewModel: DetailViewModel by viewModels()
+    private lateinit var productDetail: ProductDetailHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        productDetail = fillProductDetailHolder()
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -32,17 +37,14 @@ class DetailActivity : AppCompatActivity() {
             val edtItemPrice = binding.edtItemPrice.editText?.text.toString()
             val edtItemStock = binding.edtItemStock.editText?.text.toString()
 
-            val itemName = if (edtItemName.isEmpty()) "No Name" else edtItemName
-            val itemPrice = if (edtItemPrice.isEmpty()) "0" else edtItemPrice
-            val itemStock = if (edtItemStock.isEmpty()) 0 else edtItemStock.toInt()
+            productDetail.productId = args.itemId
+            productDetail.productName = edtItemName.ifEmptySetDefault("No Name")
+            productDetail.productUnit = listOf("Barang")
+            productDetail.productPrice = listOf(edtItemPrice.ifEmptySetDefault("0"))
+            productDetail.productStock = listOf(edtItemStock.ifEmptySetDefault("0").toInt())
 
-            viewModel.insertItem(
-                ItemModel(
-                    itemId = args.itemId,
-                    itemName = itemName,
-                    itemPrice = itemPrice,
-                    itemStock = itemStock
-                )
+            viewModel.insertProduct(
+                productDetail
             )
 
             finish()
@@ -53,32 +55,29 @@ class DetailActivity : AppCompatActivity() {
             val edtItemPrice = binding.edtItemPrice.editText?.text.toString()
             val edtItemStock = binding.edtItemStock.editText?.text.toString()
 
-            val itemName = if (edtItemName.isEmpty()) "No Name" else edtItemName
-            val itemPrice = if (edtItemPrice.isEmpty()) "0" else edtItemPrice
-            val itemStock = if (edtItemStock.isEmpty()) 0 else edtItemStock.toInt()
+            productDetail.productId = args.itemId
+            productDetail.productName = edtItemName.ifEmptySetDefault("No Name")
+            productDetail.productUnit = listOf("Barang")
+            productDetail.productPrice = listOf(edtItemPrice.ifEmptySetDefault("0"))
+            productDetail.productStock = listOf(edtItemStock.ifEmptySetDefault("0").toInt())
 
-            viewModel.updateItem(
-                ItemModel(
-                    itemId = args.itemId,
-                    itemName = itemName,
-                    itemPrice = itemPrice,
-                    itemStock = itemStock
-                )
+            viewModel.updateProduct(
+                productDetail
             )
 
             finish()
         }
 
         binding.btnDeleteItem.setOnClickListener {
-            viewModel.deleteItemById(args.itemId)
+            viewModel.deleteProduct(args.itemId)
             finish()
         }
 
-        viewModel.readItemById(args.itemId).observe(this, {
+        viewModel.readItemByIdWithUnits(args.itemId).observe(this, {
             if (it != null) {
-                binding.edtItemName.editText?.setText(it.itemName)
-                binding.edtItemPrice.editText?.setText(it.itemPrice)
-                binding.edtItemStock.editText?.setText(it.itemStock.toString())
+                binding.edtItemName.editText?.setText(it.item.itemName)
+                binding.edtItemPrice.editText?.setText(it.itemUnitList[0].itemUnit.price)
+                binding.edtItemStock.editText?.setText(it.itemUnitList[0].itemUnit.stock.toString())
 
                 binding.btnAddItem.visibility = View.GONE
                 binding.llButtonsDetail.visibility = View.VISIBLE
@@ -87,15 +86,6 @@ class DetailActivity : AppCompatActivity() {
                 binding.llButtonsDetail.visibility = View.GONE
             }
         })
-
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.product_currency,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinItemCurrency.adapter = adapter
-        }
 
         ArrayAdapter.createFromResource(
             this,

@@ -180,13 +180,13 @@ class CartFragment : BaseFragment() {
 
     private fun onScanSuccess(itemId: String?) {
         itemId?.let {
-            viewModel.readItemById(it).observe(viewLifecycleOwner, { item ->
+            viewModel.readItemByIdWithUnits(it).observe(viewLifecycleOwner, { item ->
                 item?.let { _item ->
-                    if (!checkIdOnList(_item.itemId, viewModel.itemList)) {
+                    if (!checkIdOnList(_item.item.itemId, viewModel.itemList)) {
                         val order = OrderHolder(
-                            _item.itemId,
-                            _item.itemName,
-                            _item.itemPrice,
+                            _item.item.itemId,
+                            _item.item.itemName,
+                            _item.itemUnitList[0].itemUnit.price,
                             1
                         )
 //                        val orderMap = mutableMapOf(
