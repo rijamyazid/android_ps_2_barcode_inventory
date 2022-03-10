@@ -120,6 +120,8 @@ class DetailViewModel
         repository.insertUnits(unitList)
     }
 
+    fun readUnits(): LiveData<List<UnitModel>> = repository.readUnits()
+
     // ItemUnitModel
     fun insertItemUnit(itemUnit: ItemUnitModel) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertItemUnit(itemUnit)

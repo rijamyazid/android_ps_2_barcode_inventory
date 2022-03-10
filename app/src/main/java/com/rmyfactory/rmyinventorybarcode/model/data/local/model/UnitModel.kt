@@ -4,13 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "item_table")
-data class ItemModel(
+@Entity(tableName = "unit_table")
+data class UnitModel(
 
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val itemId: String,
-    @ColumnInfo(name = "item_name")
-    var itemName: String
+    val unitId: String,
 
 )

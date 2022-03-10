@@ -52,7 +52,7 @@
         android:layout_marginEnd="8dp"
         android:hint="@string/edt_product_price"
         app:hintTextColor="#757575"
-        app:layout_constraintEnd_toStartOf="@+id/spin_item_currency"
+        app:layout_constraintEnd_toStartOf="@+id/spin_item_unit"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="0.2"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
-        android:id="@+id/spin_item_currency"
+        android:id="@+id/spin_item_unit"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/margin_padding_size_small"
@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_size_small"
         android:hint="@string/edt_product_stock"
-        app:layout_constraintEnd_toStartOf="@id/spin_item_unit"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="0.2"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,20 +98,6 @@
             android:inputType="number"
             android:maxLength="4" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <Spinner
-        android:id="@+id/spin_item_unit"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/margin_padding_size_small"
-        android:layout_marginTop="@dimen/margin_padding_size_small"
-        app:layout_constraintBottom_toBottomOf="@id/edt_item_stock"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="0.1"
-        app:layout_constraintStart_toEndOf="@+id/edt_item_stock"
-        app:layout_constraintTop_toBottomOf="@+id/edt_item_price"
-        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/btn_add_item"

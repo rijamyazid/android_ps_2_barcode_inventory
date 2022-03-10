@@ -6,7 +6,6 @@ import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
-import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.ActivityDetailBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.ProductDetailHolder
 import com.rmyfactory.rmyinventorybarcode.util.Functions.fillProductDetailHolder
@@ -87,14 +86,13 @@ class DetailActivity : AppCompatActivity() {
             }
         })
 
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.product_unit,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinItemUnit.adapter = adapter
-        }
+        viewModel.readUnits().observe(this, {
+            ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                it.map { unit -> unit.unitId }
+            ).also { adapter -> binding.spinItemUnit.adapter = adapter }
+        })
 
     }
 }

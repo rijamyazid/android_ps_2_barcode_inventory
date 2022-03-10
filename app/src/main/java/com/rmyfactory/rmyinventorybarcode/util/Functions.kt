@@ -4,6 +4,7 @@ import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.ProductD
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 fun String.ifEmptySetDefault(default: String): String {
     return if (this.isEmpty()) {
         default

@@ -61,6 +61,9 @@ class MainRepository
         localDataSource.updateUnits(unitList)
     }
 
+    fun readUnits()
+    :LiveData<List<UnitModel>> = localDataSource.readUnits()
+
     fun readUnitById(unitId: String)
             : UnitModel? = localDataSource.readUnitById(unitId)
 
