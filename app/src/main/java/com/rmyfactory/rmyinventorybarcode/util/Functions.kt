@@ -1,5 +1,9 @@
 package com.rmyfactory.rmyinventorybarcode.util
 
+import android.content.Context
+import android.util.TypedValue
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.ProductDetailHolder
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,6 +17,11 @@ fun String.ifEmptySetDefault(default: String): String {
 
     }
 }
+
+@ColorInt
+fun Context.themeColor(@AttrRes attrRes: Int): Int = TypedValue()
+    .apply { theme.resolveAttribute (attrRes, this, true) }
+    .data
 
 object Functions {
 
