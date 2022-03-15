@@ -11,6 +11,8 @@ data class ItemModel(
     @ColumnInfo(name = "id")
     val itemId: String,
     @ColumnInfo(name = "item_name")
-    var itemName: String
+    var itemName: String,
+    @ColumnInfo(name = "item_note")
+    var itemNote: String = ""
 
 )

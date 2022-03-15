@@ -23,7 +23,8 @@ class DetailViewModel
         insertItem(
             ItemModel(
                 itemId = product.productId,
-                itemName = product.productName
+                itemName = product.productName,
+                itemNote = product.productNote
             )
         )
 
@@ -57,7 +58,8 @@ class DetailViewModel
         updateItem(
             ItemModel(
                 itemId = product.productId,
-                itemName = product.productName
+                itemName = product.productName,
+                itemNote = product.productNote
             )
         )
 

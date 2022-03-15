@@ -22,6 +22,7 @@
     <string name="edt_product_id">ID Produk</string>
     <string name="btn_update_product_database">Update Produk</string>
     <string name="btn_delete_product_database">Hapus Produk</string>
+    <string name="edt_note">Catatan</string>
     <string-array name="product_currency">
         <item>(Rp.) Rupiah</item>
         <item>(USD.) USDollar</item>

@@ -41,15 +41,33 @@ class DetailActivity : AppCompatActivity() {
         binding.edtItemId.editText?.setText(args.itemId)
 
         binding.btnAddItem.setOnClickListener {
+
+            productDetail.productUnit.clear()
+            productDetail.productPrice.clear()
+            productDetail.productPrice.clear()
+
             val edtItemName = binding.edtItemName.editText?.text.toString()
+            val edtItemNote = binding.edtItemNote.editText?.text.toString()
+
             val edtItemPrice = binding.edtItemPrice.editText?.text.toString()
+            val spinItemUnit = binding.spinItemUnit.selectedItem.toString()
             val edtItemStock = binding.edtItemStock.editText?.text.toString()
+
+            val edtItemPrice2 = binding.edtItemPrice2.editText?.text.toString()
+            val spinItemUnit2 = binding.spinItemUnit2.selectedItem.toString()
+            val edtItemStock2 = binding.edtItemStock2.editText?.text.toString()
 
             productDetail.productId = args.itemId
             productDetail.productName = edtItemName.ifEmptySetDefault("No Name")
-            productDetail.productUnit = listOf("Barang")
-            productDetail.productPrice = listOf(edtItemPrice.ifEmptySetDefault("0"))
-            productDetail.productStock = listOf(edtItemStock.ifEmptySetDefault("0").toInt())
+            productDetail.productNote = edtItemNote.ifEmptySetDefault("")
+
+            productDetail.productUnit.add(spinItemUnit)
+            productDetail.productPrice.add(edtItemPrice.ifEmptySetDefault("0"))
+            productDetail.productStock.add(edtItemStock.ifEmptySetDefault("0").toInt())
+
+            productDetail.productUnit.add(spinItemUnit2)
+            productDetail.productPrice.add(edtItemPrice2.ifEmptySetDefault("0"))
+            productDetail.productStock.add(edtItemStock2.ifEmptySetDefault("0").toInt())
 
             viewModel.insertProduct(
                 productDetail
@@ -59,15 +77,34 @@ class DetailActivity : AppCompatActivity() {
         }
 
         binding.btnUpdateItem.setOnClickListener {
+
+            productDetail.productUnit.clear()
+            productDetail.productPrice.clear()
+            productDetail.productPrice.clear()
+
             val edtItemName = binding.edtItemName.editText?.text.toString()
+            val edtItemNote = binding.edtItemNote.editText?.text.toString()
+
             val edtItemPrice = binding.edtItemPrice.editText?.text.toString()
+            val spinItemUnit = binding.spinItemUnit.selectedItem.toString()
             val edtItemStock = binding.edtItemStock.editText?.text.toString()
+
+            val edtItemPrice2 = binding.edtItemPrice2.editText?.text.toString()
+            val spinItemUnit2 = binding.spinItemUnit2.selectedItem.toString()
+            val edtItemStock2 = binding.edtItemStock2.editText?.text.toString()
+
 
             productDetail.productId = args.itemId
             productDetail.productName = edtItemName.ifEmptySetDefault("No Name")
-            productDetail.productUnit = listOf("Barang")
-            productDetail.productPrice = listOf(edtItemPrice.ifEmptySetDefault("0"))
-            productDetail.productStock = listOf(edtItemStock.ifEmptySetDefault("0").toInt())
+            productDetail.productNote = edtItemNote.ifEmptySetDefault("")
+
+            productDetail.productUnit.add(spinItemUnit)
+            productDetail.productPrice.add(edtItemPrice.ifEmptySetDefault("0"))
+            productDetail.productStock.add(edtItemStock.ifEmptySetDefault("0").toInt())
+
+            productDetail.productUnit.add(spinItemUnit2)
+            productDetail.productPrice.add(edtItemPrice2.ifEmptySetDefault("0"))
+            productDetail.productStock.add(edtItemStock2.ifEmptySetDefault("0").toInt())
 
             viewModel.updateProduct(
                 productDetail
@@ -84,8 +121,15 @@ class DetailActivity : AppCompatActivity() {
         viewModel.readItemByIdWithUnits(args.itemId).observe(this, {
             if (it != null) {
                 binding.edtItemName.editText?.setText(it.item.itemName)
+                binding.edtItemNote.editText?.setText(it.item.itemNote)
+
                 binding.edtItemPrice.editText?.setText(it.itemUnitList[0].itemUnit.price)
+                binding.spinItemUnit.setSelection(spinnerAdapter.getPosition(it.itemUnitList[0].itemUnit.unitId))
                 binding.edtItemStock.editText?.setText(it.itemUnitList[0].itemUnit.stock.toString())
+
+                binding.edtItemPrice2.editText?.setText(it.itemUnitList[1].itemUnit.price)
+                binding.spinItemUnit2.setSelection(spinnerAdapter.getPosition(it.itemUnitList[1].itemUnit.unitId))
+                binding.edtItemStock2.editText?.setText(it.itemUnitList[1].itemUnit.stock.toString())
 
                 binding.btnAddItem.visibility = View.GONE
                 binding.llButtonsDetail.visibility = View.VISIBLE
@@ -115,6 +159,7 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
             binding.spinItemUnit.adapter = spinnerAdapter
+            binding.spinItemUnit2.adapter = spinnerAdapter
 
         })
 
@@ -134,7 +179,23 @@ class DetailActivity : AppCompatActivity() {
             )
         }
 
-        val borderSpinner1Drawable = getCutoutDrawable(
+        val borderUnit2Drawable = getCutoutDrawable(color = themeColor(R.attr.colorPrimary))
+        binding.llUnit2.background = borderUnit2Drawable
+        binding.tvBorderUnit2.addOnLayoutChangeListener {
+                _, left, top, right, bottom, _, _, _, _ ->
+            val realLeft = left - binding.llUnit2.left
+            val realTop = top - binding.llUnit2.top
+            val realRight = right - binding.llUnit2.left
+            val realBottom = bottom - binding.llUnit2.top
+            borderUnit2Drawable.setCutout(
+                realLeft.toFloat(),
+                realTop.toFloat(),
+                realRight.toFloat(),
+                realBottom.toFloat()
+            )
+        }
+
+        val borderSpinner1Drawable = getCutoutDrawable(strokeWidth = 1F,
             cornerSize = 8F, color = themeColor(R.attr.colorPrimary))
         binding.spinItemUnit.background = borderSpinner1Drawable
         binding.tvBorderSpinnerUnit1.addOnLayoutChangeListener {
@@ -150,6 +211,24 @@ class DetailActivity : AppCompatActivity() {
                 realBottom.toFloat()
             )
         }
+
+        val borderSpinner2Drawable = getCutoutDrawable(strokeWidth = 1F,
+            cornerSize = 8F, color = themeColor(R.attr.colorPrimary))
+        binding.spinItemUnit2.background = borderSpinner2Drawable
+        binding.tvBorderSpinnerUnit2.addOnLayoutChangeListener {
+                _, left, top, right, bottom, _, _, _, _ ->
+            val realLeft = left - binding.spinItemUnit2.left
+            val realTop = top - binding.spinItemUnit2.top
+            val realRight = right - binding.spinItemUnit2.left
+            val realBottom = bottom - binding.spinItemUnit2.top
+            borderSpinner2Drawable.setCutout(
+                realLeft.toFloat(),
+                realTop.toFloat(),
+                realRight.toFloat(),
+                realBottom.toFloat()
+            )
+        }
+
     }
 
     private fun getRoundedCornerShape(cornerSize: Float) =
