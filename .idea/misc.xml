@@ -9,7 +9,9 @@
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/drawable/bottom_navigation_icon_colors.xml" value="0.18703703703703703" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/drawable/bottom_navigation_ripple_effect.xml" value="0.18703703703703703" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/drawable/camera_side_dim.xml" value="0.1824074074074074" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/drawable/divider.xml" value="0.23692307692307693" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/drawable/gradient_spinner.xml" value="0.23148148148148148" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/drawable/ic_baseline_arrow_drop_down_24.xml" value="0.23692307692307693" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/drawable/ic_baseline_list_alt_24.xml" value="0.1824074074074074" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/drawable/ic_baseline_remove_circle_24.xml" value="0.22685185185185186" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/activity_detail.xml" value="0.22" />
@@ -22,9 +24,13 @@
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/fragment_order_confirmation.xml" value="0.2" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/fragment_order_log.xml" value="0.22447916666666667" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/fragment_transaction.xml" value="0.25" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_cart.xml" value="0.22" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_cart_2.xml" value="0.22" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_item.xml" value="0.25" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_order_confirmation.xml" value="0.25" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_order_item.xml" value="0.33" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_product.xml" value="0.25" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_product_2.xml" value="0.33" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.22447916666666667" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/menu/bottom_navigation_menu_float.xml" value="0.22447916666666667" />
       </map>

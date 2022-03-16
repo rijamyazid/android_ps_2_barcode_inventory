@@ -15,13 +15,13 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentCartBinding
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.OrderHolder
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder
 import com.rmyfactory.rmyinventorybarcode.util.BarcodeAnalyzer
+import com.rmyfactory.rmyinventorybarcode.util.toCartHolder
 import com.rmyfactory.rmyinventorybarcode.view.adapter.CartAdapter
 import com.rmyfactory.rmyinventorybarcode.viewmodel.TransactionViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -82,11 +82,11 @@ class CartFragment : BaseFragment() {
         }
 
         binding.btnConfirmCart.setOnClickListener {
-            findNavController()
-                .navigate(
-                    CartFragmentDirections
-                        .actionBnmTransactionsToOrderConfirmationFragment(viewModel.itemList.toTypedArray())
-                )
+//            findNavController()
+//                .navigate(
+//                    CartFragmentDirections
+//                        .actionBnmTransactionsToOrderConfirmationFragment(viewModel.itemList.toTypedArray())
+//                )
 //            findNavController()
 //                .navigate(
 //                    TransactionFragmentDirections
@@ -109,16 +109,14 @@ class CartFragment : BaseFragment() {
     }
 
     private fun initVars() {
-        cartAdapter = CartAdapter(
-            onclickQty = { position, isIncreased ->
-                viewModel.itemList[position].itemQty =
-                    if (isIncreased) {
-                        viewModel.itemList[position].itemQty + 1
-                    } else {
-                        viewModel.itemList[position].itemQty - 1
-                    }
-            }
-        )
+        cartAdapter = CartAdapter { cartPos, unitPos, isIncreased ->
+            viewModel.itemList[cartPos].productUnits[unitPos].productQty =
+                if (isIncreased) {
+                    viewModel.itemList[cartPos].productUnits[unitPos].productQty + 1
+                } else {
+                    viewModel.itemList[cartPos].productUnits[unitPos].productQty - 1
+                }
+        }
     }
 
     override fun onResume() {
@@ -183,19 +181,19 @@ class CartFragment : BaseFragment() {
             viewModel.readItemByIdWithUnits(it).observe(viewLifecycleOwner, { item ->
                 item?.let { _item ->
                     if (!checkIdOnList(_item.item.itemId, viewModel.itemList)) {
-                        val order = OrderHolder(
-                            _item.item.itemId,
-                            _item.item.itemName,
-                            _item.itemUnitList[0].itemUnit.price,
-                            1
-                        )
+//                        val order = OrderHolder(
+//                            _item.item.itemId,
+//                            _item.item.itemName,
+//                            _item.itemUnitList[0].itemUnit.price,
+//                            1
+//                        )
 //                        val orderMap = mutableMapOf(
 //                            "orderId" to _item.itemId,
 //                            "orderName" to _item.itemName,
 //                            "orderPrice" to _item.itemPrice,
 //                            "orderQty" to "1"
 //                        )
-                        viewModel.itemList.add(order)
+                        viewModel.itemList.add(_item.toCartHolder())
                         cartAdapter.addOrder(viewModel.itemList)
                     } else {
                         Toast
@@ -213,11 +211,11 @@ class CartFragment : BaseFragment() {
         }
     }
 
-    private fun checkIdOnList(id: String, list: List<OrderHolder>): Boolean {
+    private fun checkIdOnList(id: String, list: List<CartHolder>): Boolean {
 
         var isInList = false
-        list.forEach { order ->
-            if (order.itemId == id) {
+        list.forEach { product ->
+            if (product.productId == id) {
                 isInList = true
             }
         }

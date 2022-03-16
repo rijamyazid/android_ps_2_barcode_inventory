@@ -40,6 +40,18 @@ class DetailActivity : AppCompatActivity() {
 
         binding.edtItemId.editText?.setText(args.itemId)
 
+        binding.btnUnit2.setOnClickListener {
+            binding.btnUnit2.visibility = View.GONE
+            binding.constraint2.visibility = View.VISIBLE
+            binding.btnUnitDelete2.visibility = View.VISIBLE
+        }
+
+        binding.btnUnitDelete2.setOnClickListener {
+            binding.btnUnit2.visibility = View.VISIBLE
+            binding.constraint2.visibility = View.GONE
+            binding.btnUnitDelete2.visibility = View.GONE
+        }
+
         binding.btnAddItem.setOnClickListener {
 
             productDetail.productUnit.clear()
@@ -120,6 +132,13 @@ class DetailActivity : AppCompatActivity() {
 
         viewModel.readItemByIdWithUnits(args.itemId).observe(this, {
             if (it != null) {
+
+                if(it.itemUnitList.size > 1) {
+                    binding.btnUnit2.visibility = View.GONE
+                    binding.constraint2.visibility = View.VISIBLE
+                    binding.btnUnitDelete2.visibility = View.VISIBLE
+                }
+
                 binding.edtItemName.editText?.setText(it.item.itemName)
                 binding.edtItemNote.editText?.setText(it.item.itemNote)
 

@@ -8,6 +8,7 @@ data class OrderHolder(
 
     val itemId: String,
     val itemName: String,
+    val detailOrder: ProductDetailHolder,
     val itemPrice: String,
     var itemQty: Int
 

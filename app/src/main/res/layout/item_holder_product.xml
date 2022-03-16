@@ -11,8 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_padding_size_small"
-        android:paddingStart="@dimen/margin_padding_size_medium"
+        android:padding="@dimen/margin_padding_size_medium"
         tools:ignore="RtlSymmetry">
 
         <TextView
@@ -20,9 +19,8 @@
             style="@style/TextAppearance.MaterialComponents.Overline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/tv_item_stock_item_title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="123456789" />
@@ -32,49 +30,76 @@
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@id/tv_item_stock_item_title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_item_id_item"
             tools:text="Teh Botol Sosro 500ml" />
 
-        <TextView
-            android:id="@+id/tv_item_price_item"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="0dp"
+        <View
+            android:id="@+id/divider_1"
+            android:layout_marginTop="@dimen/margin_padding_size_small"
+            android:layout_marginHorizontal="@dimen/margin_padding_size_small"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/divider"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_name_item"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_item_stock_item_title"
+            android:layout_marginTop="@dimen/margin_padding_size_small"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_name_item"
-            tools:text="Rp 6.000" />
+            app:layout_constraintTop_toBottomOf="@id/divider_1"
+            tools:layout_editor_absoluteY="8dp">
 
-        <TextView
-            android:id="@+id/tv_item_stock_item_title"
-            style="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Stok"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/tv_item_id_item"
-            app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_item_stock_item"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/tv_item_name_item"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_stock_item_title"
-            tools:text="50" />
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Stock" />
+
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Unit" />
+
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="Harga" />
+            </LinearLayout>
+            <View
+                android:layout_marginTop="@dimen/margin_padding_size_small"
+                android:layout_marginHorizontal="@dimen/margin_padding_size_small"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/divider" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_product_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_holder_product_2" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

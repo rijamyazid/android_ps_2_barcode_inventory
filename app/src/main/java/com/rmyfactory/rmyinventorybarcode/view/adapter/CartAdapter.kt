@@ -2,15 +2,16 @@ package com.rmyfactory.rmyinventorybarcode.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderCartBinding
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.OrderHolder
-import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder
 
-class CartAdapter(private val onclickQty: (Int, Boolean) -> Unit) :
+class CartAdapter(private val itemUnitPos: (Int, Int, Boolean) -> Unit) :
     RecyclerView.Adapter<CartAdapter.OrderViewHolder>() {
 
-    private val orderList = mutableListOf<OrderHolder>()
+    private val orderList = mutableListOf<CartHolder>()
+    private lateinit var adapter2 : CartAdapter2
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val binding =
@@ -25,7 +26,7 @@ class CartAdapter(private val onclickQty: (Int, Boolean) -> Unit) :
 
     override fun getItemCount() = orderList.size
 
-    fun addOrder(orders: List<OrderHolder>) {
+    fun addOrder(orders: List<CartHolder>) {
         orderList.clear()
         orderList.addAll(orders)
         notifyDataSetChanged()
@@ -34,30 +35,20 @@ class CartAdapter(private val onclickQty: (Int, Boolean) -> Unit) :
     inner class OrderViewHolder(private val binding: ItemHolderCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(order: OrderHolder, position: Int) {
-            try {
-                binding.tvItemNameItem.text = order.itemName
-                binding.tvItemIdItem.text = order.itemId
-                binding.tvItemPriceItem.text = dotPriceIND(order.itemPrice)
-                binding.tvItemQtyItem.text = order.itemQty.toString()
-            } catch (e: Exception) {
+        fun bind(order: CartHolder, position: Int) {
+            binding.tvItemNameItem.text = order.productName
+            binding.tvItemIdItem.text = order.productId
 
+            adapter2 = CartAdapter2 { unitPos, isIncreased ->
+                itemUnitPos(position, unitPos, isIncreased)
             }
 
-            binding.imgIncreaseQty.setOnClickListener {
-                onclickQty(position, true)
-                binding.tvItemQtyItem.text =
-                    (binding.tvItemQtyItem.text.toString().toInt() + 1).toString()
+            binding.rvCart2.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = adapter2
             }
 
-            binding.imgDecreaseQty.setOnClickListener {
-                if (binding.tvItemQtyItem.text.toString().toInt() > 1) {
-                    onclickQty(position, false)
-                    binding.tvItemQtyItem.text =
-                        (binding.tvItemQtyItem.text.toString().toInt() - 1).toString()
-                }
-            }
-
+            adapter2.addItemUnits(order.productUnits)
         }
 
     }

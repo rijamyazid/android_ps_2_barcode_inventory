@@ -4,7 +4,10 @@ import android.content.Context
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartUnitHolder
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.ProductDetailHolder
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemWithUnits
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,6 +19,41 @@ fun String.ifEmptySetDefault(default: String): String {
         this
 
     }
+}
+
+fun String.dotPriceIND(): String {
+    if (this.length <= 3) return "Rp. $this"
+
+    val reverseNominal = this.reversed()
+    var dotPriced = ""
+    reverseNominal.forEachIndexed { index, c ->
+        dotPriced += c
+        if ((index + 1) % 3 == 0) dotPriced += "."
+    }
+    return "Rp. ${dotPriced.reversed()}"
+}
+
+fun ItemWithUnits.toCartHolder(): CartHolder {
+
+    val cartUnitsHolder = mutableListOf<CartUnitHolder>()
+
+    this.itemUnitList.forEach {
+        cartUnitsHolder.add(
+            CartUnitHolder(
+                productPrice = it.itemUnit.price,
+                productStock = it.itemUnit.stock,
+                productUnit = it.itemUnit.unitId,
+                productQty = 1
+            )
+        )
+    }
+
+    return CartHolder(
+        productId = item.itemId,
+        productName = item.itemName,
+        productUnits = cartUnitsHolder
+    )
+
 }
 
 @ColorInt

@@ -2,15 +2,16 @@ package com.rmyfactory.rmyinventorybarcode.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderProductBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemWithUnits
-import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
 
 class ProductAdapter(private val onclick: (itemId: String) -> Unit) :
     RecyclerView.Adapter<ProductAdapter.ItemViewHolder>() {
 
     private val itemList = mutableListOf<ItemWithUnits>()
+    private val adapter2 = ProductAdapter2()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding =
@@ -38,8 +39,11 @@ class ProductAdapter(private val onclick: (itemId: String) -> Unit) :
         fun bind(item: ItemWithUnits) {
             binding.tvItemIdItem.text = item.item.itemId
             binding.tvItemNameItem.text = item.item.itemName
-            binding.tvItemStockItem.text = item.itemUnitList[0].itemUnit.stock.toString()
-            binding.tvItemPriceItem.text = dotPriceIND(item.itemUnitList[0].itemUnit.price)
+            binding.rvProduct2.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = adapter2
+            }
+            adapter2.addProducts(item.itemUnitList)
 
             binding.root.setOnClickListener {
                 onclick(item.item.itemId)

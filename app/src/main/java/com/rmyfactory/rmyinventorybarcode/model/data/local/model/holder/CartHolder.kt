@@ -4,12 +4,8 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ProductDetailHolder(
+data class CartHolder(
     var productId: String,
     var productName: String,
-    var productNote: String = "",
-    var productUnit: MutableList<String>,
-    var productPrice: MutableList<String>,
-    var productStock: MutableList<Int>,
-    var productQty: Int
+    var productUnits: MutableList<CartUnitHolder>
 ): Parcelable
