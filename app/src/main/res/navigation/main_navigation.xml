@@ -60,8 +60,8 @@
         android:label="fragment_order_confirmation"
         tools:layout="@layout/fragment_order_confirmation">
         <argument
-            android:name="orderItems"
-            app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.OrderHolder[]" />
+            android:name="products"
+            app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder[]" />
     </fragment>
     <activity
         android:id="@+id/orderConfirmationActivity"
@@ -69,8 +69,8 @@
         android:label="activity_order_confirmation"
         tools:layout="@layout/activity_order_confirmation">
         <argument
-            android:name="orders"
-            app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.OrderHolder[]" />
+            android:name="products"
+            app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder[]" />
     </activity>
     <fragment
         android:id="@+id/orderLogFragment"

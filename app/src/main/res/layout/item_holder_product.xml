@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/margin_padding_size_small"
     android:layout_marginBottom="@dimen/margin_padding_size_small"
     android:elevation="@dimen/margin_padding_size_small"
     app:cardCornerRadius="15dp">
@@ -68,9 +69,17 @@
                     style="@style/TextAppearance.MaterialComponents.Caption"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:text="Harga" />
+
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Stock" />
+                    android:text="Stok" />
 
                 <TextView
                     style="@style/TextAppearance.MaterialComponents.Caption"
@@ -79,14 +88,6 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Unit" />
-
-                <TextView
-                    style="@style/TextAppearance.MaterialComponents.Caption"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:text="Harga" />
             </LinearLayout>
             <View
                 android:layout_marginTop="@dimen/margin_padding_size_small"
@@ -98,6 +99,7 @@
                 android:id="@+id/rv_product_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/margin_padding_size_small"
                 tools:listitem="@layout/item_holder_product_2" />
         </LinearLayout>
 

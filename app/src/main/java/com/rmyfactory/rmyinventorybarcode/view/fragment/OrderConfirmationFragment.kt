@@ -12,6 +12,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentOrderConfirmationBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartUnitHolder
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.OrderItemModel
 import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
 import com.rmyfactory.rmyinventorybarcode.util.Functions.millisToOrderId
@@ -49,21 +51,24 @@ class OrderConfirmationFragment : BaseFragment() {
             adapter = orderConfAdapter
         }
 
-        orderConfAdapter.addOrders(args.orderItems.toList())
+        val productWithoutZeroQty = args.products.toList().filterZeroQtyProduct()
+        orderConfAdapter.addProducts(productWithoutZeroQty)
         sumPrice = 0L
         orderItems = mutableListOf()
-        args.orderItems.forEach {
-            val totalPrice = (it.itemPrice.toLong() * it.itemQty)
-            sumPrice += totalPrice
-            orderItems.add(
-                OrderItemModel(
-                    orderId = "0",
-                    itemId = it.itemId,
-                    qty = it.itemQty,
-                    price = it.itemPrice,
-                    totalPrice = totalPrice.toString()
+        productWithoutZeroQty.forEach { cart ->
+            cart.productUnits.forEach { cartUnit ->
+                val totalPrice = (cartUnit.productPrice.toLong() * cartUnit.productQty)
+                sumPrice += totalPrice
+                orderItems.add(
+                    OrderItemModel(
+                        orderId = "0",
+                        itemId = cart.productId,
+                        qty = cartUnit.productQty,
+                        price = cartUnit.productPrice,
+                        totalPrice = totalPrice.toString()
+                    )
                 )
-            )
+            }
         }
         binding.tvOrderConfSummPrice.text = dotPriceIND(sumPrice.toString())
 
@@ -113,6 +118,35 @@ class OrderConfirmationFragment : BaseFragment() {
         }
         )
 
+    }
+
+    private fun List<CartHolder>.filterZeroQtyProduct(): List<CartHolder> {
+        val productWithoutZeroQty = mutableListOf<CartHolder>()
+        this.forEach { cart ->
+            val productUnitWithoutZeroQty = mutableListOf<CartUnitHolder>()
+            cart.productUnits.forEach { cartUnit ->
+                if (cartUnit.productQty > 0) {
+                    productUnitWithoutZeroQty.add(
+                        CartUnitHolder(
+                            productPrice = cartUnit.productPrice,
+                            productQty = cartUnit.productQty,
+                            productUnit = cartUnit.productUnit,
+                            productStock = cartUnit.productStock
+                        )
+                    )
+                }
+            }
+            if (productUnitWithoutZeroQty.isNotEmpty()) {
+                productWithoutZeroQty.add(
+                    CartHolder(
+                        productId = cart.productId,
+                        productName = cart.productName,
+                        productUnits = productUnitWithoutZeroQty
+                    )
+                )
+            }
+        }
+        return productWithoutZeroQty
     }
 
 }

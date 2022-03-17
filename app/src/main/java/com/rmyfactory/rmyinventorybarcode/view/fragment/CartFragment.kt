@@ -15,6 +15,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
@@ -82,11 +83,11 @@ class CartFragment : BaseFragment() {
         }
 
         binding.btnConfirmCart.setOnClickListener {
-//            findNavController()
-//                .navigate(
-//                    CartFragmentDirections
-//                        .actionBnmTransactionsToOrderConfirmationFragment(viewModel.itemList.toTypedArray())
-//                )
+            findNavController()
+                .navigate(
+                    CartFragmentDirections
+                        .actionBnmTransactionsToOrderConfirmationFragment(viewModel.itemList.toTypedArray())
+                )
 //            findNavController()
 //                .navigate(
 //                    TransactionFragmentDirections

@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentOrderConfirmationBinding
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartUnitHolder
 import com.rmyfactory.rmyinventorybarcode.util.Functions
 import com.rmyfactory.rmyinventorybarcode.view.adapter.OrderConfAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,10 +32,13 @@ class OrderConfirmationActivity : AppCompatActivity() {
             adapter = orderConfAdapter
         }
 
-        orderConfAdapter.addOrders(args.orders.toList())
+        val productWithoutZeroQty = args.products.toList().filterZeroQtyProduct()
+        orderConfAdapter.addProducts(productWithoutZeroQty)
         var sumPrice = 0L
-        args.orders.forEach {
-            sumPrice += (it.itemPrice.toLong() * it.itemQty)
+        productWithoutZeroQty.forEach { cart ->
+            cart.productUnits.forEach {
+                sumPrice += (it.productPrice.toLong() * it.productQty)
+            }
         }
         binding.tvOrderConfSummPrice.text = Functions.dotPriceIND(sumPrice.toString())
 
@@ -67,4 +72,34 @@ class OrderConfirmationActivity : AppCompatActivity() {
         )
 
     }
+
+    private fun List<CartHolder>.filterZeroQtyProduct(): List<CartHolder> {
+        val productWithoutZeroQty = mutableListOf<CartHolder>()
+        this.forEach { cart ->
+            val productUnitWithoutZeroQty = mutableListOf<CartUnitHolder>()
+            cart.productUnits.forEach { cartUnit ->
+                if(cartUnit.productQty > 0) {
+                    productUnitWithoutZeroQty.add(
+                        CartUnitHolder(
+                            productPrice = cartUnit.productPrice,
+                            productQty = cartUnit.productQty,
+                            productUnit = cartUnit.productUnit,
+                            productStock = cartUnit.productStock
+                        )
+                    )
+                }
+            }
+            if(productUnitWithoutZeroQty.isNotEmpty()) {
+                productWithoutZeroQty.add(
+                    CartHolder(
+                        productId = cart.productId,
+                        productName = cart.productName,
+                        productUnits = productUnitWithoutZeroQty
+                    )
+                )
+            }
+        }
+        return productWithoutZeroQty
+    }
+
 }

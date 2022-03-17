@@ -48,7 +48,7 @@ class CartAdapter2(private val unitPos: (Int, Boolean) -> Unit) :
             }
 
             binding.imgDecreaseQty.setOnClickListener {
-                if (binding.tvCartQty.text.toString().toInt() > 1) {
+                if (binding.tvCartQty.text.toString().toInt() > 0) {
                     unitPos(position, false)
                     binding.tvCartQty.text =
                         (binding.tvCartQty.text.toString().toInt() - 1).toString()
