@@ -1,6 +1,5 @@
 package com.rmyfactory.rmyinventorybarcode.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -74,22 +73,8 @@ class DetailViewModel
         }
         if (units.isNotEmpty()) insertUnits(units)
 
-        deleteItemUnitsByItemId(product.productId)
-
-        val itemUnitsUpdate = mutableListOf<ItemUnitModel>()
         val itemUnitsAdd = mutableListOf<ItemUnitModel>()
         product.productUnit.forEachIndexed { index, _ ->
-//            if(readItemByItemAndUnitId(product.productId, product.productUnit[index]) != null) {
-//                itemUnitsUpdate.add(
-//                    ItemUnitModel(
-//                        itemId = product.productId,
-//                        unitId = product.productUnit[index],
-//                        stock = product.productStock[index],
-//                        price = product.productPrice[index]
-//                    )
-//                )
-//            } else {
-            Log.d("RMYFACTORYX", "Update : ${product.productUnit[index]}")
                 itemUnitsAdd.add(
                     ItemUnitModel(
                         itemId = product.productId,
@@ -98,10 +83,10 @@ class DetailViewModel
                         price = product.productPrice[index]
                     )
                 )
-//            }
         }
-//        if (itemUnitsUpdate.isNotEmpty()) updateItemUnits(itemUnitsUpdate)
-        if (itemUnitsAdd.isNotEmpty()) insertItemUnits(itemUnitsAdd)
+
+        deleteItemUnitsByItemId(product.productId)
+        insertItemUnits(itemUnitsAdd)
     }
 
     fun deleteProduct(itemId: String) = viewModelScope.launch(Dispatchers.IO) {
@@ -110,15 +95,15 @@ class DetailViewModel
     }
 
     // Item Model
-    fun insertItem(item: ItemModel) = viewModelScope.launch(Dispatchers.IO) {
+    fun insertItem(item: ItemModel) {
         repository.insertItem(item)
     }
 
-    fun updateItem(item: ItemModel) = viewModelScope.launch(Dispatchers.IO) {
+    fun updateItem(item: ItemModel) {
         repository.updateItem(item)
     }
 
-    fun deleteItemById(itemId: String) = viewModelScope.launch(Dispatchers.IO) {
+    fun deleteItemById(itemId: String) {
         repository.deleteItemById(itemId)
     }
 
@@ -130,11 +115,11 @@ class DetailViewModel
             : LiveData<ItemWithUnits> = repository.readItemByIdWithUnits(itemId)
 
     // Unit Model
-    fun insertUnit(unit: UnitModel) = viewModelScope.launch(Dispatchers.IO) {
+    fun insertUnit(unit: UnitModel) {
         repository.insertUnit(unit)
     }
 
-    fun insertUnits(unitList: List<UnitModel>) = viewModelScope.launch(Dispatchers.IO) {
+    fun insertUnits(unitList: List<UnitModel>) {
         repository.insertUnits(unitList)
     }
 
@@ -145,19 +130,19 @@ class DetailViewModel
     : ItemUnitModel? {
         return repository.readItemByItemAndUnitId(itemId, unitId)
     }
-    fun updateItemUnits(itemUnitList: List<ItemUnitModel>) = viewModelScope.launch(Dispatchers.IO) {
+    fun updateItemUnits(itemUnitList: List<ItemUnitModel>) {
         repository.updateItemUnits(itemUnitList)
     }
 
-    fun insertItemUnit(itemUnit: ItemUnitModel) = viewModelScope.launch(Dispatchers.IO) {
+    fun insertItemUnit(itemUnit: ItemUnitModel) {
         repository.insertItemUnit(itemUnit)
     }
 
-    fun insertItemUnits(itemUnitList: List<ItemUnitModel>) = viewModelScope.launch(Dispatchers.IO) {
+    fun insertItemUnits(itemUnitList: List<ItemUnitModel>) {
         repository.insertItemUnits(itemUnitList)
     }
 
-    fun deleteItemUnitsByItemId(itemId: String) = viewModelScope.launch(Dispatchers.IO) {
+    fun deleteItemUnitsByItemId(itemId: String) {
         repository.deleteItemUnitsByItemId(itemId)
     }
 }
