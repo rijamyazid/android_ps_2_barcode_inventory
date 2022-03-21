@@ -98,5 +98,7 @@ class LocalDataSource
         itemUnitDao.deleteItemUnitsByItemId(itemId)
     }
 
+    fun readItemByItemAndUnitId(itemId: String, unitId: String): ItemUnitModel?
+    = itemUnitDao.readItemByItemAndUnitId(itemId, unitId)
 
 }

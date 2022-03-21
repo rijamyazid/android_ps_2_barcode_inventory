@@ -76,6 +76,8 @@ class MainRepository
     }
 
     //ItemUnitModel
+    fun readItemByItemAndUnitId(itemId: String, unitId: String)
+    : ItemUnitModel? = localDataSource.readItemByItemAndUnitId(itemId, unitId)
     fun insertItemUnit(itemUnit: ItemUnitModel) {
         localDataSource.insertItemUnit(itemUnit)
     }

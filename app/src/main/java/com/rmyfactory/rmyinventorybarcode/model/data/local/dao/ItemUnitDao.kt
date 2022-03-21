@@ -18,4 +18,7 @@ interface ItemUnitDao {
     @Query("DELETE FROM item_unit_table WHERE item_id=:itemId")
     fun deleteItemUnitsByItemId(itemId: String)
 
+    @Query("SELECT * FROM item_unit_table WHERE item_id=:itemId AND unit_id=:unitId")
+    fun readItemByItemAndUnitId(itemId: String, unitId: String): ItemUnitModel?
+
 }
