@@ -18,16 +18,16 @@ import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.Order
 import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
 import com.rmyfactory.rmyinventorybarcode.util.Functions.millisToOrderId
 import com.rmyfactory.rmyinventorybarcode.view.adapter.OrderConfAdapter
-import com.rmyfactory.rmyinventorybarcode.viewmodel.OrderViewModel
+import com.rmyfactory.rmyinventorybarcode.viewmodel.OrderConfViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class OrderConfirmationFragment : BaseFragment() {
+class OrderConfFragment : BaseFragment() {
 
     private lateinit var binding: FragmentOrderConfirmationBinding
-    private val viewModel: OrderViewModel by viewModels()
-    private val args: OrderConfirmationFragmentArgs by navArgs()
+    private val confViewModel: OrderConfViewModel by viewModels()
+    private val args: OrderConfFragmentArgs by navArgs()
     private lateinit var orderConfAdapter: OrderConfAdapter
     private lateinit var order: OrderModel
     private lateinit var orderItems: MutableList<OrderItemModel>
@@ -83,7 +83,7 @@ class OrderConfirmationFragment : BaseFragment() {
             orderItems.forEach {
                 it.orderId = orderTime
             }
-            viewModel.insertOrders(
+            confViewModel.insertOrders(
                 order,
                 orderItems
             )

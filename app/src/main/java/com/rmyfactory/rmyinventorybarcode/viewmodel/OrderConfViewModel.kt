@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class OrderViewModel
+class OrderConfViewModel
 @Inject constructor(private val repository: MainRepository) : ViewModel() {
 
     fun insertOrders(order: OrderModel, orders: List<OrderItemModel>) =

@@ -17,7 +17,10 @@ import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemUnitWi
 import com.rmyfactory.rmyinventorybarcode.util.CutoutDrawable
 import com.rmyfactory.rmyinventorybarcode.util.themeColor
 
-class DetailUnitAdapter(private val context: Context): RecyclerView.Adapter<DetailUnitAdapter.ViewHolder>() {
+class DetailUnitAdapter(
+    private val context: Context,
+    private val onUnitRemoved: (isAdd: Boolean, position: Int, itemUnitId: Long) -> Unit
+) : RecyclerView.Adapter<DetailUnitAdapter.ViewHolder>() {
 
     private var unitListSize = 1
     private val spinnerList = mutableListOf<String>()
@@ -44,6 +47,7 @@ class DetailUnitAdapter(private val context: Context): RecyclerView.Adapter<Deta
         if (updateItemUnit.isNotEmpty()) {
             updateItemUnit.forEachIndexed { index, _ ->
                 itemUnitMap[index] = mapOf(
+                    "id" to updateItemUnit[index].itemUnit.id.toString(),
                     "price" to updateItemUnit[index].itemUnit.price,
                     "stock" to updateItemUnit[index].itemUnit.stock.toString(),
                     "unit" to updateItemUnit[index].itemUnit.unitId
@@ -68,13 +72,17 @@ class DetailUnitAdapter(private val context: Context): RecyclerView.Adapter<Deta
 
     fun getBindingList(): Map<Int, ItemHolderDetailUnitBinding> = bindingList
     fun getUnitListSize(): Int = unitListSize
+    fun refreshSize(size: Int) {
+        unitListSize = size
+    }
 
     inner class ViewHolder(private val binding: ItemHolderDetailUnitBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
 
-            Log.d("RMYFACTORYX", "Posisi bind: $position")
+            Log.d("RMYFACTORYX", "Posisi bind: $position\n" +
+                    "ItemUnitId: ${itemUnitMap[position]?.get("id")?.toLong() ?: -1}")
 
             spinnerAdapter = object: ArrayAdapter<String>(
                 context,
@@ -89,6 +97,20 @@ class DetailUnitAdapter(private val context: Context): RecyclerView.Adapter<Deta
                 }
             }
             binding.spinItemUnitRv.adapter = spinnerAdapter
+
+            binding.btnDeleteUnitRv.setOnClickListener {
+//                unitListSize -= 1
+//                notifyItemRemoved(position)
+                onUnitRemoved(true, position, itemUnitMap[position]?.get("id")?.toLong() ?: -1)
+                binding.btnDeleteUnitRv.visibility = View.GONE
+                binding.btnDeletedUnitRv.visibility = View.VISIBLE
+            }
+
+            binding.btnDeletedUnitRv.setOnClickListener {
+                onUnitRemoved(false, position, itemUnitMap[position]?.get("id")?.toLong() ?: -1)
+                binding.btnDeletedUnitRv.visibility = View.GONE
+                binding.btnDeleteUnitRv.visibility = View.VISIBLE
+            }
 
             val borderUnitDrawable =
                 getCutoutDrawable(color = context.themeColor(R.attr.colorPrimary))

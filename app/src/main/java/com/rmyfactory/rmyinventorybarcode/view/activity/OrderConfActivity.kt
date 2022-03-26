@@ -15,10 +15,10 @@ import com.rmyfactory.rmyinventorybarcode.view.adapter.OrderConfAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OrderConfirmationActivity : AppCompatActivity() {
+class OrderConfActivity : AppCompatActivity() {
 
     private lateinit var binding: FragmentOrderConfirmationBinding
-    private val args: OrderConfirmationActivityArgs by navArgs()
+    private val args: OrderConfActivityArgs by navArgs()
     private lateinit var orderConfAdapter: OrderConfAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

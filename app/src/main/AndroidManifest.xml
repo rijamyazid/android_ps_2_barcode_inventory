@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RMYInventoryBarcodeScanner">
         <activity
-            android:name=".view.activity.OrderConfirmationActivity"
+            android:name=".view.activity.OrderConfActivity"
             android:exported="false" />
         <activity
             android:name=".view.activity.DetailActivity"

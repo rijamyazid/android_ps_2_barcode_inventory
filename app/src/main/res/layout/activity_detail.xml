@@ -51,7 +51,7 @@
                 android:id="@+id/rv_detail_unit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/item_holder_detail_unit"/>
+                tools:listitem="@layout/item_holder_detail_unit" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_unit_2"
@@ -59,18 +59,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tambah Satuan Unit Baru"
-                app:icon="@drawable/ic_baseline_arrow_drop_down_24" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_unit_delete_2"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Hapus Satuan Unit Ini"
-                android:textColor="@android:color/holo_red_dark"
-                android:visibility="gone"
-                app:icon="@drawable/ic_baseline_arrow_drop_up_24"
-                app:iconTint="@android:color/holo_red_dark" />
+                android:textColor="@android:color/holo_green_dark"
+                app:icon="@drawable/ic_baseline_add_circle_24"
+                app:iconTint="@android:color/holo_green_dark"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edt_item_note"
@@ -113,21 +104,21 @@
             android:visibility="gone">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_update_item"
+                android:id="@+id/btn_delete_item"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_padding_size_small"
                 android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_blue_dark"
-                android:text="@string/btn_update_product_database" />
+                android:backgroundTint="@android:color/holo_red_dark"
+                android:text="@string/btn_delete_product_database" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_delete_item"
+                android:id="@+id/btn_update_item"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="@android:color/holo_red_dark"
-                android:text="@string/btn_delete_product_database" />
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:text="@string/btn_update_product_database" />
 
         </LinearLayout>
     </LinearLayout>

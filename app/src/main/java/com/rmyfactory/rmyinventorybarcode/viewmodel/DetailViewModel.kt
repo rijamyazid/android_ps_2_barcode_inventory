@@ -1,5 +1,6 @@
 package com.rmyfactory.rmyinventorybarcode.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,6 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel
 @Inject constructor(private val repository: MainRepository) : ViewModel() {
+
+    val itemUnitRemovedIds = mutableListOf<List<Long>>()
+    var firstInit = true
 
     fun insertProduct(product: ProductDetailHolder) = viewModelScope.launch(Dispatchers.IO) {
 
@@ -73,8 +77,35 @@ class DetailViewModel
         }
         if (units.isNotEmpty()) insertUnits(units)
 
+        Log.d("RMYFACTORYX", "$itemUnitRemovedIds")
         val itemUnitsAdd = mutableListOf<ItemUnitModel>()
-        product.productUnit.forEachIndexed { index, _ ->
+        if (itemUnitRemovedIds.isNotEmpty()) {
+            itemUnitRemovedIds.forEach {
+                deleteItemUnitById(it[1])
+            }
+
+            product.productUnit.forEachIndexed { index, _ ->
+                var noUnitRemoved = true
+                itemUnitRemovedIds.forEach breaking@ {
+                    if(index.toLong() == it[0]) {
+                        noUnitRemoved = false
+                        return@breaking
+                    }
+                }
+                if(noUnitRemoved) {
+                    itemUnitsAdd.add(
+                        ItemUnitModel(
+                            itemId = product.productId,
+                            unitId = product.productUnit[index],
+                            stock = product.productStock[index],
+                            price = product.productPrice[index]
+                        )
+                    )
+                }
+            }
+            itemUnitRemovedIds.clear()
+        } else {
+            product.productUnit.forEachIndexed { index, _ ->
                 itemUnitsAdd.add(
                     ItemUnitModel(
                         itemId = product.productId,
@@ -83,6 +114,7 @@ class DetailViewModel
                         price = product.productPrice[index]
                     )
                 )
+            }
         }
 
         deleteItemUnitsByItemId(product.productId)
@@ -127,9 +159,10 @@ class DetailViewModel
 
     // ItemUnitModel
     fun readItemByItemAndUnitId(itemId: String, unitId: String)
-    : ItemUnitModel? {
+            : ItemUnitModel? {
         return repository.readItemByItemAndUnitId(itemId, unitId)
     }
+
     fun updateItemUnits(itemUnitList: List<ItemUnitModel>) {
         repository.updateItemUnits(itemUnitList)
     }
@@ -140,6 +173,10 @@ class DetailViewModel
 
     fun insertItemUnits(itemUnitList: List<ItemUnitModel>) {
         repository.insertItemUnits(itemUnitList)
+    }
+
+    fun deleteItemUnitById(id: Long) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteItemUnitById(id)
     }
 
     fun deleteItemUnitsByItemId(itemId: String) {

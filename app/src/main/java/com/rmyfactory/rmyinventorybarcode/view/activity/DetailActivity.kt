@@ -1,6 +1,7 @@
 package com.rmyfactory.rmyinventorybarcode.view.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +32,22 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        detailUnitAdapter = DetailUnitAdapter(this)
+        detailUnitAdapter = DetailUnitAdapter(this,
+            onUnitRemoved = { isAdd, position, id ->
+                Log.d("RMYFACTORYX", "isAdd? $isAdd")
+                if (isAdd) {
+//                    detailUnitAdapter.refreshSize(detailUnitAdapter.getUnitListSize() - 1)
+                    viewModel.itemUnitRemovedIds.add(listOf(position.toLong(), id))
+                } else {
+//                    detailUnitAdapter.refreshSize(detailUnitAdapter.getUnitListSize() + 1)
+                    viewModel.itemUnitRemovedIds.forEachIndexed { index, value ->
+                        if (value[1] == id) {
+                            viewModel.itemUnitRemovedIds.removeAt(index)
+                        }
+                    }
+                }
+//                viewModel.deleteItemUnitById(it)
+            })
 
         binding.rvDetailUnit.apply {
             layoutManager = LinearLayoutManager(context)
@@ -42,12 +58,6 @@ class DetailActivity : AppCompatActivity() {
 
         binding.btnUnit2.setOnClickListener {
             detailUnitAdapter.addItemUnits((detailUnitAdapter.getUnitListSize() + 1))
-        }
-
-        binding.btnUnitDelete2.setOnClickListener {
-            binding.btnUnit2.visibility = View.VISIBLE
-//            binding.constraint2.visibility = View.GONE
-            binding.btnUnitDelete2.visibility = View.GONE
         }
 
         binding.btnAddItem.setOnClickListener {
@@ -65,9 +75,10 @@ class DetailActivity : AppCompatActivity() {
 
             detailUnitAdapter.getBindingList().forEach {
 
-                if(it.value.spinItemUnitRv.selectedItem.toString() != "Pilih..." ||
+                if (it.value.spinItemUnitRv.selectedItem.toString() != "Pilih..." ||
                     it.value.edtItemPriceRv.editText?.text.toString().isNotEmpty() ||
-                    it.value.edtItemStockRv.editText?.text.toString().isNotEmpty()) {
+                    it.value.edtItemStockRv.editText?.text.toString().isNotEmpty()
+                ) {
 
                     productDetail.productUnit.add(
                         it.value.spinItemUnitRv.selectedItem.toString()
@@ -98,30 +109,30 @@ class DetailActivity : AppCompatActivity() {
             val edtItemName = binding.edtItemName.editText?.text.toString()
             val edtItemNote = binding.edtItemNote.editText?.text.toString()
 
-
             productDetail.productId = args.itemId
             productDetail.productName = edtItemName.ifEmptySetDefault("No Name")
             productDetail.productNote = edtItemNote.ifEmptySetDefault("")
 
             detailUnitAdapter.getBindingList().forEach {
 
-                if(it.value.spinItemUnitRv.selectedItem.toString() != "Pilih..." ||
-                    it.value.edtItemPriceRv.editText?.text.toString().isNotEmpty() ||
-                    it.value.edtItemStockRv.editText?.text.toString().isNotEmpty()) {
+//                if(it.value.spinItemUnitRv.selectedItem.toString() != "Pilih..." ||
+//                    it.value.edtItemPriceRv.editText?.text.toString().isNotEmpty() ||
+//                    it.value.edtItemStockRv.editText?.text.toString().isNotEmpty()) {
 
-                    productDetail.productUnit.add(
-                        it.value.spinItemUnitRv.selectedItem.toString()
-                    )
-                    productDetail.productPrice.add(
-                        it.value.edtItemPriceRv.editText?.text.toString().ifEmptySetDefault("0")
-                    )
-                    productDetail.productStock.add(
-                        it.value.edtItemStockRv.editText?.text.toString().ifEmptySetDefault("0")
-                            .toInt()
-                    )
-                }
+                productDetail.productUnit.add(
+                    it.value.spinItemUnitRv.selectedItem.toString()
+                )
+                productDetail.productPrice.add(
+                    it.value.edtItemPriceRv.editText?.text.toString().ifEmptySetDefault("0")
+                )
+                productDetail.productStock.add(
+                    it.value.edtItemStockRv.editText?.text.toString().ifEmptySetDefault("0")
+                        .toInt()
+                )
+//                }
             }
 
+//            detailUnitAdapter.addItemUnits((detailUnitAdapter.getUnitListSize() - viewModel.itemUnitRemovedIds.size))
             viewModel.updateProduct(
                 productDetail
             )
@@ -140,7 +151,8 @@ class DetailActivity : AppCompatActivity() {
         }
 
         viewModel.readItemByIdWithUnits(args.itemId).observe(this, {
-            if (it != null) {
+            if (viewModel.firstInit) {
+                if (it != null) {
 
 //                if(it.itemUnitList.size > 1) {
 //                    binding.btnUnit2.visibility = View.GONE
@@ -148,17 +160,18 @@ class DetailActivity : AppCompatActivity() {
 //                    binding.btnUnitDelete2.visibility = View.VISIBLE
 //                }
 
-                binding.edtItemName.editText?.setText(it.item.itemName)
-                binding.edtItemNote.editText?.setText(it.item.itemNote)
-                if(it.itemUnitList.isNotEmpty()) {
-                    detailUnitAdapter.addItemUnits(it.itemUnitList.size, it.itemUnitList)
+                    binding.edtItemName.editText?.setText(it.item.itemName)
+                    binding.edtItemNote.editText?.setText(it.item.itemNote)
+                    if (it.itemUnitList.isNotEmpty()) {
+                        detailUnitAdapter.addItemUnits(it.itemUnitList.size, it.itemUnitList)
+                    }
+                    binding.btnAddItem.visibility = View.GONE
+                    binding.llButtonsDetail.visibility = View.VISIBLE
+                } else {
+                    binding.btnAddItem.visibility = View.VISIBLE
+                    binding.llButtonsDetail.visibility = View.GONE
                 }
-
-                binding.btnAddItem.visibility = View.GONE
-                binding.llButtonsDetail.visibility = View.VISIBLE
-            } else {
-                binding.btnAddItem.visibility = View.VISIBLE
-                binding.llButtonsDetail.visibility = View.GONE
+                viewModel.firstInit = false
             }
         })
 
@@ -171,4 +184,13 @@ class DetailActivity : AppCompatActivity() {
         })
 
     }
+
+//    override fun onBackPressed() {
+////        val initialUnit = detailUnitAdapter.getUnitListSize()
+////        if ((initialUnit - viewModel.itemUnitRemovedIds.size) < initialUnit) {
+////            detailUnitAdapter.addItemUnits((detailUnitAdapter.getUnitListSize() + viewModel.itemUnitRemovedIds.size))
+////        }
+//        super.onBackPressed()
+//        viewModel.itemUnitRemovedIds.clear()
+//    }
 }

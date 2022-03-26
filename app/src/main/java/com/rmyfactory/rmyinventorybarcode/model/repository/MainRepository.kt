@@ -90,6 +90,10 @@ class MainRepository
         localDataSource.updateItemUnits(itemUnitList)
     }
 
+    fun deleteItemUnitById(id: Long) {
+        localDataSource.deleteItemUnitById(id)
+    }
+
     fun deleteItemUnitsByItemId(itemId: String) {
         localDataSource.deleteItemUnitsByItemId(itemId)
     }

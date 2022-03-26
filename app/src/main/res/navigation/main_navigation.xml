@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/orderConfirmationFragment"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.OrderConfirmationFragment"
+        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.OrderConfFragment"
         android:label="fragment_order_confirmation"
         tools:layout="@layout/fragment_order_confirmation">
         <argument
@@ -65,7 +65,7 @@
     </fragment>
     <activity
         android:id="@+id/orderConfirmationActivity"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.activity.OrderConfirmationActivity"
+        android:name="com.rmyfactory.rmyinventorybarcode.view.activity.OrderConfActivity"
         android:label="activity_order_confirmation"
         tools:layout="@layout/activity_order_confirmation">
         <argument

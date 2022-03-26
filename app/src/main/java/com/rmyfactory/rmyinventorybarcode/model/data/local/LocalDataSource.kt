@@ -94,6 +94,10 @@ class LocalDataSource
         itemUnitDao.updateItemUnits(itemUnitList)
     }
 
+    fun deleteItemUnitById(id: Long) {
+        itemUnitDao.deleteItemUnitById(id)
+    }
+
     fun deleteItemUnitsByItemId(itemId: String) {
         itemUnitDao.deleteItemUnitsByItemId(itemId)
     }

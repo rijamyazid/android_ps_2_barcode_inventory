@@ -15,6 +15,9 @@ interface ItemUnitDao {
     @Update
     fun updateItemUnits(itemUnits: List<ItemUnitModel>)
 
+    @Query("DELETE FROM item_unit_table WHERE id=:id")
+    fun deleteItemUnitById(id: Long)
+
     @Query("DELETE FROM item_unit_table WHERE item_id=:itemId")
     fun deleteItemUnitsByItemId(itemId: String)
 
