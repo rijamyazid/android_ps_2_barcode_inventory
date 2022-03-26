@@ -35,7 +35,7 @@ class DetailUnitAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(position)
+        holder.bind(position, onUnitRemoved)
     }
 
     override fun getItemCount() = unitListSize
@@ -79,10 +79,12 @@ class DetailUnitAdapter(
     inner class ViewHolder(private val binding: ItemHolderDetailUnitBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(position: Int) {
+        fun bind(position: Int, onUnitRemoved: (isAdd: Boolean, position: Int, itemUnitId: Long) -> Unit) {
 
             Log.d("RMYFACTORYX", "Posisi bind: $position\n" +
                     "ItemUnitId: ${itemUnitMap[position]?.get("id")?.toLong() ?: -1}")
+
+            val itemUnitId = itemUnitMap[position]?.get("id")?.toLong() ?: -1
 
             spinnerAdapter = object: ArrayAdapter<String>(
                 context,
@@ -101,14 +103,14 @@ class DetailUnitAdapter(
             binding.btnDeleteUnitRv.setOnClickListener {
 //                unitListSize -= 1
 //                notifyItemRemoved(position)
-                onUnitRemoved(true, position, itemUnitMap[position]?.get("id")?.toLong() ?: -1)
-                binding.btnDeleteUnitRv.visibility = View.GONE
+                onUnitRemoved(true, position, itemUnitId)
+                it.visibility = View.GONE
                 binding.btnDeletedUnitRv.visibility = View.VISIBLE
             }
 
             binding.btnDeletedUnitRv.setOnClickListener {
-                onUnitRemoved(false, position, itemUnitMap[position]?.get("id")?.toLong() ?: -1)
-                binding.btnDeletedUnitRv.visibility = View.GONE
+                onUnitRemoved(false, position, itemUnitId)
+                it.visibility = View.GONE
                 binding.btnDeleteUnitRv.visibility = View.VISIBLE
             }
 

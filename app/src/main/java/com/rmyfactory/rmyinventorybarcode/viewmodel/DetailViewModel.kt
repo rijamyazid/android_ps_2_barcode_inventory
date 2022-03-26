@@ -19,7 +19,8 @@ import javax.inject.Inject
 class DetailViewModel
 @Inject constructor(private val repository: MainRepository) : ViewModel() {
 
-    val itemUnitRemovedIds = mutableListOf<List<Long>>()
+//    val itemUnitRemovedIds = mutableListOf<List<Long>>()
+    val itemUnitRemovedIds = mutableMapOf<Int, Long>()
     var firstInit = true
 
     fun insertProduct(product: ProductDetailHolder) = viewModelScope.launch(Dispatchers.IO) {
@@ -81,13 +82,13 @@ class DetailViewModel
         val itemUnitsAdd = mutableListOf<ItemUnitModel>()
         if (itemUnitRemovedIds.isNotEmpty()) {
             itemUnitRemovedIds.forEach {
-                deleteItemUnitById(it[1])
+                deleteItemUnitById(it.value)
             }
 
             product.productUnit.forEachIndexed { index, _ ->
                 var noUnitRemoved = true
                 itemUnitRemovedIds.forEach breaking@ {
-                    if(index.toLong() == it[0]) {
+                    if(index == it.key) {
                         noUnitRemoved = false
                         return@breaking
                     }

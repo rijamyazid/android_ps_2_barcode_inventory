@@ -37,14 +37,16 @@ class DetailActivity : AppCompatActivity() {
                 Log.d("RMYFACTORYX", "isAdd? $isAdd")
                 if (isAdd) {
 //                    detailUnitAdapter.refreshSize(detailUnitAdapter.getUnitListSize() - 1)
-                    viewModel.itemUnitRemovedIds.add(listOf(position.toLong(), id))
+                    viewModel.itemUnitRemovedIds[position] = id
                 } else {
+                    viewModel.itemUnitRemovedIds.remove(position)
 //                    detailUnitAdapter.refreshSize(detailUnitAdapter.getUnitListSize() + 1)
-                    viewModel.itemUnitRemovedIds.forEachIndexed { index, value ->
-                        if (value[1] == id) {
-                            viewModel.itemUnitRemovedIds.removeAt(index)
-                        }
-                    }
+//                    viewModel.itemUnitRemovedIds.forEachIndexed breaking@ { index, value ->
+//                        if (value[1] == id) {
+//                            viewModel.itemUnitRemovedIds.removeAt(index)
+//                            return@breaking
+//                        }
+//                    }
                 }
 //                viewModel.deleteItemUnitById(it)
             })
