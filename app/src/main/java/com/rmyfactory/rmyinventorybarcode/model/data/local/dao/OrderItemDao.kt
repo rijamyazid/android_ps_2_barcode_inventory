@@ -19,4 +19,7 @@ interface OrderItemDao {
     @Query("SELECT * FROM order_item_table")
     fun readOrderItems(): LiveData<List<OrderItemModel>>
 
+    @Query("SELECT * FROM order_item_table")
+    suspend fun _readOrderItems(): List<OrderItemModel>
+
 }

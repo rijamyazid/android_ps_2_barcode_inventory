@@ -11,5 +11,6 @@ data class ProductDetailHolder(
     var productUnit: MutableList<String>,
     var productPrice: MutableList<String>,
     var productStock: MutableList<Int>,
+    var productIncrement: MutableList<Float>,
     var productQty: Int
 ): Parcelable

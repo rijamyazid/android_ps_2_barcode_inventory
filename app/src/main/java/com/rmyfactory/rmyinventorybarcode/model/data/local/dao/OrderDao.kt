@@ -11,6 +11,9 @@ interface OrderDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertOrder(order: OrderModel)
 
+    @Query("SELECT * FROM order_table")
+    suspend fun _readOrders(): List<OrderModel>
+
     @Query("SELECT * FROM order_table WHERE id=:orderId")
     fun readOrderById(orderId: String): LiveData<OrderModel>
 

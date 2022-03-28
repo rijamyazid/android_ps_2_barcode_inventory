@@ -16,5 +16,7 @@ data class ItemUnitModel(
     @ColumnInfo(name = "stock")
     val stock: Int,
     @ColumnInfo(name = "price")
-    val price: String
+    val price: String,
+    @ColumnInfo(name = "increment")
+    val increment: Float = 1.0F
 )

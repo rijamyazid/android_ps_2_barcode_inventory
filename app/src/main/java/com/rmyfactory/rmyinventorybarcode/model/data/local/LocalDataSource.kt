@@ -37,11 +37,15 @@ class LocalDataSource
     fun readItems()
             : LiveData<List<ItemModel>> = itemDao.readItems()
 
+    suspend fun _readItems(): List<ItemModel> = itemDao._readItems()
+
     fun readItemById(itemId: String)
             : LiveData<ItemModel> = itemDao.readItem(itemId)
 
     fun readItemWithUnits()
             : LiveData<List<ItemWithUnits>> = itemDao.readItemWithUnits()
+
+    suspend fun readItemWithUnits_(): List<ItemWithUnits> = itemDao.readItemWithUnits_()
 
     fun readItemByIdWithUnits(itemId: String)
             : LiveData<ItemWithUnits> = itemDao.readItemByIdWithUnits(itemId)
@@ -53,6 +57,8 @@ class LocalDataSource
 
     fun readOrderWithItems()
             : LiveData<List<OrderWithItems>> = orderDao.readOrderWithItems()
+
+    suspend fun _readOrders(): List<OrderModel> = orderDao._readOrders()
 
     //Unit Model
     fun insertUnit(unit: UnitModel) {
@@ -70,6 +76,8 @@ class LocalDataSource
     fun readUnits()
             : LiveData<List<UnitModel>> = unitDao.readUnits()
 
+    suspend fun _readUnits(): List<UnitModel> = unitDao._readUnits()
+
     fun readUnitById(unitId: String)
             : UnitModel? = unitDao.readUnitById(unitId)
 
@@ -80,6 +88,8 @@ class LocalDataSource
     fun insertOrderItems(orderList: List<OrderItemModel>) {
         orderItemDao.insertOrderItems(orderList)
     }
+
+    suspend fun _readOrderItems(): List<OrderItemModel> = orderItemDao._readOrderItems()
 
     //ItemUnit Model
     fun insertItemUnit(itemUnit: ItemUnitModel) {
@@ -101,6 +111,8 @@ class LocalDataSource
     fun deleteItemUnitsByItemId(itemId: String) {
         itemUnitDao.deleteItemUnitsByItemId(itemId)
     }
+
+    suspend fun _readItemUnits(): List<ItemUnitModel> = itemUnitDao._readItemUnits()
 
     fun readItemByItemAndUnitId(itemId: String, unitId: String): ItemUnitModel?
     = itemUnitDao.readItemByItemAndUnitId(itemId, unitId)

@@ -24,6 +24,9 @@ interface ItemDao {
     @Query("SELECT * FROM item_table")
     fun readItems(): LiveData<List<ItemModel>>
 
+    @Query("SELECT * FROM item_table")
+    suspend fun _readItems(): List<ItemModel>
+
     @Query("DELETE FROM item_table WHERE id=:itemId")
     fun deleteItemById(itemId: String)
 
@@ -34,6 +37,10 @@ interface ItemDao {
     @Transaction
     @Query("SELECT * FROM item_table")
     fun readItemWithUnits(): LiveData<List<ItemWithUnits>>
+
+    @Transaction
+    @Query("SELECT * FROM item_table")
+    suspend fun readItemWithUnits_(): List<ItemWithUnits>
 
     @Transaction
     @Query("SELECT * FROM item_table WHERE id=:itemId")

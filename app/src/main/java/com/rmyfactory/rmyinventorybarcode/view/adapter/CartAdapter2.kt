@@ -39,7 +39,12 @@ class CartAdapter2(private val unitPos: (Int, Boolean) -> Unit) :
             binding.tvCartPrice.text = cartUnit.productPrice.dotPriceIND()
             binding.tvCartStock.text = cartUnit.productStock.toString()
             binding.tvCartUnit.text = cartUnit.productUnit
-            binding.tvCartQty.text = cartUnit.productQty.toString()
+            if(position == 0) {
+                unitPos(position, true)
+                binding.tvCartQty.text = "1"
+            } else {
+                binding.tvCartQty.text = "0"
+            }
 
             binding.imgIncreaseQty.setOnClickListener {
                 unitPos(position, true)

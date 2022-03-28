@@ -9,6 +9,7 @@ data class CartUnitHolder(
     var productPrice: String,
     var productStock: Int,
     var productQty: Int,
-    var productUnit: String
+    var productUnit: String,
+    var productIncrement: Float = 1.0F
 
 ): Parcelable

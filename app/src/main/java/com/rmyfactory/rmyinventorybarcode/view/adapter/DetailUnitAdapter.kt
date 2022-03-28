@@ -50,7 +50,8 @@ class DetailUnitAdapter(
                     "id" to updateItemUnit[index].itemUnit.id.toString(),
                     "price" to updateItemUnit[index].itemUnit.price,
                     "stock" to updateItemUnit[index].itemUnit.stock.toString(),
-                    "unit" to updateItemUnit[index].itemUnit.unitId
+                    "unit" to updateItemUnit[index].itemUnit.unitId,
+                    "increment" to updateItemUnit[index].itemUnit.increment.toString()
                 )
             }
         }
@@ -153,6 +154,7 @@ class DetailUnitAdapter(
                 binding.edtItemPriceRv.editText?.setText(itemUnitMap[position]?.get("price").toString())
                 binding.edtItemStockRv.editText?.setText(itemUnitMap[position]?.get("stock").toString())
                 binding.spinItemUnitRv.setSelection(spinnerAdapter.getPosition(itemUnitMap[position]?.get("unit").toString()))
+                binding.edtItemIncrementRv.editText?.setText(itemUnitMap[position]?.get("increment").toString())
             } else {
                 Log.d("RMYFACTORYX", "Contain key: NO")
             }

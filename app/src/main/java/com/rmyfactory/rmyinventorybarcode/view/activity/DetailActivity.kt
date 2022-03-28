@@ -92,6 +92,10 @@ class DetailActivity : AppCompatActivity() {
                         it.value.edtItemStockRv.editText?.text.toString().ifEmptySetDefault("0")
                             .toInt()
                     )
+                    productDetail.productIncrement.add(
+                        it.value.edtItemIncrementRv.editText?.text.toString().ifEmptySetDefault("1.0")
+                            .toFloat()
+                    )
                 }
             }
 
@@ -130,6 +134,10 @@ class DetailActivity : AppCompatActivity() {
                 productDetail.productStock.add(
                     it.value.edtItemStockRv.editText?.text.toString().ifEmptySetDefault("0")
                         .toInt()
+                )
+                productDetail.productIncrement.add(
+                    it.value.edtItemIncrementRv.editText?.text.toString().ifEmptySetDefault("1.0")
+                        .toFloat()
                 )
 //                }
             }

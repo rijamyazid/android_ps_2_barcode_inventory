@@ -50,7 +50,8 @@ class DetailViewModel
                         itemId = product.productId,
                         unitId = product.productUnit[index],
                         stock = product.productStock[index],
-                        price = product.productPrice[index]
+                        price = product.productPrice[index],
+                        increment = product.productIncrement[index]
                     )
                 )
             }
@@ -99,7 +100,8 @@ class DetailViewModel
                             itemId = product.productId,
                             unitId = product.productUnit[index],
                             stock = product.productStock[index],
-                            price = product.productPrice[index]
+                            price = product.productPrice[index],
+                            increment = product.productIncrement[index]
                         )
                     )
                 }
@@ -112,7 +114,8 @@ class DetailViewModel
                         itemId = product.productId,
                         unitId = product.productUnit[index],
                         stock = product.productStock[index],
-                        price = product.productPrice[index]
+                        price = product.productPrice[index],
+                        increment = product.productIncrement[index]
                     )
                 )
             }

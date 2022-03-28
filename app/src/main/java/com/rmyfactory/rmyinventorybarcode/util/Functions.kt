@@ -43,7 +43,8 @@ fun ItemWithUnits.toCartHolder(): CartHolder {
                 productPrice = it.itemUnit.price,
                 productStock = it.itemUnit.stock,
                 productUnit = it.itemUnit.unitId,
-                productQty = 1
+                productIncrement = it.itemUnit.increment,
+                productQty = 0
             )
         )
     }
@@ -90,7 +91,8 @@ object Functions {
         productUnit = mutableListOf(),
         productPrice = mutableListOf(),
         productStock = mutableListOf(),
-        productQty = 0
+        productQty = 0,
+        productIncrement = mutableListOf()
     )
 
 }

@@ -31,11 +31,15 @@ class MainRepository
     fun readItems()
             : LiveData<List<ItemModel>> = localDataSource.readItems()
 
+    suspend fun _readItems(): List<ItemModel> = localDataSource._readItems()
+
     fun readItemById(itemId: String)
             : LiveData<ItemModel> = localDataSource.readItemById(itemId)
 
     fun readItemWithUnits()
             : LiveData<List<ItemWithUnits>> = localDataSource.readItemWithUnits()
+
+    suspend fun readItemWithUnits_(): List<ItemWithUnits> = localDataSource.readItemWithUnits_()
 
     fun readItemByIdWithUnits(itemId: String)
             : LiveData<ItemWithUnits> = localDataSource.readItemByIdWithUnits(itemId)
@@ -47,6 +51,8 @@ class MainRepository
 
     fun readOrderWithItems()
             : LiveData<List<OrderWithItems>> = localDataSource.readOrderWithItems()
+
+    suspend fun _readOrders(): List<OrderModel> = localDataSource._readOrders()
 
     //Unit Model
     fun insertUnit(unit: UnitModel) {
@@ -64,6 +70,8 @@ class MainRepository
     fun readUnits()
     :LiveData<List<UnitModel>> = localDataSource.readUnits()
 
+    suspend fun _readUnits(): List<UnitModel> = localDataSource._readUnits()
+
     fun readUnitById(unitId: String)
             : UnitModel? = localDataSource.readUnitById(unitId)
 
@@ -74,6 +82,8 @@ class MainRepository
     fun insertOrderItems(orders: List<OrderItemModel>) {
         localDataSource.insertOrderItems(orders)
     }
+
+    suspend fun _readOrderItems(): List<OrderItemModel> = localDataSource._readOrderItems()
 
     //ItemUnitModel
     fun readItemByItemAndUnitId(itemId: String, unitId: String)
@@ -97,5 +107,7 @@ class MainRepository
     fun deleteItemUnitsByItemId(itemId: String) {
         localDataSource.deleteItemUnitsByItemId(itemId)
     }
+
+    suspend fun _readItemUnits(): List<ItemUnitModel> = localDataSource._readItemUnits()
 
 }
