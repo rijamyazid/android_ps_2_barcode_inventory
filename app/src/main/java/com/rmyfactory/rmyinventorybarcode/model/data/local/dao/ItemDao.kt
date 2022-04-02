@@ -9,10 +9,10 @@ import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemWithUn
 @Dao
 interface ItemDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItems(items: List<ItemModel>)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItem(item: ItemModel)
 
     @Update

@@ -64,6 +64,12 @@ fun Context.themeColor(@AttrRes attrRes: Int): Int = TypedValue()
 
 object Functions {
 
+    const val CONSTANT_TABLE_ITEM = "item_table"
+    const val CONSTANT_TABLE_ORDER = "order_table"
+    const val CONSTANT_TABLE_UNIT = "unit_table"
+    const val CONSTANT_TABLE_ITEM_UNIT = "item_unit_table"
+    const val CONSTANT_TABLE_ORDER_ITEM = "order_item_table"
+
     fun millisToOrderId(timeInMillis: Long): String {
         val sdf = SimpleDateFormat("dd:MM:yy:HH:mm:ss", Locale.ENGLISH)
         val dateString = sdf.format(timeInMillis)

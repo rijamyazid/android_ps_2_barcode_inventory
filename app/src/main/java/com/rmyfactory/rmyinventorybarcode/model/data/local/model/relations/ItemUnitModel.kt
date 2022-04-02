@@ -3,6 +3,7 @@ package com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.BaseModel
 
 @Entity(tableName = "item_unit_table")
 data class ItemUnitModel(
@@ -19,4 +20,4 @@ data class ItemUnitModel(
     val price: String,
     @ColumnInfo(name = "increment")
     val increment: Float = 1.0F
-)
+): BaseModel

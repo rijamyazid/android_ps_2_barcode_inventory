@@ -20,6 +20,10 @@ class MainRepository
         localDataSource.insertItem(item)
     }
 
+    fun insertItems(items: List<ItemModel>) {
+        localDataSource.insertItems(items)
+    }
+
     fun updateItem(item: ItemModel) {
         localDataSource.updateItem(item)
     }
@@ -47,6 +51,10 @@ class MainRepository
     //Order Model
     fun insertOrder(order: OrderModel) {
         localDataSource.insertOrder(order)
+    }
+
+    fun insertOrders(orders: List<OrderModel>) {
+        localDataSource.insertOrders(orders)
     }
 
     fun readOrderWithItems()

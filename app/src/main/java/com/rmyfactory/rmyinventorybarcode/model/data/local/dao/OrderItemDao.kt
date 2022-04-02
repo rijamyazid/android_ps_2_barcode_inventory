@@ -10,7 +10,7 @@ import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.Order
 @Dao
 interface OrderItemDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrderItems(orderItems: List<OrderItemModel>)
 
     @Query("SELECT * FROM order_item_table WHERE order_id=:orderId")

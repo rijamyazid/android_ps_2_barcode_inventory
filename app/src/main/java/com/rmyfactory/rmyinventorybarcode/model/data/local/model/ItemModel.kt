@@ -15,4 +15,4 @@ data class ItemModel(
     @ColumnInfo(name = "item_note")
     var itemNote: String = ""
 
-)
+): BaseModel

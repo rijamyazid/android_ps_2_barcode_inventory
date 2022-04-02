@@ -2,6 +2,7 @@ package com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.BaseModel
 
 @Entity(tableName = "order_item_table", primaryKeys = ["order_id", "item_id"])
 data class OrderItemModel(
@@ -16,4 +17,4 @@ data class OrderItemModel(
     val price: String,
     @ColumnInfo(name = "total_price")
     val totalPrice: String
-)
+): BaseModel

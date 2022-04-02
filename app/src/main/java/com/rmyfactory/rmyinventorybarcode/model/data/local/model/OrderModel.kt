@@ -17,4 +17,4 @@ data class OrderModel(
     @ColumnInfo(name = "order_exchange")
     val orderExchange: String
 
-)
+): BaseModel

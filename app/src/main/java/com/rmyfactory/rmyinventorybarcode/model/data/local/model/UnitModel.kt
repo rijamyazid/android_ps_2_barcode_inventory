@@ -11,4 +11,4 @@ data class UnitModel(
     @ColumnInfo(name = "id")
     val unitId: String,
 
-)
+): BaseModel

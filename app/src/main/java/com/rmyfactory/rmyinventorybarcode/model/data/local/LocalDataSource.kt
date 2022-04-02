@@ -26,6 +26,10 @@ class LocalDataSource
         itemDao.insertItem(item)
     }
 
+    fun insertItems(items: List<ItemModel>) {
+        itemDao.insertItems(items)
+    }
+
     fun updateItem(item: ItemModel) {
         itemDao.updateItem(item)
     }
@@ -53,6 +57,10 @@ class LocalDataSource
     //Order Model
     fun insertOrder(order: OrderModel) {
         orderDao.insertOrder(order)
+    }
+
+    fun insertOrders(orders: List<OrderModel>) {
+        orderDao.insertOrders(orders)
     }
 
     fun readOrderWithItems()

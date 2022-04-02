@@ -8,8 +8,11 @@ import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.OrderWithI
 @Dao
 interface OrderDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrder(order: OrderModel)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertOrders(orders: List<OrderModel>)
 
     @Query("SELECT * FROM order_table")
     suspend fun _readOrders(): List<OrderModel>

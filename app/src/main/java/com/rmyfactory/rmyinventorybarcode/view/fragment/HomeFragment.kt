@@ -23,7 +23,18 @@ import androidx.navigation.fragment.findNavController
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentHomeBinding
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.BaseModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.UnitModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ItemUnitModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.OrderItemModel
 import com.rmyfactory.rmyinventorybarcode.util.BarcodeAnalyzer
+import com.rmyfactory.rmyinventorybarcode.util.Functions.CONSTANT_TABLE_ITEM
+import com.rmyfactory.rmyinventorybarcode.util.Functions.CONSTANT_TABLE_ITEM_UNIT
+import com.rmyfactory.rmyinventorybarcode.util.Functions.CONSTANT_TABLE_ORDER
+import com.rmyfactory.rmyinventorybarcode.util.Functions.CONSTANT_TABLE_ORDER_ITEM
+import com.rmyfactory.rmyinventorybarcode.util.Functions.CONSTANT_TABLE_UNIT
 import com.rmyfactory.rmyinventorybarcode.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -111,13 +122,13 @@ class HomeFragment : BaseFragment() {
 
     private val resultWriteExportUnused =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if(it.resultCode == Activity.RESULT_OK) {
-            val userChosenUri = it.data?.data
+            if (it.resultCode == Activity.RESULT_OK) {
+                val userChosenUri = it.data?.data
 //            val inStream = FileInputStream("Aku Suka Kamu\nHaha Bercanda")
-            val inStream = "Aku Suka Kamu\nHaha Bercanda"
-            val outStream = requireContext().contentResolver.openOutputStream(userChosenUri!!)
+                val inStream = "Aku Suka Kamu\nHaha Bercanda"
+                val outStream = requireContext().contentResolver.openOutputStream(userChosenUri!!)
 
-            lifecycleScope.launchWhenCreated {
+                lifecycleScope.launchWhenCreated {
 //                    val listOfItemWithUnit = withContext(Dispatchers.Main) {
 //                        viewModel.readItemWithUnits_().await()
 //                    }
@@ -134,85 +145,154 @@ class HomeFragment : BaseFragment() {
 //                            input.copyTo(output!!)
 //                        }
 //                    }
-            }
+                }
 //            inStream.use { input ->
 //                Log.d("RMYFACTORY", input.reader().readLines().toString())
 //                outStream.use { output ->
 //                    input.copyTo(output!!)
 //                }
 //            }
+            }
         }
-    }
 
-    private val resultWriteExport = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val userChosenUri = it.data?.data
-            val outStream = requireContext().contentResolver.openOutputStream(userChosenUri!!)
-            CoroutineScope(Dispatchers.IO).launch {
+    private val resultWriteExport =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val userChosenUri = it.data?.data
+                val outStream = requireContext().contentResolver.openOutputStream(userChosenUri!!)
+                CoroutineScope(Dispatchers.IO).launch {
 
-                val listOfItemModel = withContext(Dispatchers.Main) {
-                    viewModel._readItems()
-                }
-                var exportContent = "#item_table\n"
-                listOfItemModel.forEach { item ->
-                    exportContent += "${item.itemId};${item.itemName};${item.itemNote}\n"
-                }
+                    val listOfItemModel = withContext(Dispatchers.Main) {
+                        viewModel._readItems()
+                    }
+                    var exportContent = "#item_table\n"
+                    listOfItemModel.forEach { item ->
+                        exportContent += "${item.itemId};${item.itemName};${item.itemNote}\n"
+                    }
 
-                val listOfOrderModel = withContext(Dispatchers.Main) {
-                    viewModel._readOrders()
-                }
-                exportContent += "\n#order_table\n"
-                listOfOrderModel.forEach { order ->
-                    exportContent += "${order.orderId};${order.orderPay};${order.orderExchange};${order.orderTotalPrice}\n"
-                }
+                    val listOfOrderModel = withContext(Dispatchers.Main) {
+                        viewModel._readOrders()
+                    }
+                    exportContent += "\n#order_table\n"
+                    listOfOrderModel.forEach { order ->
+                        exportContent += "${order.orderId};${order.orderPay};${order.orderExchange};${order.orderTotalPrice}\n"
+                    }
 
-                val listOfUnitModel = withContext(Dispatchers.Main) {
-                    viewModel._readUnits()
-                }
-                exportContent += "\n#unit_table\n"
-                listOfUnitModel.forEach { unit ->
-                    exportContent += "${unit.unitId}\n"
-                }
+                    val listOfUnitModel = withContext(Dispatchers.Main) {
+                        viewModel._readUnits()
+                    }
+                    exportContent += "\n#unit_table\n"
+                    listOfUnitModel.forEach { unit ->
+                        exportContent += "${unit.unitId}\n"
+                    }
 
-                val listOfOrderItemModel = withContext(Dispatchers.Main) {
-                    viewModel._readOrderItems()
-                }
-                exportContent += "\n#order_item_table\n"
-                listOfOrderItemModel.forEach { orderItem ->
-                    exportContent += "${orderItem.orderId};${orderItem.itemId};${orderItem.qty};${orderItem.price};${orderItem.totalPrice}\n"
-                }
+                    val listOfOrderItemModel = withContext(Dispatchers.Main) {
+                        viewModel._readOrderItems()
+                    }
+                    exportContent += "\n#order_item_table\n"
+                    listOfOrderItemModel.forEach { orderItem ->
+                        exportContent += "${orderItem.orderId};${orderItem.itemId};${orderItem.qty};${orderItem.price};${orderItem.totalPrice}\n"
+                    }
 
-                val listOfItemUnitModel = withContext(Dispatchers.Main) {
-                    viewModel._readItemUnits()
-                }
-                exportContent += "\n#item_unit_table\n"
-                listOfItemUnitModel.forEach { itemUnit ->
-                    exportContent += "${itemUnit.id};${itemUnit.itemId};${itemUnit.unitId};${itemUnit.stock};${itemUnit.price}\n"
-                }
+                    val listOfItemUnitModel = withContext(Dispatchers.Main) {
+                        viewModel._readItemUnits()
+                    }
+                    exportContent += "\n#item_unit_table\n"
+                    listOfItemUnitModel.forEach { itemUnit ->
+                        exportContent += "${itemUnit.id};${itemUnit.itemId};${itemUnit.unitId};${itemUnit.stock};${itemUnit.price}\n"
+                    }
 
-                exportContent.byteInputStream().use { input ->
-                    outStream.use { output ->
-                        input.copyTo(output!!)
+                    exportContent.byteInputStream().use { input ->
+                        outStream.use { output ->
+                            input.copyTo(output!!)
+                        }
                     }
                 }
             }
         }
-    }
 
-    private val resultWriteImport = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            val userChosenUri = it.data?.data
-            val inStream = requireContext().contentResolver.openInputStream(userChosenUri!!)
-            val outStream = requireContext().getDatabasePath("db_main").outputStream()
+    private val resultWriteImport =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val userChosenUri = it.data?.data
+                val inStream = requireContext().contentResolver.openInputStream(userChosenUri!!)
 
-            inStream.use { input ->
-                outStream.use { output ->
-                    input?.copyTo(output)
+                val mapOfTables = mutableMapOf<String, MutableList<BaseModel>>()
+                var currentTable = "none"
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    inStream.use { input ->
+                        input?.reader()?.forEachLine { line ->
+//                            Log.d("RMYFACTORYX", line)
+                            if(line.isNotEmpty()) {
+                                if (line.first() == '#') {
+                                    currentTable = line.substring(1)
+                                    mapOfTables[currentTable] = mutableListOf()
+                                } else {
+                                    val lineSplit = line.split(";")
+                                    if (lineSplit.isNotEmpty()) {
+                                        when (currentTable) {
+                                            CONSTANT_TABLE_ITEM -> {
+                                                mapOfTables[currentTable]?.add(
+                                                    ItemModel(
+                                                        itemId = lineSplit[0],
+                                                        itemName = lineSplit[1],
+                                                        itemNote = lineSplit[2]
+                                                    )
+                                                )
+                                            }
+                                            CONSTANT_TABLE_ORDER -> {
+                                                mapOfTables[currentTable]?.add(
+                                                    OrderModel(
+                                                        orderId = lineSplit[0],
+                                                        orderPay = lineSplit[1],
+                                                        orderExchange = lineSplit[2],
+                                                        orderTotalPrice = lineSplit[3]
+                                                    )
+                                                )
+                                            }
+                                            CONSTANT_TABLE_UNIT -> {
+                                                mapOfTables[currentTable]?.add(
+                                                    UnitModel(
+                                                        unitId = lineSplit[0]
+                                                    )
+                                                )
+                                            }
+                                            CONSTANT_TABLE_ORDER_ITEM -> {
+                                                mapOfTables[currentTable]?.add(
+                                                    OrderItemModel(
+                                                        orderId = lineSplit[0],
+                                                        itemId = lineSplit[1],
+                                                        qty = lineSplit[2].toInt(),
+                                                        price = lineSplit[3],
+                                                        totalPrice = lineSplit[4]
+                                                    )
+                                                )
+                                            }
+                                            CONSTANT_TABLE_ITEM_UNIT -> {
+                                                mapOfTables[currentTable]?.add(
+                                                    ItemUnitModel(
+                                                        id = lineSplit[0].toLong(),
+                                                        itemId = lineSplit[1],
+                                                        unitId = lineSplit[2],
+                                                        stock = lineSplit[3].toInt(),
+                                                        price = lineSplit[4]
+                                                    )
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    withContext(Dispatchers.Main) {
+                        viewModel.importData(mapOfTables)
+                    }
+                    Log.d("RMYFACTORYX", mapOfTables.toString())
                 }
             }
         }
-        requireActivity().recreate()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -241,7 +321,7 @@ class HomeFragment : BaseFragment() {
         binding.btnHomeExport.setOnClickListener {
             if (readWritePermissionsGranted()) {
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-                intent.type ="*/*"
+                intent.type = "*/*"
                 intent.putExtra(Intent.EXTRA_TITLE, "${System.currentTimeMillis()}_dataset.txt")
                 resultWriteExport.launch(intent)
             } else {
@@ -251,7 +331,7 @@ class HomeFragment : BaseFragment() {
         binding.btnHomeImport.setOnClickListener {
             if (readWritePermissionsGranted()) {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.type = "application/octet-stream"
+                intent.type = "text/plain"
                 resultWriteImport.launch(intent)
             } else {
                 perWriteImportLauncher.launch(READ_WRITE_PERMISSION)
@@ -312,8 +392,14 @@ class HomeFragment : BaseFragment() {
     ) == PackageManager.PERMISSION_GRANTED
 
     private fun readWritePermissionsGranted(): Boolean {
-        val writePermission = ContextCompat.checkSelfPermission(requireContext(), READ_WRITE_PERMISSION.first()) == PackageManager.PERMISSION_GRANTED
-        val readPermission = ContextCompat.checkSelfPermission(requireContext(), READ_WRITE_PERMISSION.last()) == PackageManager.PERMISSION_GRANTED
+        val writePermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            READ_WRITE_PERMISSION.first()
+        ) == PackageManager.PERMISSION_GRANTED
+        val readPermission = ContextCompat.checkSelfPermission(
+            requireContext(),
+            READ_WRITE_PERMISSION.last()
+        ) == PackageManager.PERMISSION_GRANTED
         return writePermission && readPermission
     }
 
