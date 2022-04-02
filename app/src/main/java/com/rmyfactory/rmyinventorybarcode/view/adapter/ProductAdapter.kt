@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderProductBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemWithUnits
 
-class ProductAdapter(private val onclick: (itemId: String) -> Unit) :
+class ProductAdapter(private val onclick: (itemId: ItemWithUnits) -> Unit) :
     RecyclerView.Adapter<ProductAdapter.ItemViewHolder>() {
 
     private val itemList = mutableListOf<ItemWithUnits>()
@@ -50,7 +50,7 @@ class ProductAdapter(private val onclick: (itemId: String) -> Unit) :
             adapter2.addProducts(item.itemUnitList)
 
             binding.root.setOnClickListener {
-                onclick(item.item.itemId)
+                onclick(item)
             }
         }
 

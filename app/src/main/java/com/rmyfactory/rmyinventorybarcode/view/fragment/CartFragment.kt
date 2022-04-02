@@ -14,6 +14,7 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHold
 import com.rmyfactory.rmyinventorybarcode.util.BarcodeAnalyzer
 import com.rmyfactory.rmyinventorybarcode.util.toCartHolder
 import com.rmyfactory.rmyinventorybarcode.view.adapter.CartAdapter
+import com.rmyfactory.rmyinventorybarcode.viewmodel.ProductCartViewModel
 import com.rmyfactory.rmyinventorybarcode.viewmodel.TransactionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
@@ -34,6 +36,7 @@ class CartFragment : BaseFragment() {
 
     private lateinit var binding: FragmentCartBinding
     private val viewModel: TransactionViewModel by viewModels()
+    private val productCartViewModel: ProductCartViewModel by activityViewModels()
     private lateinit var cartAdapter: CartAdapter
 
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
@@ -95,10 +98,23 @@ class CartFragment : BaseFragment() {
 //                )
         }
 
+        binding.fabCartAdd.setOnClickListener {
+            productCartViewModel.setProductCartState(1)
+            findNavController().navigate(CartFragmentDirections.actionBnvCartToBnvProduct())
+        }
+
         binding.btnClearCart.setOnClickListener {
             viewModel.itemList.clear()
             cartAdapter.addOrder(viewModel.itemList)
         }
+
+        productCartViewModel.productCartState.observe(viewLifecycleOwner, {
+            if(it == 2) {
+                viewModel.itemList.add(productCartViewModel.itemWithUnits.toCartHolder())
+                productCartViewModel.setProductCartState(0)
+                cartAdapter.addOrder(viewModel.itemList)
+            }
+        })
 
         setupCamera()
         if (cameraPermissionsGranted()) {
@@ -123,6 +139,7 @@ class CartFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         scanTimeStamp = 0L
+        Log.d("RMYFACTORYX", "CartFrag: ${viewModel.itemList}")
         cartAdapter.addOrder(viewModel.itemList)
         imageAnalyzer.clearAnalyzer()
         imageAnalyzer.setAnalyzer(cameraExecutor, barcodeAnalyzer)

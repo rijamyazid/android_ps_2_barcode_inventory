@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.fragment.CartFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -61,11 +62,11 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_clear_cart"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_padding_size_small"
                     android:layout_weight="1"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:text="@string/btn_clear"
                     android:textColor="@android:color/holo_red_dark"
                     app:icon="@drawable/ic_baseline_restore_from_trash_24"
@@ -76,8 +77,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/btn_confirm"
                     android:backgroundTint="@android:color/holo_green_dark"
+                    android:text="@string/btn_confirm"
                     app:icon="@drawable/ic_baseline_add_shopping_cart_24" />
 
             </LinearLayout>
@@ -93,4 +94,14 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_cart_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/margin_padding_size_medium"
+        android:layout_marginBottom="@dimen/margin_padding_size_medium"
+        android:backgroundTint="?attr/colorPrimary"
+        app:tint="@color/white"
+        android:src="@drawable/ic_baseline_add_24"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

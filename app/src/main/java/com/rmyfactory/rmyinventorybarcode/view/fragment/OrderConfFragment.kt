@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +52,9 @@ class OrderConfFragment : BaseFragment() {
             adapter = orderConfAdapter
         }
 
+        Log.d("RMYDFACTORYX", "OrderFrag1: ${args.products.toList()}")
         val productWithoutZeroQty = args.products.toList().filterZeroQtyProduct()
+        Log.d("RMYDFACTORYX", "OrderFrag2: $productWithoutZeroQty")
         orderConfAdapter.addProducts(productWithoutZeroQty)
         sumPrice = 0L
         orderItems = mutableListOf()
