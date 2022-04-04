@@ -82,9 +82,19 @@ class DetailActivity : AppCompatActivity() {
                     it.value.edtItemStockRv.editText?.text.toString().isNotEmpty()
                 ) {
 
-                    productDetail.productUnit.add(
-                        it.value.spinItemUnitRv.selectedItem.toString()
-                    )
+                    if(it.value.contSpinnerRv.visibility == View.VISIBLE) {
+                        if(it.value.spinItemUnitRv.selectedItem.toString() == "Pilih...") {
+                            productDetail.productUnit.add("Buah")
+                        } else {
+                            productDetail.productUnit.add(
+                                it.value.spinItemUnitRv.selectedItem.toString()
+                            )
+                        }
+                    } else {
+                        productDetail.productUnit.add(
+                            it.value.edtItemUnitRv.editText?.text.toString().ifEmptySetDefault("Buah")
+                        )
+                    }
                     productDetail.productPrice.add(
                         it.value.edtItemPriceRv.editText?.text.toString().ifEmptySetDefault("0")
                     )
@@ -125,9 +135,19 @@ class DetailActivity : AppCompatActivity() {
 //                    it.value.edtItemPriceRv.editText?.text.toString().isNotEmpty() ||
 //                    it.value.edtItemStockRv.editText?.text.toString().isNotEmpty()) {
 
-                productDetail.productUnit.add(
-                    it.value.spinItemUnitRv.selectedItem.toString()
-                )
+                if(it.value.contSpinnerRv.visibility == View.VISIBLE) {
+                    if(it.value.spinItemUnitRv.selectedItem.toString() == "Pilih...") {
+                        productDetail.productUnit.add("Buah")
+                    } else {
+                        productDetail.productUnit.add(
+                            it.value.spinItemUnitRv.selectedItem.toString()
+                        )
+                    }
+                } else {
+                    productDetail.productUnit.add(
+                        it.value.edtItemUnitRv.editText?.text.toString().ifEmptySetDefault("Buah")
+                    )
+                }
                 productDetail.productPrice.add(
                     it.value.edtItemPriceRv.editText?.text.toString().ifEmptySetDefault("0")
                 )
@@ -190,6 +210,7 @@ class DetailActivity : AppCompatActivity() {
             unitModels.forEach {
                 units.add(it.unitId)
             }
+            units.add("Tambah...")
             detailUnitAdapter.addSpinnerList(units)
         })
 

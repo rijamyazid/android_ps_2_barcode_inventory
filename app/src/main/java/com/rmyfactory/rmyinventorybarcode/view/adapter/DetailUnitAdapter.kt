@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.shape.RoundedCornerTreatment
@@ -82,8 +83,8 @@ class DetailUnitAdapter(
 
         fun bind(position: Int, onUnitRemoved: (isAdd: Boolean, position: Int, itemUnitId: Long) -> Unit) {
 
-            Log.d("RMYFACTORYX", "Posisi bind: $position\n" +
-                    "ItemUnitId: ${itemUnitMap[position]?.get("id")?.toLong() ?: -1}")
+//            Log.d("RMYFACTORYX", "Posisi bind: $position\n" +
+//                    "ItemUnitId: ${itemUnitMap[position]?.get("id")?.toLong() ?: -1}")
 
             val itemUnitId = itemUnitMap[position]?.get("id")?.toLong() ?: -1
 
@@ -100,6 +101,26 @@ class DetailUnitAdapter(
                 }
             }
             binding.spinItemUnitRv.adapter = spinnerAdapter
+            binding.spinItemUnitRv.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    if(p2 == (spinnerList.size-1)) {
+                        binding.contSpinnerRv.visibility = View.GONE
+                        binding.edtItemUnitRv.isEndIconVisible = true
+                        binding.edtItemUnitRv.visibility = View.VISIBLE
+                    }
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+
+            }
+
+            binding.edtItemUnitRv.setEndIconOnClickListener {
+                binding.spinItemUnitRv.setSelection(spinnerAdapter.getPosition(itemUnitMap[position]?.get("unit").toString()))
+                binding.edtItemUnitRv.visibility = View.GONE
+                binding.contSpinnerRv.visibility = View.VISIBLE
+            }
 
             binding.btnDeleteUnitRv.setOnClickListener {
 //                unitListSize -= 1
