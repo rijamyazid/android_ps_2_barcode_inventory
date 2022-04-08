@@ -26,6 +26,10 @@
     <string name="qty_and_stock">%s/%s</string>
     <string name="slash">/</string>
     <string name="edt_product_unit">Satuan Produk</string>
+    <string name="str_transaction_history">Riwayat Transaksi</string>
+    <string name="str_import">Import</string>
+    <string name="str_export">Export</string>
+    <string name="str_transaction_history_newline">Riwayat\nTransaksi</string>
     <string-array name="product_currency">
         <item>(Rp.) Rupiah</item>
         <item>(USD.) USDollar</item>

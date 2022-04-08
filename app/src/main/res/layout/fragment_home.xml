@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:ignore="ContentDescription"
     tools:context=".view.fragment.HomeFragment">
 
     <TextView
@@ -26,63 +27,117 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/margin_padding_size_medium">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_size_medium">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/bg_log"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_bg_rectangle_round"
+            app:layout_constraintBottom_toBottomOf="@id/btn_log"
+            app:layout_constraintEnd_toEndOf="@id/btn_log"
+            app:layout_constraintStart_toStartOf="@id/btn_log"
+            app:layout_constraintTop_toTopOf="@id/btn_log" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_transaction_log_24"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/btn_home_import"
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_baseline_import_200"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/btn_home_export"
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_baseline_export_200"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-        <com.google.android.material.button.MaterialButton
+        <ImageView
             android:id="@+id/btn_log"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Riwayat Pesanan" />
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="@dimen/margin_padding_size_medium"
+            android:contentDescription="@string/str_transaction_history"
+            app:layout_constraintEnd_toStartOf="@+id/btn_home_import"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_baseline_restore_from_trash_24" />
 
-    </LinearLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_size_small"
+            android:gravity="center"
+            android:text="@string/str_transaction_history_newline"
+            app:layout_constraintEnd_toEndOf="@id/btn_log"
+            app:layout_constraintStart_toStartOf="@id/btn_log"
+            app:layout_constraintTop_toBottomOf="@id/bg_log" />
+
+        <ImageView
+            android:id="@+id/bg_import"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_bg_rectangle_round"
+            app:layout_constraintBottom_toBottomOf="@id/btn_home_import"
+            app:layout_constraintEnd_toEndOf="@id/btn_home_import"
+            app:layout_constraintStart_toStartOf="@id/btn_home_import"
+            app:layout_constraintTop_toTopOf="@id/btn_home_import" />
+
+        <ImageView
+            android:id="@+id/btn_home_import"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="@dimen/margin_padding_size_medium"
+            android:contentDescription="@string/str_import"
+            app:layout_constraintEnd_toStartOf="@+id/btn_home_export"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/btn_log"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_baseline_restore_from_trash_24" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_size_small"
+            android:text="@string/str_import"
+            app:layout_constraintEnd_toEndOf="@id/btn_home_import"
+            app:layout_constraintStart_toStartOf="@id/btn_home_import"
+            app:layout_constraintTop_toBottomOf="@id/bg_import" />
+
+        <ImageView
+            android:id="@+id/bg_export"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_bg_rectangle_round"
+            app:layout_constraintBottom_toBottomOf="@id/btn_home_export"
+            app:layout_constraintEnd_toEndOf="@id/btn_home_export"
+            app:layout_constraintStart_toStartOf="@id/btn_home_export"
+            app:layout_constraintTop_toTopOf="@id/btn_home_export" />
+
+        <ImageView
+            android:id="@+id/btn_home_export"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="@dimen/margin_padding_size_medium"
+            android:contentDescription="@string/str_export"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/btn_home_import"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_baseline_restore_from_trash_24" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_size_small"
+            android:text="@string/str_export"
+            app:layout_constraintEnd_toEndOf="@id/btn_home_export"
+            app:layout_constraintStart_toStartOf="@id/btn_home_export"
+            app:layout_constraintTop_toBottomOf="@id/bg_export" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

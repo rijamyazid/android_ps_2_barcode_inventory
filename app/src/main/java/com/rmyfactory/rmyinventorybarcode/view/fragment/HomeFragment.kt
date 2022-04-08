@@ -18,8 +18,8 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentHomeBinding
@@ -86,7 +86,8 @@ class HomeFragment : BaseFragment() {
             if (granted) {
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
                 intent.type = "*/*"
-                resultWriteExportUnused.launch(intent)
+                intent.putExtra(Intent.EXTRA_TITLE, "${System.currentTimeMillis()}_dataset.txt")
+                resultWriteExport.launch(intent)
             } else {
                 Toast.makeText(
                     requireContext(),
@@ -107,7 +108,7 @@ class HomeFragment : BaseFragment() {
 
             if (granted) {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.type = "application/octet-stream"
+                intent.type = "text/plain"
                 resultWriteImport.launch(intent)
             } else {
                 Toast.makeText(
@@ -118,41 +119,6 @@ class HomeFragment : BaseFragment() {
                 requireActivity().finish()
             }
 
-        }
-
-    private val resultWriteExportUnused =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                val userChosenUri = it.data?.data
-//            val inStream = FileInputStream("Aku Suka Kamu\nHaha Bercanda")
-                val inStream = "Aku Suka Kamu\nHaha Bercanda"
-                val outStream = requireContext().contentResolver.openOutputStream(userChosenUri!!)
-
-                lifecycleScope.launchWhenCreated {
-//                    val listOfItemWithUnit = withContext(Dispatchers.Main) {
-//                        viewModel.readItemWithUnits_().await()
-//                    }
-//                    var exportContent = "#item_table\n"
-//                    listOfItemWithUnit.forEach { itemModel ->
-//                        exportContent += "${itemModel.item.itemId};${itemModel.item.itemName};${itemModel.item.itemNote}\n"
-//                    }
-//                    exportContent.byteInputStream().use { input ->
-//                    input.reader().forEachLine {
-//                        Log.d("RMYFACTORYX", it)
-//                    }
-//                Log.d("RMYFACTORYX", input.reader().readLines().toString())
-//                        outStream.use { output ->
-//                            input.copyTo(output!!)
-//                        }
-//                    }
-                }
-//            inStream.use { input ->
-//                Log.d("RMYFACTORY", input.reader().readLines().toString())
-//                outStream.use { output ->
-//                    input.copyTo(output!!)
-//                }
-//            }
-            }
         }
 
     private val resultWriteExport =
@@ -313,11 +279,14 @@ class HomeFragment : BaseFragment() {
             perReqLauncher.launch(REQUIRED_PERMISSIONS)
         }
 
-        binding.btnLog.setOnClickListener {
-            findNavController().navigate(
-                HomeFragmentDirections.actionBnvHomeToOrderLogFragment()
-            )
+        binding.btnLog.apply {
+            setOnClickListener {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionBnvHomeToOrderLogFragment()
+                )
+            }
         }
+
         binding.btnHomeExport.setOnClickListener {
             if (readWritePermissionsGranted()) {
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
@@ -328,6 +297,11 @@ class HomeFragment : BaseFragment() {
                 perWriteExportLauncher.launch(READ_WRITE_PERMISSION)
             }
         }
+
+        Glide.with(this).load(R.drawable.home_ic_history).placeholder(R.drawable.home_ic_history).into(binding.btnLog)
+        Glide.with(this).load(R.drawable.home_ic_import).placeholder(R.drawable.home_ic_import).into(binding.btnHomeImport)
+        Glide.with(this).load(R.drawable.home_ic_export).placeholder(R.drawable.home_ic_export).into(binding.btnHomeExport)
+
         binding.btnHomeImport.setOnClickListener {
             if (readWritePermissionsGranted()) {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
