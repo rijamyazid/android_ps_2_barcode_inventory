@@ -1,15 +1,14 @@
 package com.rmyfactory.rmyinventorybarcode.view.fragment
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.util.Size
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
@@ -19,6 +18,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.transition.Slide
+import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
@@ -50,12 +51,14 @@ class HomeFragment : BaseFragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
 
-    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private lateinit var cameraProvider: ProcessCameraProvider
+    private lateinit var cameraExecutor: ExecutorService
+    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
+    private lateinit var barcodeAnalyzer: BarcodeAnalyzer
     private lateinit var cameraPreview: Preview
     private lateinit var imageAnalyzer: ImageAnalysis
-    private lateinit var barcodeAnalyzer: BarcodeAnalyzer
-    private lateinit var cameraExecutor: ExecutorService
+    private lateinit var cameraSelector: CameraSelector
+
 
     private var isScanSuccess = false
 
@@ -64,9 +67,7 @@ class HomeFragment : BaseFragment() {
             val granted = permissions.entries.all { permission ->
                 permission.value == true
             }
-            if (granted) {
-                startCamera()
-            } else {
+            if (!granted) {
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.camera_not_granted),
@@ -270,14 +271,11 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        cameraExecutor = Executors.newSingleThreadExecutor()
+
+        Log.d("RMYFACTORYX", "onViewCreated")
 
         setupCamera()
-        if (cameraPermissionsGranted()) {
-            startCamera()
-        } else {
-            perReqLauncher.launch(REQUIRED_PERMISSIONS)
-        }
+        startCamera()
 
         binding.btnLog.apply {
             setOnClickListener {
@@ -301,6 +299,8 @@ class HomeFragment : BaseFragment() {
         Glide.with(this).load(R.drawable.home_ic_history).placeholder(R.drawable.home_ic_history).into(binding.btnLog)
         Glide.with(this).load(R.drawable.home_ic_import).placeholder(R.drawable.home_ic_import).into(binding.btnHomeImport)
         Glide.with(this).load(R.drawable.home_ic_export).placeholder(R.drawable.home_ic_export).into(binding.btnHomeExport)
+        Glide.with(this).load(R.drawable.camera_slider_left).placeholder(R.drawable.camera_slider_left).into(binding.imgLeftSlider)
+        Glide.with(this).load(R.drawable.camera_slider_right).placeholder(R.drawable.camera_slider_right).into(binding.imgRightSlider)
 
         binding.btnHomeImport.setOnClickListener {
             if (readWritePermissionsGranted()) {
@@ -311,16 +311,106 @@ class HomeFragment : BaseFragment() {
                 perWriteImportLauncher.launch(READ_WRITE_PERMISSION)
             }
         }
+
+        binding.btnStartScan.setOnTouchListener { v, motionEvent ->
+            when(motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+//                    cameraSliderToggle(false)
+//                    binding.imgLeftSlider.animate().setDuration(500).translationX(-100.0f)
+//                    binding.imgRightSlider.animate().setDuration(500).translationX(100.0f)
+                    binding.imgLeftSlider.slideRight(0f, binding.imgLeftSlider.width.toFloat() * -1)
+                    binding.imgRightSlider.slideRight()
+                    bindCameraUseCases()
+                }
+                MotionEvent.ACTION_UP -> {
+//                    cameraSliderToggle(true)
+//                    binding.imgLeftSlider.animate().setDuration(500).translationX(0f)
+//                    binding.imgRightSlider.animate().setDuration(500).translationX(0f)
+                    binding.imgLeftSlider.slideLeft(binding.imgLeftSlider.width.toFloat() * -1, 0f)
+                    binding.imgRightSlider.slideLeft()
+                    unbindCameraUseCase()
+                    v.performClick()
+                }
+            }
+            true
+        }
+    }
+
+    private fun View.slideRight(from: Float = 0f, to:Float = 0f, time: Long = 500) {
+        val width = this.width.toFloat()
+        var fromValue = 0f
+        var toValue = width
+        if(from != 0f || to != 0f) {
+            fromValue = from
+            toValue = to
+        }
+        ObjectAnimator.ofFloat(this, View.TRANSLATION_X, fromValue, toValue).apply {
+            duration = time
+            start()
+        }
+    }
+
+    private fun View.slideLeft(from: Float = 0f, to:Float = 0f, time: Long = 500) {
+        val width = this.width.toFloat()
+        var fromValue = width
+        var toValue = 0f
+        if(from != 0f || to != 0f) {
+            fromValue = from
+            toValue = to
+        }
+        ObjectAnimator.ofFloat(this, View.TRANSLATION_X, fromValue, toValue).apply {
+            duration = time
+            start()
+        }
+    }
+
+    private fun cameraSliderToggle(show: Boolean) {
+        val transitionStart = Slide(Gravity.START)
+        transitionStart.duration = 500
+        transitionStart.addTarget(binding.imgLeftSlider)
+        TransitionManager.beginDelayedTransition(binding.contCamera, transitionStart)
+        binding.imgLeftSlider.visibility = if(show) View.VISIBLE else View.GONE
+
+        val transitionEnd = Slide(Gravity.START)
+        transitionEnd.duration = 500
+        transitionEnd.addTarget(binding.imgRightSlider)
+        TransitionManager.beginDelayedTransition(binding.contCamera, transitionEnd)
+        binding.imgRightSlider.visibility = if(show) View.VISIBLE else View.GONE
+
     }
 
     override fun onResume() {
         super.onResume()
         isScanSuccess = false
+
+        Log.d("RMYFACTORYX", "onResume")
+        binding.imgLeftSlider.slideLeft(binding.imgLeftSlider.width.toFloat() * -1, 0f, time = 0)
+        binding.imgRightSlider.slideLeft(time = 0)
+
+        if (!cameraPermissionsGranted()) {
+            perReqLauncher.launch(REQUIRED_PERMISSIONS)
+        }
+
         imageAnalyzer.clearAnalyzer()
         imageAnalyzer.setAnalyzer(cameraExecutor, barcodeAnalyzer)
     }
 
+    override fun onPause() {
+        super.onPause()
+        unbindCameraUseCase()
+    }
+
     private fun setupCamera() {
+        cameraExecutor = Executors.newSingleThreadExecutor()
+
+        cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+
+        cameraPreview = Preview.Builder().build().also {
+            it.setSurfaceProvider(binding.cameraX.surfaceProvider)
+        }
+
+        cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
         imageAnalyzer = ImageAnalysis.Builder()
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .setTargetResolution(Size(640, 480)) //1280,780
@@ -336,29 +426,29 @@ class HomeFragment : BaseFragment() {
                     }
                 }
             })
+
     }
 
     private fun startCamera() {
-        cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener({
-
             cameraProvider = cameraProviderFuture.get()
-
-            cameraPreview = Preview.Builder().build().also {
-                it.setSurfaceProvider(binding.cameraX.surfaceProvider)
-            }
-
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, cameraPreview, imageAnalyzer
-                )
-
-            } catch (exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
-            }
+//            bindCameraUseCases()
         }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    private fun bindCameraUseCases() {
+        cameraProvider.unbindAll()
+        try {
+            cameraProvider.bindToLifecycle(
+                this, cameraSelector, cameraPreview, imageAnalyzer
+            )
+        } catch (exc: Exception) {
+            Log.e(TAG, "Use case binding failed", exc)
+        }
+    }
+
+    private fun unbindCameraUseCase() {
+        cameraProvider.unbindAll()
     }
 
     private fun cameraPermissionsGranted() = ContextCompat.checkSelfPermission(
