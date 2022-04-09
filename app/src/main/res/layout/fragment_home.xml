@@ -8,14 +8,35 @@
     tools:context=".view.fragment.HomeFragment"
     tools:ignore="ContentDescription">
 
-    <TextView
-        style="@style/TextAppearance.MaterialComponents.Overline"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="@dimen/margin_padding_size_medium"
-        android:text="@string/home_header_1"
-        android:textSize="18sp" />
+        android:padding="@dimen/margin_padding_size_medium">
+
+        <TextView
+            android:id="@+id/tv_home_title_1"
+            style="@style/TextAppearance.MaterialComponents.Overline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tahan Tombol"
+            android:textSize="18sp"
+            android:drawablePadding="@dimen/margin_padding_size_small"
+            app:drawableEndCompat="@drawable/ic_barcode_24"
+            app:drawableTint="?attr/colorOnSecondary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Overline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Untuk Memulai Scan"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_home_title_1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cont_camera"
@@ -55,6 +76,14 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/img_left_slider"
             app:layout_constraintTop_toTopOf="@id/cameraX" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_start_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_barcode_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/margin_padding_size_medium"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -167,14 +196,5 @@
             app:layout_constraintEnd_toEndOf="@id/btn_home_export"
             app:layout_constraintStart_toStartOf="@id/btn_home_export"
             app:layout_constraintTop_toBottomOf="@id/bg_export" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_start_scan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_barcode_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="@dimen/margin_padding_size_medium"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.rmyfactory.rmyinventorybarcode.view.fragment
 
 import android.Manifest
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -270,6 +271,7 @@ class HomeFragment : BaseFragment() {
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -314,23 +316,17 @@ class HomeFragment : BaseFragment() {
         }
 
         binding.btnStartScan.setOnTouchListener { v, motionEvent ->
+            v.performClick()
             when(motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
-//                    cameraSliderToggle(false)
-//                    binding.imgLeftSlider.animate().setDuration(500).translationX(-100.0f)
-//                    binding.imgRightSlider.animate().setDuration(500).translationX(100.0f)
                     binding.imgLeftSlider.slideRight(0f, binding.imgLeftSlider.width.toFloat() * -1)
                     binding.imgRightSlider.slideRight()
                     bindCameraUseCases()
                 }
                 MotionEvent.ACTION_UP -> {
-//                    cameraSliderToggle(true)
-//                    binding.imgLeftSlider.animate().setDuration(500).translationX(0f)
-//                    binding.imgRightSlider.animate().setDuration(500).translationX(0f)
                     binding.imgLeftSlider.slideLeft(binding.imgLeftSlider.width.toFloat() * -1, 0f)
                     binding.imgRightSlider.slideLeft()
                     unbindCameraUseCase()
-                    v.performClick()
                 }
             }
             true
