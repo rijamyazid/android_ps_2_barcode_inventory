@@ -8,7 +8,10 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.util.Size
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
@@ -18,8 +21,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.transition.Slide
-import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.rmyinventorybarcode.R
@@ -299,8 +300,8 @@ class HomeFragment : BaseFragment() {
         Glide.with(this).load(R.drawable.home_ic_history).placeholder(R.drawable.home_ic_history).into(binding.btnLog)
         Glide.with(this).load(R.drawable.home_ic_import).placeholder(R.drawable.home_ic_import).into(binding.btnHomeImport)
         Glide.with(this).load(R.drawable.home_ic_export).placeholder(R.drawable.home_ic_export).into(binding.btnHomeExport)
-        Glide.with(this).load(R.drawable.camera_slider_left).placeholder(R.drawable.camera_slider_left).into(binding.imgLeftSlider)
-        Glide.with(this).load(R.drawable.camera_slider_right).placeholder(R.drawable.camera_slider_right).into(binding.imgRightSlider)
+        Glide.with(this).load(R.drawable.camera_slider_left_bright).placeholder(R.drawable.camera_slider_left_bright).into(binding.imgLeftSlider)
+        Glide.with(this).load(R.drawable.camera_slider_right_bright).placeholder(R.drawable.camera_slider_right_bright).into(binding.imgRightSlider)
 
         binding.btnHomeImport.setOnClickListener {
             if (readWritePermissionsGranted()) {
@@ -362,21 +363,6 @@ class HomeFragment : BaseFragment() {
             duration = time
             start()
         }
-    }
-
-    private fun cameraSliderToggle(show: Boolean) {
-        val transitionStart = Slide(Gravity.START)
-        transitionStart.duration = 500
-        transitionStart.addTarget(binding.imgLeftSlider)
-        TransitionManager.beginDelayedTransition(binding.contCamera, transitionStart)
-        binding.imgLeftSlider.visibility = if(show) View.VISIBLE else View.GONE
-
-        val transitionEnd = Slide(Gravity.START)
-        transitionEnd.duration = 500
-        transitionEnd.addTarget(binding.imgRightSlider)
-        TransitionManager.beginDelayedTransition(binding.contCamera, transitionEnd)
-        binding.imgRightSlider.visibility = if(show) View.VISIBLE else View.GONE
-
     }
 
     override fun onResume() {
