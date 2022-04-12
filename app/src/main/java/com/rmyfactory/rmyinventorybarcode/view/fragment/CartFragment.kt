@@ -23,6 +23,7 @@ import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentCartBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder
 import com.rmyfactory.rmyinventorybarcode.util.BarcodeAnalyzer
+import com.rmyfactory.rmyinventorybarcode.util.Permissions
 import com.rmyfactory.rmyinventorybarcode.util.toCartHolder
 import com.rmyfactory.rmyinventorybarcode.view.adapter.CartAdapter
 import com.rmyfactory.rmyinventorybarcode.viewmodel.ProductCartViewModel
@@ -49,11 +50,8 @@ class CartFragment : BaseFragment() {
     private var scanTimeStamp = 0L
 
     private val perReqLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            val granted = permissions.entries.all { permission ->
-                permission.value == true
-            }
-            if (granted) {
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
+            if (permission) {
                 startCamera()
             } else {
                 Toast.makeText(
@@ -120,7 +118,7 @@ class CartFragment : BaseFragment() {
         if (cameraPermissionsGranted()) {
             startCamera()
         } else {
-            perReqLauncher.launch(HomeFragment.REQUIRED_PERMISSIONS)
+            perReqLauncher.launch(Permissions.CAMERA_PERMISSION)
         }
 
     }
@@ -180,13 +178,13 @@ class CartFragment : BaseFragment() {
                 )
 
             } catch (exc: Exception) {
-                Log.e(HomeFragment.TAG, "Use case binding failed", exc)
+                Log.e(Permissions.TAG, "Use case binding failed", exc)
             }
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
     private fun cameraPermissionsGranted() = ContextCompat.checkSelfPermission(
-        requireContext(), HomeFragment.REQUIRED_PERMISSIONS.first()
+        requireContext(), Permissions.CAMERA_PERMISSION
     ) == PackageManager.PERMISSION_GRANTED
 
     override fun onDestroy() {

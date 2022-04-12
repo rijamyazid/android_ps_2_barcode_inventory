@@ -31,6 +31,7 @@
     <string name="str_export">Export</string>
     <string name="str_transaction_history_newline">Riwayat\nTransaksi</string>
     <string name="str_tap_to_scan">Tekan untuk memulai scan</string>
+    <string name="str_loading">Dalam Proses</string>
     <string-array name="product_currency">
         <item>(Rp.) Rupiah</item>
         <item>(USD.) USDollar</item>

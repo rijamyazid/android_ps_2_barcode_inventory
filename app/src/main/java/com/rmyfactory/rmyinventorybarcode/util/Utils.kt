@@ -2,8 +2,10 @@ package com.rmyfactory.rmyinventorybarcode.util
 
 import android.content.Context
 import android.util.TypedValue
+import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.fragment.app.Fragment
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartUnitHolder
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.ProductDetailHolder
@@ -19,6 +21,10 @@ fun String.ifEmptySetDefault(default: String): String {
         this
 
     }
+}
+
+fun Fragment.toastMessage(message: String="", duration: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this.requireContext(), message, duration).show()
 }
 
 fun String.dotPriceIND(): String {
@@ -63,12 +69,6 @@ fun Context.themeColor(@AttrRes attrRes: Int): Int = TypedValue()
     .data
 
 object Functions {
-
-    const val CONSTANT_TABLE_ITEM = "item_table"
-    const val CONSTANT_TABLE_ORDER = "order_table"
-    const val CONSTANT_TABLE_UNIT = "unit_table"
-    const val CONSTANT_TABLE_ITEM_UNIT = "item_unit_table"
-    const val CONSTANT_TABLE_ORDER_ITEM = "order_item_table"
 
     fun millisToOrderId(timeInMillis: Long): String {
         val sdf = SimpleDateFormat("dd:MM:yy:HH:mm:ss", Locale.ENGLISH)
