@@ -9,12 +9,13 @@ import com.rmyfactory.rmyinventorybarcode.databinding.DialogLoadingBinding
 
 class LoadingDialogFragment: DialogFragment() {
 
-    private lateinit var binding: DialogLoadingBinding
+    private var _binding: DialogLoadingBinding? = null
+    private val binding get() = _binding!!
     private var _loadingProgress: Int = 0
     val loadingProgress get() = _loadingProgress
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = DialogLoadingBinding.inflate(LayoutInflater.from(context))
+        _binding = DialogLoadingBinding.inflate(LayoutInflater.from(context))
         return AlertDialog.Builder(requireContext())
             .setView(binding.root)
             .create()
@@ -25,8 +26,12 @@ class LoadingDialogFragment: DialogFragment() {
         binding.tvDialogLoading.text = "$progress% Dalam Progress"
         if (_loadingProgress == 100) {
             _loadingProgress = 0
-            dismiss()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

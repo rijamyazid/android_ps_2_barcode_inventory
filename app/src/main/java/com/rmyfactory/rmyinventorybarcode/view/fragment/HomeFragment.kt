@@ -48,7 +48,7 @@ class HomeFragment : BaseFragment() {
     private lateinit var cameraPreview: Preview
     private lateinit var imageAnalyzer: ImageAnalysis
     private lateinit var cameraSelector: CameraSelector
-    private lateinit var loadingDialogFragment: LoadingDialogFragment
+    private var loadingDialogFragment: LoadingDialogFragment? = null
 
     private var isScanSuccess = false
     private val cameraPermissionRequest = singlePermissionRequest { result ->
@@ -72,14 +72,14 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private val resultWriteExport =
+    private val activityResultExport =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 val userChosenUri = it.data?.data
                 val outputStream =
                     requireContext().contentResolver.openOutputStream(userChosenUri!!)
 
-                loadingDialogFragment.show(
+                loadingDialogFragment?.show(
                     childFragmentManager,
                     LoadingDialogFragment.TAG
                 )
@@ -90,17 +90,26 @@ class HomeFragment : BaseFragment() {
                             repeat(progress) {
                                 Thread.sleep(Constants.LOADING_INTERVAL_SHORT)
                                 loadingDialogFragment
-                                    .setLoadingProgress(
-                                        loadingDialogFragment.loadingProgress
+                                    ?.setLoadingProgress(
+                                        loadingDialogFragment!!.loadingProgress
                                             .plus(Constants.LOADING_PROGRESS)
                                     )
                             }
                         },
-                        datasetFetched = { inputStream ->
-                            inputStream.byteInputStream().use { input ->
-                                outputStream.use { output ->
-                                    input.copyTo(output!!)
+                        loadingResult = { result ->
+                            when (result) {
+                                is SealedResult.Success -> {
+                                    result.data.byteInputStream().use { input ->
+                                        outputStream.use { output ->
+                                            input.copyTo(output!!)
+                                        }
+                                    }
+                                    loadingDialogFragment?.dismiss()
                                 }
+                                is SealedResult.Failure -> {
+                                    loadingDialogFragment?.dismiss()
+                                }
+                                else -> {}
                             }
                         }
                     )
@@ -109,29 +118,42 @@ class HomeFragment : BaseFragment() {
             }
         }
 
-    private val resultWriteImport =
+    private val activityResultImport =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 val userChosenUri = it.data?.data
                 val inputStream =
                     requireContext().contentResolver.openInputStream(userChosenUri!!)
 
-                loadingDialogFragment.show(
+                loadingDialogFragment?.show(
                     childFragmentManager,
                     LoadingDialogFragment.TAG
                 )
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    viewModel.importDataset(inputStream) { progress ->
-                        repeat(progress) {
-                            Thread.sleep(Constants.LOADING_INTERVAL_SHORT)
-                            loadingDialogFragment
-                                .setLoadingProgress(
-                                    loadingDialogFragment.loadingProgress
-                                        .plus(Constants.LOADING_PROGRESS)
-                                )
+                    viewModel.importDataset(inputStream,
+                        loadingProgress = { progress ->
+                            repeat(progress) {
+                                Thread.sleep(Constants.LOADING_INTERVAL_SHORT)
+                                loadingDialogFragment
+                                    ?.setLoadingProgress(
+                                        loadingDialogFragment!!.loadingProgress
+                                            .plus(Constants.LOADING_PROGRESS)
+                                    )
+                            }
+                        },
+                        loadingResult = { result ->
+                            when(result) {
+                                is SealedResult.Success -> {
+                                    loadingDialogFragment?.dismiss()
+                                }
+                                is SealedResult.Failure -> {
+                                    loadingDialogFragment?.dismiss()
+                                }
+                                else -> {}
+                            }
                         }
-                    }
+                    )
                 }
             }
         }
@@ -154,7 +176,7 @@ class HomeFragment : BaseFragment() {
         startCamera()
 
         loadingDialogFragment = LoadingDialogFragment()
-        loadingDialogFragment.isCancelable = false
+        loadingDialogFragment?.isCancelable = false
 
         binding.btnLog.apply {
             setOnClickListener {
@@ -233,6 +255,7 @@ class HomeFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        loadingDialogFragment = null
     }
 
     override fun onDestroy() {
@@ -329,13 +352,13 @@ class HomeFragment : BaseFragment() {
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
         intent.type = "*/*"
         intent.putExtra(Intent.EXTRA_TITLE, "inventory_dataset_${System.currentTimeMillis()}.txt")
-        resultWriteExport.launch(intent)
+        activityResultExport.launch(intent)
     }
 
     private fun importInitiateBehavior() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "text/plain"
-        resultWriteImport.launch(intent)
+        activityResultImport.launch(intent)
     }
 
     private fun navigateToDetailActivity(itemId: String) {

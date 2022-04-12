@@ -10,6 +10,7 @@ import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ItemU
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.OrderItemModel
 import com.rmyfactory.rmyinventorybarcode.model.repository.MainRepository
 import com.rmyfactory.rmyinventorybarcode.util.Constants
+import com.rmyfactory.rmyinventorybarcode.util.SealedResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,116 +27,133 @@ class HomeViewModel
     private suspend fun _readItemUnits(): List<ItemUnitModel> = repository._readItemUnits()
     private suspend fun _readOrderItems(): List<OrderItemModel> = repository._readOrderItems()
 
-    fun exportDataset(loadingProgress: (Int) -> Unit, datasetFetched: (String) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
+    fun exportDataset(loadingProgress: (Int) -> Unit, loadingResult: (SealedResult<String>) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
         val listOfItemModel = _readItems()
-        var exportContent = "#item_table\n"
-        listOfItemModel.forEach { item ->
-            exportContent += "${item.itemId};${item.itemName};${item.itemNote}\n"
-        }
-        loadingProgress(20)
 
-        val listOfOrderModel = _readOrders()
-        exportContent += "\n#order_table\n"
-        listOfOrderModel.forEach { order ->
-            exportContent += "${order.orderId};${order.orderPay};${order.orderExchange};${order.orderTotalPrice}\n"
-        }
-        loadingProgress(20)
+        try {
+            var exportContent = "#item_table\n"
+            listOfItemModel.forEach { item ->
+                exportContent += "${item.itemId};${item.itemName};${item.itemNote}\n"
+            }
+            loadingProgress(20)
 
-        val listOfUnitModel = _readUnits()
-        exportContent += "\n#unit_table\n"
-        listOfUnitModel.forEach { unit ->
-            exportContent += "${unit.unitId}\n"
-        }
-        loadingProgress(10)
+            val listOfOrderModel = _readOrders()
+            exportContent += "\n#order_table\n"
+            listOfOrderModel.forEach { order ->
+                exportContent += "${order.orderId};${order.orderPay};${order.orderExchange};${order.orderTotalPrice}\n"
+            }
+            loadingProgress(20)
 
-        val listOfOrderItemModel = _readOrderItems()
-        exportContent += "\n#order_item_table\n"
-        listOfOrderItemModel.forEach { orderItem ->
-            exportContent += "${orderItem.orderId};${orderItem.itemId};${orderItem.qty};${orderItem.price};${orderItem.totalPrice}\n"
-        }
-        loadingProgress(20)
-        val listOfItemUnitModel = _readItemUnits()
-        exportContent += "\n#item_unit_table\n"
-        listOfItemUnitModel.forEach { itemUnit ->
-            exportContent += "${itemUnit.id};${itemUnit.itemId};${itemUnit.unitId};${itemUnit.stock};${itemUnit.price}\n"
-        }
-        loadingProgress(30)
+            val listOfUnitModel = _readUnits()
+            exportContent += "\n#unit_table\n"
+            listOfUnitModel.forEach { unit ->
+                exportContent += "${unit.unitId}\n"
+            }
+            loadingProgress(10)
 
-        datasetFetched(exportContent)
+            val listOfOrderItemModel = _readOrderItems()
+            exportContent += "\n#order_item_table\n"
+            listOfOrderItemModel.forEach { orderItem ->
+                exportContent += "${orderItem.orderId};${orderItem.itemId};${orderItem.qty};${orderItem.price};${orderItem.totalPrice}\n"
+            }
+            loadingProgress(20)
+            val listOfItemUnitModel = _readItemUnits()
+            exportContent += "\n#item_unit_table\n"
+            listOfItemUnitModel.forEach { itemUnit ->
+                exportContent += "${itemUnit.id};${itemUnit.itemId};${itemUnit.unitId};${itemUnit.stock};${itemUnit.price}\n"
+            }
+            loadingProgress(30)
+
+//            viewModelScope.launch(Dispatchers.Main) {
+                loadingResult(SealedResult.Success(exportContent))
+//            }
+        } catch (e: Exception) {
+//            viewModelScope.launch(Dispatchers.Main) {
+                loadingResult(SealedResult.Failure(e))
+//            }
+        }
     }
 
-    fun importDataset(inputStream: InputStream?, loadingProgress: (Int) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
+    fun importDataset(inputStream: InputStream?, loadingProgress: (Int) -> Unit, loadingResult: (SealedResult<Any>) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
         val mapOfImportedData = mutableMapOf<String, MutableList<BaseModel>>()
         var currentTable = "none"
 
-        inputStream.use { input ->
-            input?.reader()?.forEachLine { line ->
-                if (line.isNotEmpty()) {
-                    if (line.first() == '#') {
-                        loadingProgress(10)
-                        currentTable = line.substring(1)
-                        mapOfImportedData[currentTable] = mutableListOf()
-                    } else {
-                        val lineSplit = line.split(";")
-                        if (lineSplit.isNotEmpty()) {
-                            when (currentTable) {
-                                Constants.TABLE_ITEM -> {
-                                    mapOfImportedData[currentTable]?.add(
-                                        ItemModel(
-                                            itemId = lineSplit[0],
-                                            itemName = lineSplit[1],
-                                            itemNote = lineSplit[2]
+        try {
+            inputStream.use { input ->
+                input?.reader()?.forEachLine { line ->
+                    if (line.isNotEmpty()) {
+                        if (line.first() == '#') {
+                            loadingProgress(10)
+                            currentTable = line.substring(1)
+                            mapOfImportedData[currentTable] = mutableListOf()
+                        } else {
+                            val lineSplit = line.split(";")
+                            if (lineSplit.isNotEmpty()) {
+                                when (currentTable) {
+                                    Constants.TABLE_ITEM -> {
+                                        mapOfImportedData[currentTable]?.add(
+                                            ItemModel(
+                                                itemId = lineSplit[0],
+                                                itemName = lineSplit[1],
+                                                itemNote = lineSplit[2]
+                                            )
                                         )
-                                    )
-                                }
-                                Constants.TABLE_ORDER -> {
-                                    mapOfImportedData[currentTable]?.add(
-                                        OrderModel(
-                                            orderId = lineSplit[0],
-                                            orderPay = lineSplit[1],
-                                            orderExchange = lineSplit[2],
-                                            orderTotalPrice = lineSplit[3]
+                                    }
+                                    Constants.TABLE_ORDER -> {
+                                        mapOfImportedData[currentTable]?.add(
+                                            OrderModel(
+                                                orderId = lineSplit[0],
+                                                orderPay = lineSplit[1],
+                                                orderExchange = lineSplit[2],
+                                                orderTotalPrice = lineSplit[3]
+                                            )
                                         )
-                                    )
-                                }
-                                Constants.TABLE_UNIT -> {
-                                    mapOfImportedData[currentTable]?.add(
-                                        UnitModel(
-                                            unitId = lineSplit[0]
+                                    }
+                                    Constants.TABLE_UNIT -> {
+                                        mapOfImportedData[currentTable]?.add(
+                                            UnitModel(
+                                                unitId = lineSplit[0]
+                                            )
                                         )
-                                    )
-                                }
-                                Constants.TABLE_ORDER_ITEM -> {
-                                    mapOfImportedData[currentTable]?.add(
-                                        OrderItemModel(
-                                            orderId = lineSplit[0],
-                                            itemId = lineSplit[1],
-                                            qty = lineSplit[2].toInt(),
-                                            price = lineSplit[3],
-                                            totalPrice = lineSplit[4]
+                                    }
+                                    Constants.TABLE_ORDER_ITEM -> {
+                                        mapOfImportedData[currentTable]?.add(
+                                            OrderItemModel(
+                                                orderId = lineSplit[0],
+                                                itemId = lineSplit[1],
+                                                qty = lineSplit[2].toInt(),
+                                                price = lineSplit[3],
+                                                totalPrice = lineSplit[4]
+                                            )
                                         )
-                                    )
-                                }
-                                Constants.TABLE_ITEM_UNIT -> {
-                                    mapOfImportedData[currentTable]?.add(
-                                        ItemUnitModel(
-                                            id = lineSplit[0].toLong(),
-                                            itemId = lineSplit[1],
-                                            unitId = lineSplit[2],
-                                            stock = lineSplit[3].toInt(),
-                                            price = lineSplit[4]
+                                    }
+                                    Constants.TABLE_ITEM_UNIT -> {
+                                        mapOfImportedData[currentTable]?.add(
+                                            ItemUnitModel(
+                                                id = lineSplit[0].toLong(),
+                                                itemId = lineSplit[1],
+                                                unitId = lineSplit[2],
+                                                stock = lineSplit[3].toInt(),
+                                                price = lineSplit[4]
+                                            )
                                         )
-                                    )
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
-
-        importToDatabase(mapOfImportedData) { progress ->
-            loadingProgress(progress)
+            importToDatabase(mapOfImportedData) { progress ->
+                loadingProgress(progress)
+            }
+//            viewModelScope.launch(Dispatchers.Main) {
+                loadingResult(SealedResult.Success(Any()))
+//            }
+        } catch (e: Exception) {
+//            viewModelScope.launch(Dispatchers.Main) {
+                loadingResult(SealedResult.Failure(e))
+//            }
         }
     }
 

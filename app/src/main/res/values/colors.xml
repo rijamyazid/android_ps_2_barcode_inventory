@@ -17,4 +17,7 @@
     <color name="green_50">#8069f0ae</color>
     <color name="green_light">#9fffe0</color>
     <color name="green_dark">#2bbd7e</color>
+
+    <color name="holo_green_dark">#FF669900</color>
+    <color name="holo_red_dark">#FFCC0000</color>
 </resources>

@@ -5,32 +5,31 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/margin_padding_size_medium">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="@dimen/margin_padding_size_medium">
 
         <ProgressBar
             android:id="@+id/pb_dialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tv_dialog_loading"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            android:layout_weight="0.7" />
+        <ImageView
+            android:id="@+id/img_dialog_result"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="0.7"
+            android:visibility="gone"
+            android:contentDescription="@string/str_loading" />
         <TextView
             android:id="@+id/tv_dialog_loading"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="@string/str_loading"
-            app:layout_constraintBottom_toBottomOf="@id/pb_dialog"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="2"
-            app:layout_constraintStart_toEndOf="@+id/pb_dialog"
-            app:layout_constraintTop_toTopOf="@id/pb_dialog" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_weight="2"
+            android:layout_marginStart="@dimen/margin_padding_size_medium"
+            android:gravity="center_vertical"
+            android:text="@string/str_loading" />
+    </LinearLayout>
 </androidx.cardview.widget.CardView>
