@@ -1,200 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".view.fragment.HomeFragment"
-    tools:ignore="ContentDescription">
+    tools:context=".view.fragment.HomeFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/margin_padding_size_medium">
-
-        <TextView
-            android:id="@+id/tv_home_title_1"
-            style="@style/TextAppearance.MaterialComponents.Overline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tahan Tombol"
-            android:textSize="18sp"
-            android:drawablePadding="@dimen/margin_padding_size_small"
-            app:drawableEndCompat="@drawable/ic_barcode_24"
-            app:drawableTint="?attr/colorOnSecondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-        <TextView
-            style="@style/TextAppearance.MaterialComponents.Overline"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Untuk Memulai Scan"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_home_title_1" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cont_camera"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.camera.view.PreviewView
-            android:id="@+id/cameraX"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/img_left_slider"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/camera_slider_left_bright"
-            app:layout_constraintBottom_toBottomOf="@id/cameraX"
-            app:layout_constraintEnd_toStartOf="@+id/img_right_slider"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/cameraX" />
-
-        <ImageView
-            android:id="@+id/img_right_slider"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/camera_slider_right_bright"
-            app:layout_constraintBottom_toBottomOf="@id/cameraX"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/img_left_slider"
-            app:layout_constraintTop_toTopOf="@id/cameraX" />
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_start_scan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_barcode_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="@dimen/margin_padding_size_medium"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/margin_padding_size_medium">
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <ImageView
-            android:id="@+id/bg_log"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_bg_rectangle_round"
-            app:layout_constraintBottom_toBottomOf="@id/btn_log"
-            app:layout_constraintEnd_toEndOf="@id/btn_log"
-            app:layout_constraintStart_toStartOf="@id/btn_log"
-            app:layout_constraintTop_toTopOf="@id/btn_log" />
-
-        <ImageView
-            android:id="@+id/btn_log"
-            android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="@dimen/margin_padding_size_medium"
-            android:contentDescription="@string/str_transaction_history"
-            app:layout_constraintEnd_toStartOf="@+id/btn_home_import"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_baseline_restore_from_trash_24" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_size_small"
-            android:gravity="center"
-            android:text="@string/str_transaction_history_newline"
-            app:layout_constraintEnd_toEndOf="@id/btn_log"
-            app:layout_constraintStart_toStartOf="@id/btn_log"
-            app:layout_constraintTop_toBottomOf="@id/bg_log" />
+            android:padding="@dimen/margin_padding_size_medium">
 
-        <ImageView
-            android:id="@+id/bg_import"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_bg_rectangle_round"
-            app:layout_constraintBottom_toBottomOf="@id/btn_home_import"
-            app:layout_constraintEnd_toEndOf="@id/btn_home_import"
-            app:layout_constraintStart_toStartOf="@id/btn_home_import"
-            app:layout_constraintTop_toTopOf="@id/btn_home_import" />
+            <TextView
+                android:id="@+id/tv_home_title_1"
+                style="@style/TextAppearance.MaterialComponents.Overline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/margin_padding_size_small"
+                android:text="Tahan Tombol"
+                android:textSize="18sp"
+                app:drawableEndCompat="@drawable/ic_barcode_24"
+                app:drawableTint="?attr/colorOnSecondary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/btn_home_import"
-            android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="@dimen/margin_padding_size_medium"
-            android:contentDescription="@string/str_import"
-            app:layout_constraintEnd_toStartOf="@+id/btn_home_export"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/btn_log"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_baseline_restore_from_trash_24" />
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Overline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Untuk Memulai Scan"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_home_title_1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_size_small"
-            android:text="@string/str_import"
-            app:layout_constraintEnd_toEndOf="@id/btn_home_import"
-            app:layout_constraintStart_toStartOf="@id/btn_home_import"
-            app:layout_constraintTop_toBottomOf="@id/bg_import" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cont_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/bg_export"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_bg_rectangle_round"
-            app:layout_constraintBottom_toBottomOf="@id/btn_home_export"
-            app:layout_constraintEnd_toEndOf="@id/btn_home_export"
-            app:layout_constraintStart_toStartOf="@id/btn_home_export"
-            app:layout_constraintTop_toTopOf="@id/btn_home_export" />
+            <androidx.camera.view.PreviewView
+                android:id="@+id/cameraX"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/btn_home_export"
-            android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="@dimen/margin_padding_size_medium"
-            android:contentDescription="@string/str_export"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/btn_home_import"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_baseline_restore_from_trash_24" />
+            <ImageView
+                android:id="@+id/img_left_slider"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/camera_slider_left_bright"
+                app:layout_constraintBottom_toBottomOf="@id/cameraX"
+                app:layout_constraintEnd_toStartOf="@+id/img_right_slider"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/cameraX" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_size_small"
-            android:text="@string/str_export"
-            app:layout_constraintEnd_toEndOf="@id/btn_home_export"
-            app:layout_constraintStart_toStartOf="@id/btn_home_export"
-            app:layout_constraintTop_toBottomOf="@id/bg_export" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+            <ImageView
+                android:id="@+id/img_right_slider"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/camera_slider_right_bright"
+                app:layout_constraintBottom_toBottomOf="@id/cameraX"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/img_left_slider"
+                app:layout_constraintTop_toTopOf="@id/cameraX" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_start_scan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_padding_size_medium"
+                android:src="@drawable/ic_barcode_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_padding_size_medium">
+
+            <ImageView
+                android:id="@+id/bg_log"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_bg_rectangle_round"
+                app:layout_constraintBottom_toBottomOf="@id/btn_log"
+                app:layout_constraintEnd_toEndOf="@id/btn_log"
+                app:layout_constraintStart_toStartOf="@id/btn_log"
+                app:layout_constraintTop_toTopOf="@id/btn_log" />
+
+            <ImageView
+                android:id="@+id/btn_log"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="@dimen/margin_padding_size_medium"
+                android:contentDescription="@string/str_transaction_history"
+                app:layout_constraintEnd_toStartOf="@+id/btn_home_import"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_baseline_restore_from_trash_24" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_size_small"
+                android:gravity="center"
+                android:text="@string/str_transaction_history_newline"
+                app:layout_constraintEnd_toEndOf="@id/btn_log"
+                app:layout_constraintStart_toStartOf="@id/btn_log"
+                app:layout_constraintTop_toBottomOf="@id/bg_log" />
+
+            <ImageView
+                android:id="@+id/bg_import"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_bg_rectangle_round"
+                app:layout_constraintBottom_toBottomOf="@id/btn_home_import"
+                app:layout_constraintEnd_toEndOf="@id/btn_home_import"
+                app:layout_constraintStart_toStartOf="@id/btn_home_import"
+                app:layout_constraintTop_toTopOf="@id/btn_home_import" />
+
+            <ImageView
+                android:id="@+id/btn_home_import"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="@dimen/margin_padding_size_medium"
+                android:contentDescription="@string/str_import"
+                app:layout_constraintEnd_toStartOf="@+id/btn_home_export"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/btn_log"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_baseline_restore_from_trash_24" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_size_small"
+                android:text="@string/str_import"
+                app:layout_constraintEnd_toEndOf="@id/btn_home_import"
+                app:layout_constraintStart_toStartOf="@id/btn_home_import"
+                app:layout_constraintTop_toBottomOf="@id/bg_import" />
+
+            <ImageView
+                android:id="@+id/bg_export"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_bg_rectangle_round"
+                app:layout_constraintBottom_toBottomOf="@id/btn_home_export"
+                app:layout_constraintEnd_toEndOf="@id/btn_home_export"
+                app:layout_constraintStart_toStartOf="@id/btn_home_export"
+                app:layout_constraintTop_toTopOf="@id/btn_home_export" />
+
+            <ImageView
+                android:id="@+id/btn_home_export"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="@dimen/margin_padding_size_medium"
+                android:contentDescription="@string/str_export"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/btn_home_import"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_baseline_restore_from_trash_24" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_size_small"
+                android:text="@string/str_export"
+                app:layout_constraintEnd_toEndOf="@id/btn_home_export"
+                app:layout_constraintStart_toStartOf="@id/btn_home_export"
+                app:layout_constraintTop_toBottomOf="@id/bg_export" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

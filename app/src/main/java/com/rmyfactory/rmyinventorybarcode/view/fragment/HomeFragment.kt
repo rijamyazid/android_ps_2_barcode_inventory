@@ -41,13 +41,13 @@ class HomeFragment : BaseFragment() {
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
 
-    private lateinit var cameraProvider: ProcessCameraProvider
-    private lateinit var cameraExecutor: ExecutorService
-    private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
-    private lateinit var barcodeAnalyzer: BarcodeAnalyzer
-    private lateinit var cameraPreview: Preview
-    private lateinit var imageAnalyzer: ImageAnalysis
-    private lateinit var cameraSelector: CameraSelector
+    private var cameraProvider: ProcessCameraProvider? = null
+    private var cameraExecutor: ExecutorService? = null
+    private var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>? = null
+    private var barcodeAnalyzer: BarcodeAnalyzer? = null
+    private var cameraPreview: Preview? = null
+    private var imageAnalyzer: ImageAnalysis? = null
+    private var cameraSelector: CameraSelector? = null
     private var loadingDialogFragment: LoadingDialogFragment? = null
 
     private var isScanSuccess = false
@@ -243,8 +243,8 @@ class HomeFragment : BaseFragment() {
             cameraPermissionRequest.launch(Permissions.CAMERA_PERMISSION)
         }
 
-        imageAnalyzer.clearAnalyzer()
-        imageAnalyzer.setAnalyzer(cameraExecutor, barcodeAnalyzer)
+        imageAnalyzer?.clearAnalyzer()
+        imageAnalyzer?.setAnalyzer(cameraExecutor!!, barcodeAnalyzer!!)
     }
 
     override fun onPause() {
@@ -255,12 +255,15 @@ class HomeFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        cameraProvider = null
+        cameraExecutor?.shutdown()
+        cameraExecutor = null
+        cameraProviderFuture = null
+        barcodeAnalyzer = null
+        cameraPreview = null
+        imageAnalyzer = null
+        cameraSelector = null
         loadingDialogFragment = null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        cameraExecutor.shutdown()
     }
 
     private fun View.slideRight(from: Float = 0f, to: Float = 0f, time: Long = 500) {
@@ -321,17 +324,17 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun startCamera() {
-        cameraProviderFuture.addListener({
-            cameraProvider = cameraProviderFuture.get()
+        cameraProviderFuture?.addListener({
+            cameraProvider = cameraProviderFuture?.get()
 //            bindCameraUseCases()
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
     private fun bindCameraUseCases() {
-        cameraProvider.unbindAll()
+        cameraProvider?.unbindAll()
         try {
-            cameraProvider.bindToLifecycle(
-                this, cameraSelector, cameraPreview, imageAnalyzer
+            cameraProvider?.bindToLifecycle(
+                this, cameraSelector!!, cameraPreview, imageAnalyzer
             )
         } catch (exc: Exception) {
             Log.e(TAG, "Use case binding failed", exc)
@@ -339,7 +342,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun unbindCameraUseCase() {
-        cameraProvider.unbindAll()
+        cameraProvider?.unbindAll()
     }
 
     private fun onScanSuccess(itemId: String?) {

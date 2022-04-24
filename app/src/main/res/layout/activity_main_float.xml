@@ -13,7 +13,7 @@
         android:layout_marginLeft="@dimen/margin_padding_size_medium"
         android:layout_marginRight="@dimen/margin_padding_size_medium"
         android:layout_marginBottom="@dimen/margin_padding_size_medium"
-        android:background="@drawable/bottom_navigation_background"
+        android:background="@drawable/background_gray_light"
         android:elevation="8dp"
         app:itemIconTint="@drawable/bottom_navigation_icon_colors"
         app:itemRippleColor="@drawable/bottom_navigation_ripple_effect"
