@@ -39,6 +39,14 @@ interface ItemDao {
     fun readItemWithUnits(): LiveData<List<ItemWithUnits>>
 
     @Transaction
+    @Query("SELECT * FROM item_table WHERE item_name LIKE :query")
+    fun readItemWithUnitsByQuery(query: String): LiveData<List<ItemWithUnits>>
+
+    @Transaction
+    @Query("SELECT * FROM item_table WHERE item_name LIKE :query")
+    suspend fun susReadItemWithUnitsByQuery(query: String): List<ItemWithUnits>
+
+    @Transaction
     @Query("SELECT * FROM item_table")
     suspend fun readItemWithUnits_(): List<ItemWithUnits>
 

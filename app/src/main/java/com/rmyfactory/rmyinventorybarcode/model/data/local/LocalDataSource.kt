@@ -41,6 +41,12 @@ class LocalDataSource
     fun readItems()
             : LiveData<List<ItemModel>> = itemDao.readItems()
 
+    fun readItemWithUnitsByQuery(query: String): LiveData<List<ItemWithUnits>>
+    = itemDao.readItemWithUnitsByQuery(query)
+
+    suspend fun susReadItemWithUnitsByQuery(query: String)
+            : List<ItemWithUnits> = itemDao.susReadItemWithUnitsByQuery(query)
+
     suspend fun _readItems(): List<ItemModel> = itemDao._readItems()
 
     fun readItemById(itemId: String)
@@ -122,7 +128,7 @@ class LocalDataSource
 
     suspend fun _readItemUnits(): List<ItemUnitModel> = itemUnitDao._readItemUnits()
 
-    fun readItemByItemAndUnitId(itemId: String, unitId: String): ItemUnitModel?
-    = itemUnitDao.readItemByItemAndUnitId(itemId, unitId)
+    fun readItemByItemAndUnitId(itemId: String, unitId: String): ItemUnitModel? =
+        itemUnitDao.readItemByItemAndUnitId(itemId, unitId)
 
 }

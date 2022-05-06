@@ -76,7 +76,13 @@ class MainRepository
     }
 
     fun readUnits()
-    :LiveData<List<UnitModel>> = localDataSource.readUnits()
+            : LiveData<List<UnitModel>> = localDataSource.readUnits()
+
+    fun readItemWithUnitsByQuery(query: String): LiveData<List<ItemWithUnits>>
+    = localDataSource.readItemWithUnitsByQuery(query)
+
+    suspend fun susReadItemWithUnitsByQuery(query: String)
+            : List<ItemWithUnits> = localDataSource.susReadItemWithUnitsByQuery(query)
 
     suspend fun _readUnits(): List<UnitModel> = localDataSource._readUnits()
 
@@ -95,7 +101,8 @@ class MainRepository
 
     //ItemUnitModel
     fun readItemByItemAndUnitId(itemId: String, unitId: String)
-    : ItemUnitModel? = localDataSource.readItemByItemAndUnitId(itemId, unitId)
+            : ItemUnitModel? = localDataSource.readItemByItemAndUnitId(itemId, unitId)
+
     fun insertItemUnit(itemUnit: ItemUnitModel) {
         localDataSource.insertItemUnit(itemUnit)
     }
