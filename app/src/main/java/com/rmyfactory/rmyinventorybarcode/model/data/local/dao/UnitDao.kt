@@ -3,7 +3,7 @@ package com.rmyfactory.rmyinventorybarcode.model.data.local.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.UnitModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.UnitWithItems
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.UnitWithProducts
 
 @Dao
 interface UnitDao {
@@ -31,6 +31,6 @@ interface UnitDao {
 
     @Transaction
     @Query("SELECT * FROM unit_table WHERE id=:unitId")
-    fun readUnitByIdWithItems(unitId: String): LiveData<UnitWithItems>
+    fun readUnitByIdWithProducts(unitId: String): LiveData<UnitWithProducts>
 
 }

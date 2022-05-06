@@ -4,13 +4,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.BaseModel
 
-@Entity(tableName = "order_item_table", primaryKeys = ["order_id", "item_id"])
-data class OrderItemModel(
+@Entity(tableName = "order_product_table", primaryKeys = ["order_id", "product_id"])
+data class OrderProductModel(
 
     @ColumnInfo(name = "order_id", index = true)
     var orderId: String,
-    @ColumnInfo(name = "item_id", index = true)
-    var itemId: String,
+    @ColumnInfo(name = "product_id", index = true)
+    var productId: String,
     @ColumnInfo(name = "quantity")
     val qty: Int,
     @ColumnInfo(name = "price")

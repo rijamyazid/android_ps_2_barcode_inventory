@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartUnitHolder
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.ProductDetailHolder
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemWithUnits
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ProductWithUnits
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,25 +39,25 @@ fun String.dotPriceIND(): String {
     return "Rp. ${dotPriced.reversed()}"
 }
 
-fun ItemWithUnits.toCartHolder(): CartHolder {
+fun ProductWithUnits.toCartHolder(): CartHolder {
 
     val cartUnitsHolder = mutableListOf<CartUnitHolder>()
 
-    this.itemUnitList.forEach {
+    this.productUnitList.forEach {
         cartUnitsHolder.add(
             CartUnitHolder(
-                productPrice = it.itemUnit.price,
-                productStock = it.itemUnit.stock,
-                productUnit = it.itemUnit.unitId,
-                productIncrement = it.itemUnit.increment,
+                productPrice = it.productUnit.price,
+                productStock = it.productUnit.stock,
+                productUnit = it.productUnit.unitId,
+                productIncrement = it.productUnit.increment,
                 productQty = 0
             )
         )
     }
 
     return CartHolder(
-        productId = item.itemId,
-        productName = item.itemName,
+        productId = product.productId,
+        productName = product.productName,
         productUnits = cartUnitsHolder
     )
 

@@ -15,7 +15,7 @@ import com.rmyfactory.rmyinventorybarcode.databinding.FragmentOrderConfirmationB
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderModel
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartUnitHolder
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.OrderItemModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.OrderProductModel
 import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
 import com.rmyfactory.rmyinventorybarcode.util.Functions.millisToOrderId
 import com.rmyfactory.rmyinventorybarcode.view.adapter.OrderConfAdapter
@@ -31,7 +31,7 @@ class OrderConfFragment : BaseFragment() {
     private val args: OrderConfFragmentArgs by navArgs()
     private lateinit var orderConfAdapter: OrderConfAdapter
     private lateinit var order: OrderModel
-    private lateinit var orderItems: MutableList<OrderItemModel>
+    private lateinit var orderProducts: MutableList<OrderProductModel>
     private var sumPrice by Delegates.notNull<Long>()
     private var exchange by Delegates.notNull<Long>()
 
@@ -57,15 +57,15 @@ class OrderConfFragment : BaseFragment() {
         Log.d("RMYDFACTORYX", "OrderFrag2: $productWithoutZeroQty")
         orderConfAdapter.addProducts(productWithoutZeroQty)
         sumPrice = 0L
-        orderItems = mutableListOf()
+        orderProducts = mutableListOf()
         productWithoutZeroQty.forEach { cart ->
             cart.productUnits.forEach { cartUnit ->
                 val totalPrice = (cartUnit.productPrice.toLong() * cartUnit.productQty)
                 sumPrice += totalPrice
-                orderItems.add(
-                    OrderItemModel(
+                orderProducts.add(
+                    OrderProductModel(
                         orderId = "0",
-                        itemId = cart.productId,
+                        productId = cart.productId,
                         qty = cartUnit.productQty,
                         price = cartUnit.productPrice,
                         totalPrice = totalPrice.toString()
@@ -83,12 +83,12 @@ class OrderConfFragment : BaseFragment() {
                 orderPay = binding.edtOrderConfPay.editText?.text.toString(),
                 orderExchange = exchange.toString()
             )
-            orderItems.forEach {
+            orderProducts.forEach {
                 it.orderId = orderTime
             }
             confViewModel.insertOrders(
                 order,
-                orderItems
+                orderProducts
             )
         }
 

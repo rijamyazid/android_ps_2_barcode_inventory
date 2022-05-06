@@ -108,7 +108,7 @@ class CartFragment : BaseFragment() {
 
         productCartViewModel.productCartState.observe(viewLifecycleOwner, {
             if(it == 2) {
-                viewModel.itemList.add(productCartViewModel.itemWithUnits.toCartHolder())
+                viewModel.itemList.add(productCartViewModel.productWithUnits.toCartHolder())
                 productCartViewModel.setProductCartState(0)
                 cartAdapter.addOrder(viewModel.itemList)
             }
@@ -194,9 +194,9 @@ class CartFragment : BaseFragment() {
 
     private fun onScanSuccess(itemId: String?) {
         itemId?.let {
-            viewModel.readItemByIdWithUnits(it).observe(viewLifecycleOwner, { item ->
+            viewModel.readProductByIdWithUnits(it).observe(viewLifecycleOwner, { item ->
                 item?.let { _item ->
-                    if (!checkIdOnList(_item.item.itemId, viewModel.itemList)) {
+                    if (!checkIdOnList(_item.product.productId, viewModel.itemList)) {
 //                        val order = OrderHolder(
 //                            _item.item.itemId,
 //                            _item.item.itemName,

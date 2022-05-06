@@ -3,7 +3,7 @@ package com.rmyfactory.rmyinventorybarcode.model.data.local.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.OrderWithItems
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.OrderWithProducts
 
 @Dao
 interface OrderDao {
@@ -22,6 +22,6 @@ interface OrderDao {
 
     @Transaction
     @Query("SELECT * FROM order_table")
-    fun readOrderWithItems(): LiveData<List<OrderWithItems>>
+    fun readOrderWithProducts(): LiveData<List<OrderWithProducts>>
 
 }

@@ -3,24 +3,24 @@ package com.rmyfactory.rmyinventorybarcode.model.data.local.model.with
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ProductModel
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.UnitModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ItemUnitModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ProductUnitModel
 
-data class UnitWithItems(
+data class UnitWithProducts(
 
     @Embedded
     val unit: UnitModel,
     @Relation(
-        entity = ItemModel::class,
+        entity = ProductModel::class,
         parentColumn = "id",
         entityColumn = "id",
         associateBy = Junction(
             parentColumn = "unit_id",
-            entityColumn = "item_id",
-            value = ItemUnitModel::class
+            entityColumn = "product_id",
+            value = ProductUnitModel::class
         )
     )
-    val itemList: List<ItemModel>
+    val productList: List<ProductModel>
 
 )

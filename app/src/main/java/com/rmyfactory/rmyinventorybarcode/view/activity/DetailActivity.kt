@@ -37,9 +37,9 @@ class DetailActivity : AppCompatActivity() {
                 Log.d("RMYFACTORYX", "isAdd? $isAdd")
                 if (isAdd) {
 //                    detailUnitAdapter.refreshSize(detailUnitAdapter.getUnitListSize() - 1)
-                    viewModel.itemUnitRemovedIds[position] = id
+                    viewModel.productUnitRemovedIds[position] = id
                 } else {
-                    viewModel.itemUnitRemovedIds.remove(position)
+                    viewModel.productUnitRemovedIds.remove(position)
 //                    detailUnitAdapter.refreshSize(detailUnitAdapter.getUnitListSize() + 1)
 //                    viewModel.itemUnitRemovedIds.forEachIndexed breaking@ { index, value ->
 //                        if (value[1] == id) {
@@ -180,7 +180,7 @@ class DetailActivity : AppCompatActivity() {
 //            }
         }
 
-        viewModel.readItemByIdWithUnits(args.itemId).observe(this, {
+        viewModel.readProductByIdWithUnits(args.itemId).observe(this, {
             if (viewModel.firstInit) {
                 if (it != null) {
 
@@ -190,10 +190,10 @@ class DetailActivity : AppCompatActivity() {
 //                    binding.btnUnitDelete2.visibility = View.VISIBLE
 //                }
 
-                    binding.edtItemName.editText?.setText(it.item.itemName)
-                    binding.edtItemNote.editText?.setText(it.item.itemNote)
-                    if (it.itemUnitList.isNotEmpty()) {
-                        detailUnitAdapter.addItemUnits(it.itemUnitList.size, it.itemUnitList)
+                    binding.edtItemName.editText?.setText(it.product.productName)
+                    binding.edtItemNote.editText?.setText(it.product.productNote)
+                    if (it.productUnitList.isNotEmpty()) {
+                        detailUnitAdapter.addItemUnits(it.productUnitList.size, it.productUnitList)
                     }
                     binding.btnAddItem.visibility = View.GONE
                     binding.llButtonsDetail.visibility = View.VISIBLE

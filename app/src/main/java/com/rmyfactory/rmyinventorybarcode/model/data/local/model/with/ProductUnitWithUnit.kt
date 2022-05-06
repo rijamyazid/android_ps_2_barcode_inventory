@@ -3,12 +3,12 @@ package com.rmyfactory.rmyinventorybarcode.model.data.local.model.with
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.UnitModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ItemUnitModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ProductUnitModel
 
-data class ItemUnitWithUnit(
+data class ProductUnitWithUnit(
 
     @Embedded
-    val itemUnit: ItemUnitModel,
+    val productUnit: ProductUnitModel,
     @Relation(
         entity = UnitModel::class,
         parentColumn = "unit_id",

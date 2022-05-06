@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rmyfactory.rmyinventorybarcode.databinding.FragmentProductBinding
 import com.rmyfactory.rmyinventorybarcode.view.adapter.ProductAdapter
-import com.rmyfactory.rmyinventorybarcode.viewmodel.ItemViewModel
 import com.rmyfactory.rmyinventorybarcode.viewmodel.ProductCartViewModel
+import com.rmyfactory.rmyinventorybarcode.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +20,7 @@ class ProductFragment : BaseFragment() {
 
     private var _binding: FragmentProductBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ItemViewModel by viewModels()
+    private val viewModel: ProductViewModel by viewModels()
     private val productCartViewModel: ProductCartViewModel by activityViewModels()
 
     private lateinit var productAdapter: ProductAdapter
@@ -55,12 +55,12 @@ class ProductFragment : BaseFragment() {
             adapter = productAdapter
         }
 
-        viewModel.readItemWithUnits().observe(viewLifecycleOwner, {
-            productAdapter.addItems(it)
+        viewModel.readProductWithUnits().observe(viewLifecycleOwner, {
+            productAdapter.addProducts(it)
         })
 
         viewModel.productWithUnitsByQuery.observe(viewLifecycleOwner, {
-            productAdapter.addItems(it)
+            productAdapter.addProducts(it)
         })
 
         if(productCartViewModel.productCartState.value != 0) {
@@ -87,12 +87,12 @@ class ProductFragment : BaseFragment() {
             if(productCartViewModel.productCartState.value == 0) {
                 findNavController().navigate(
                     ProductFragmentDirections.actionItemFragmentToDetailActivity(
-                        it.item.itemId
+                        it.product.productId
                     )
                 )
             } else {
                 productCartViewModel.setProductCartState(2)
-                productCartViewModel.itemWithUnits = it
+                productCartViewModel.productWithUnits = it
                 findNavController().popBackStack()
             }
         }

@@ -62,8 +62,8 @@ object MainInjection {
     }
 
     @Provides
-    fun provideItemDao(mainDatabase: MainDatabase): ItemDao {
-        return mainDatabase.itemDao()
+    fun provideProductDao(mainDatabase: MainDatabase): ProductDao {
+        return mainDatabase.productDao()
     }
 
     @Provides
@@ -72,8 +72,8 @@ object MainInjection {
     }
 
     @Provides
-    fun provideOrderItemDao(mainDatabase: MainDatabase): OrderItemDao {
-        return mainDatabase.orderItemDao()
+    fun provideOrderProductDao(mainDatabase: MainDatabase): OrderProductDao {
+        return mainDatabase.orderProductDao()
     }
 
     @Provides
@@ -82,20 +82,20 @@ object MainInjection {
     }
 
     @Provides
-    fun provideItemUnitDao(mainDatabase: MainDatabase): ItemUnitDao {
-        return mainDatabase.itemUnitDao()
+    fun provideProductUnitDao(mainDatabase: MainDatabase): ProductUnitDao {
+        return mainDatabase.productUnitDao()
     }
 
     @Singleton
     @Provides
     fun provideLocalDataSource(
-        itemDao: ItemDao,
+        productDao: ProductDao,
         orderDao: OrderDao,
-        orderItemDao: OrderItemDao,
+        orderProductDao: OrderProductDao,
         unitDao: UnitDao,
-        itemUnitDao: ItemUnitDao
+        productUnitDao: ProductUnitDao
     ): LocalDataSource {
-        return LocalDataSource(itemDao, orderDao, orderItemDao, unitDao, itemUnitDao)
+        return LocalDataSource(productDao, orderDao, orderProductDao, unitDao, productUnitDao)
     }
 
     @Singleton

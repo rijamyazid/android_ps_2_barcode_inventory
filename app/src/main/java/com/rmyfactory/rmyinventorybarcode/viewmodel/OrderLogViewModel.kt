@@ -9,6 +9,6 @@ import javax.inject.Inject
 class OrderLogViewModel
 @Inject constructor(private val repository: MainRepository) : ViewModel() {
 
-    fun readOrderWithItems() = repository.readOrderWithItems()
+    fun readOrderWithItems() = repository.readOrderWithProducts()
 
 }

@@ -2,63 +2,63 @@ package com.rmyfactory.rmyinventorybarcode.model.data.local
 
 import androidx.lifecycle.LiveData
 import com.rmyfactory.rmyinventorybarcode.model.data.local.dao.*
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ProductModel
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.UnitModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ItemUnitModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.OrderItemModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemWithUnits
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.OrderWithItems
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.UnitWithItems
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.OrderProductModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ProductUnitModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.OrderWithProducts
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ProductWithUnits
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.UnitWithProducts
 import javax.inject.Inject
 
 class LocalDataSource
 @Inject constructor(
-    private val itemDao: ItemDao,
+    private val productDao: ProductDao,
     private val orderDao: OrderDao,
-    private val orderItemDao: OrderItemDao,
+    private val orderProductDao: OrderProductDao,
     private val unitDao: UnitDao,
-    private val itemUnitDao: ItemUnitDao
+    private val productUnitDao: ProductUnitDao
 ) {
 
-    //Item Model
-    fun insertItem(item: ItemModel) {
-        itemDao.insertItem(item)
+    //Product Model
+    fun insertProduct(product: ProductModel) {
+        productDao.insertProduct(product)
     }
 
-    fun insertItems(items: List<ItemModel>) {
-        itemDao.insertItems(items)
+    fun insertProducts(products: List<ProductModel>) {
+        productDao.insertProducts(products)
     }
 
-    fun updateItem(item: ItemModel) {
-        itemDao.updateItem(item)
+    fun updateProduct(product: ProductModel) {
+        productDao.updateProduct(product)
     }
 
-    fun deleteItemById(itemId: String) {
-        itemDao.deleteItemById(itemId)
+    fun deleteProductById(ProductId: String) {
+        productDao.deleteProductById(ProductId)
     }
 
-    fun readItems()
-            : LiveData<List<ItemModel>> = itemDao.readItems()
+    fun readProducts()
+            : LiveData<List<ProductModel>> = productDao.readProducts()
 
-    fun readItemWithUnitsByQuery(query: String): LiveData<List<ItemWithUnits>>
-    = itemDao.readItemWithUnitsByQuery(query)
+    fun readProductWithUnitsByQuery(query: String): LiveData<List<ProductWithUnits>>
+    = productDao.readProductWithUnitsByQuery(query)
 
-    suspend fun susReadItemWithUnitsByQuery(query: String)
-            : List<ItemWithUnits> = itemDao.susReadItemWithUnitsByQuery(query)
+    suspend fun susReadProductWithUnitsByQuery(query: String)
+            : List<ProductWithUnits> = productDao.susReadProductWithUnitsByQuery(query)
 
-    suspend fun _readItems(): List<ItemModel> = itemDao._readItems()
+    suspend fun _readProducts(): List<ProductModel> = productDao._readProducts()
 
-    fun readItemById(itemId: String)
-            : LiveData<ItemModel> = itemDao.readItem(itemId)
+    fun readProductById(ProductId: String)
+            : LiveData<ProductModel> = productDao.readProduct(ProductId)
 
-    fun readItemWithUnits()
-            : LiveData<List<ItemWithUnits>> = itemDao.readItemWithUnits()
+    fun readProductWithUnits()
+            : LiveData<List<ProductWithUnits>> = productDao.readProductWithUnits()
 
-    suspend fun readItemWithUnits_(): List<ItemWithUnits> = itemDao.readItemWithUnits_()
+    suspend fun readProductWithUnits_(): List<ProductWithUnits> = productDao.readProductWithUnits_()
 
-    fun readItemByIdWithUnits(itemId: String)
-            : LiveData<ItemWithUnits> = itemDao.readItemByIdWithUnits(itemId)
+    fun readProductByIdWithUnits(ProductId: String)
+            : LiveData<ProductWithUnits> = productDao.readProductByIdWithUnits(ProductId)
 
     //Order Model
     fun insertOrder(order: OrderModel) {
@@ -69,8 +69,8 @@ class LocalDataSource
         orderDao.insertOrders(orders)
     }
 
-    fun readOrderWithItems()
-            : LiveData<List<OrderWithItems>> = orderDao.readOrderWithItems()
+    fun readOrderWithProducts()
+            : LiveData<List<OrderWithProducts>> = orderDao.readOrderWithProducts()
 
     suspend fun _readOrders(): List<OrderModel> = orderDao._readOrders()
 
@@ -95,40 +95,40 @@ class LocalDataSource
     fun readUnitById(unitId: String)
             : UnitModel? = unitDao.readUnitById(unitId)
 
-    fun readUnitByNameWithItems(unitId: String)
-            : LiveData<UnitWithItems> = unitDao.readUnitByIdWithItems(unitId = unitId)
+    fun readUnitByNameWithProducts(unitId: String)
+            : LiveData<UnitWithProducts> = unitDao.readUnitByIdWithProducts(unitId = unitId)
 
-    //OrderItem Model
-    fun insertOrderItems(orderList: List<OrderItemModel>) {
-        orderItemDao.insertOrderItems(orderList)
+    //OrderProduct Model
+    fun insertOrderProducts(orderList: List<OrderProductModel>) {
+        orderProductDao.insertOrderProducts(orderList)
     }
 
-    suspend fun _readOrderItems(): List<OrderItemModel> = orderItemDao._readOrderItems()
+    suspend fun _readOrderProducts(): List<OrderProductModel> = orderProductDao._readOrderProducts()
 
-    //ItemUnit Model
-    fun insertItemUnit(itemUnit: ItemUnitModel) {
-        itemUnitDao.insertItemUnit(itemUnit)
+    //ProductUnit Model
+    fun insertProductUnit(productUnit: ProductUnitModel) {
+        productUnitDao.insertProductUnit(productUnit)
     }
 
-    fun insertItemUnits(itemUnitList: List<ItemUnitModel>) {
-        itemUnitDao.insertItemUnits(itemUnitList)
+    fun insertProductUnits(productUnitList: List<ProductUnitModel>) {
+        productUnitDao.insertProductUnits(productUnitList)
     }
 
-    fun updateItemUnits(itemUnitList: List<ItemUnitModel>) {
-        itemUnitDao.updateItemUnits(itemUnitList)
+    fun updateProductUnits(productUnitList: List<ProductUnitModel>) {
+        productUnitDao.updateProductUnits(productUnitList)
     }
 
-    fun deleteItemUnitById(id: Long) {
-        itemUnitDao.deleteItemUnitById(id)
+    fun deleteProductUnitById(id: Long) {
+        productUnitDao.deleteProductUnitById(id)
     }
 
-    fun deleteItemUnitsByItemId(itemId: String) {
-        itemUnitDao.deleteItemUnitsByItemId(itemId)
+    fun deleteProductUnitsByProductId(ProductId: String) {
+        productUnitDao.deleteProductUnitsByProductId(ProductId)
     }
 
-    suspend fun _readItemUnits(): List<ItemUnitModel> = itemUnitDao._readItemUnits()
+    suspend fun _readProductUnits(): List<ProductUnitModel> = productUnitDao._readProductUnits()
 
-    fun readItemByItemAndUnitId(itemId: String, unitId: String): ItemUnitModel? =
-        itemUnitDao.readItemByItemAndUnitId(itemId, unitId)
+    fun readProductByProductAndUnitId(ProductId: String, unitId: String): ProductUnitModel? =
+        productUnitDao.readProductByProductAndUnitId(ProductId, unitId)
 
 }

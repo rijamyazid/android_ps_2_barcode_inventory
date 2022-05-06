@@ -2,7 +2,7 @@ package com.rmyfactory.rmyinventorybarcode.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemWithUnits
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ProductWithUnits
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -15,6 +15,6 @@ class ProductCartViewModel @Inject constructor(): ViewModel() {
         productCartState.value = state
     }
 
-    lateinit var itemWithUnits: ItemWithUnits
+    lateinit var productWithUnits: ProductWithUnits
 
 }

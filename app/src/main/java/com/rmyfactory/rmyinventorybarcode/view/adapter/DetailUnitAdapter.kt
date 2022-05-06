@@ -14,7 +14,7 @@ import com.google.android.material.shape.RoundedCornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.rmyfactory.rmyinventorybarcode.R
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderDetailUnitBinding
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemUnitWithUnit
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ProductUnitWithUnit
 import com.rmyfactory.rmyinventorybarcode.util.CutoutDrawable
 import com.rmyfactory.rmyinventorybarcode.util.themeColor
 
@@ -42,24 +42,24 @@ class DetailUnitAdapter(
     override fun getItemCount() = unitListSize
 
     fun addItemUnits(
-        unitListSize: Int, updateItemUnit: List<ItemUnitWithUnit> = mutableListOf()
+        unitListSize: Int, updateProductUnit: List<ProductUnitWithUnit> = mutableListOf()
     ) {
 
-        if (updateItemUnit.isNotEmpty()) {
-            updateItemUnit.forEachIndexed { index, _ ->
+        if (updateProductUnit.isNotEmpty()) {
+            updateProductUnit.forEachIndexed { index, _ ->
                 itemUnitMap[index] = mapOf(
-                    "id" to updateItemUnit[index].itemUnit.id.toString(),
-                    "price" to updateItemUnit[index].itemUnit.price,
-                    "stock" to updateItemUnit[index].itemUnit.stock.toString(),
-                    "unit" to updateItemUnit[index].itemUnit.unitId,
-                    "increment" to updateItemUnit[index].itemUnit.increment.toString()
+                    "id" to updateProductUnit[index].productUnit.id.toString(),
+                    "price" to updateProductUnit[index].productUnit.price,
+                    "stock" to updateProductUnit[index].productUnit.stock.toString(),
+                    "unit" to updateProductUnit[index].productUnit.unitId,
+                    "increment" to updateProductUnit[index].productUnit.increment.toString()
                 )
             }
         }
 
         this.unitListSize = unitListSize
 
-        if (updateItemUnit.isNotEmpty()) {
+        if (updateProductUnit.isNotEmpty()) {
             notifyItemRangeChanged(0, unitListSize)
         } else {
             notifyItemInserted(unitListSize-1)

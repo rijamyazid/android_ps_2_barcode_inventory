@@ -30,9 +30,9 @@ class OrderLogFragment : BaseFragment() {
             var text = ""
             it.forEach { o ->
                 text += "Order: ${o.order.orderId}\n"
-                o.orderWithItems.forEach { oi ->
-                    text += "Item name: ${oi.item.itemName}\n" +
-                            "Item qty: ${oi.orderItemModel.qty}\n\n"
+                o.orderWithProducts.forEach { oi ->
+                    text += "Item name: ${oi.product.productName}\n" +
+                            "Item qty: ${oi.orderProductModel.qty}\n\n"
                 }
                 text += "\n"
             }

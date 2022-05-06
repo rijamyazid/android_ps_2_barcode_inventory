@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderProductBinding
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemWithUnits
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ProductWithUnits
 
-class ProductAdapter(private val onclick: (itemId: ItemWithUnits) -> Unit) :
+class ProductAdapter(private val onclick: (productId: ProductWithUnits) -> Unit) :
     RecyclerView.Adapter<ProductAdapter.ItemViewHolder>() {
 
-    private val itemList = mutableListOf<ItemWithUnits>()
+    private val itemList = mutableListOf<ProductWithUnits>()
     private lateinit var adapter2: ProductAdapter2
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -27,9 +27,9 @@ class ProductAdapter(private val onclick: (itemId: ItemWithUnits) -> Unit) :
 
     override fun getItemCount() = itemList.size
 
-    fun addItems(items: List<ItemWithUnits>) {
+    fun addProducts(products: List<ProductWithUnits>) {
         itemList.clear()
-        itemList.addAll(items)
+        itemList.addAll(products)
         notifyDataSetChanged()
     }
 
@@ -37,20 +37,20 @@ class ProductAdapter(private val onclick: (itemId: ItemWithUnits) -> Unit) :
         private val binding: ItemHolderProductBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ItemWithUnits) {
+        fun bind(product: ProductWithUnits) {
             adapter2 = ProductAdapter2()
 
-            binding.tvItemIdItem.text = item.item.itemId
-            binding.tvItemNameItem.text = item.item.itemName
+            binding.tvItemIdItem.text = product.product.productId
+            binding.tvItemNameItem.text = product.product.productName
             binding.rvProduct2.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = adapter2
             }
-            Log.d("RMYFACTORYX", item.itemUnitList.toString())
-            adapter2.addProducts(item.itemUnitList)
+            Log.d("RMYFACTORYX", product.productUnitList.toString())
+            adapter2.addProducts(product.productUnitList)
 
             binding.root.setOnClickListener {
-                onclick(item)
+                onclick(product)
             }
         }
 

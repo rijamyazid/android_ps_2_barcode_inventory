@@ -2,51 +2,51 @@ package com.rmyfactory.rmyinventorybarcode.model.repository
 
 import androidx.lifecycle.LiveData
 import com.rmyfactory.rmyinventorybarcode.model.data.local.LocalDataSource
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ProductModel
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.UnitModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ItemUnitModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.OrderItemModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemWithUnits
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.OrderWithItems
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.UnitWithItems
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.OrderProductModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ProductUnitModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.OrderWithProducts
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ProductWithUnits
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.UnitWithProducts
 import javax.inject.Inject
 
 class MainRepository
 @Inject constructor(private val localDataSource: LocalDataSource) {
 
-    //Item Model
-    fun insertItem(item: ItemModel) {
-        localDataSource.insertItem(item)
+    //Product Model
+    fun insertProduct(product: ProductModel) {
+        localDataSource.insertProduct(product)
     }
 
-    fun insertItems(items: List<ItemModel>) {
-        localDataSource.insertItems(items)
+    fun insertProducts(products: List<ProductModel>) {
+        localDataSource.insertProducts(products)
     }
 
-    fun updateItem(item: ItemModel) {
-        localDataSource.updateItem(item)
+    fun updateProduct(product: ProductModel) {
+        localDataSource.updateProduct(product)
     }
 
-    fun deleteItemById(itemId: String) {
-        localDataSource.deleteItemById(itemId)
+    fun deleteProductById(ProductId: String) {
+        localDataSource.deleteProductById(ProductId)
     }
 
-    fun readItems()
-            : LiveData<List<ItemModel>> = localDataSource.readItems()
+    fun readProducts()
+            : LiveData<List<ProductModel>> = localDataSource.readProducts()
 
-    suspend fun _readItems(): List<ItemModel> = localDataSource._readItems()
+    suspend fun _readProducts(): List<ProductModel> = localDataSource._readProducts()
 
-    fun readItemById(itemId: String)
-            : LiveData<ItemModel> = localDataSource.readItemById(itemId)
+    fun readProductById(ProductId: String)
+            : LiveData<ProductModel> = localDataSource.readProductById(ProductId)
 
-    fun readItemWithUnits()
-            : LiveData<List<ItemWithUnits>> = localDataSource.readItemWithUnits()
+    fun readProductWithUnits()
+            : LiveData<List<ProductWithUnits>> = localDataSource.readProductWithUnits()
 
-    suspend fun readItemWithUnits_(): List<ItemWithUnits> = localDataSource.readItemWithUnits_()
+    suspend fun readProductWithUnits_(): List<ProductWithUnits> = localDataSource.readProductWithUnits_()
 
-    fun readItemByIdWithUnits(itemId: String)
-            : LiveData<ItemWithUnits> = localDataSource.readItemByIdWithUnits(itemId)
+    fun readProductByIdWithUnits(ProductId: String)
+            : LiveData<ProductWithUnits> = localDataSource.readProductByIdWithUnits(ProductId)
 
     //Order Model
     fun insertOrder(order: OrderModel) {
@@ -57,8 +57,8 @@ class MainRepository
         localDataSource.insertOrders(orders)
     }
 
-    fun readOrderWithItems()
-            : LiveData<List<OrderWithItems>> = localDataSource.readOrderWithItems()
+    fun readOrderWithProducts()
+            : LiveData<List<OrderWithProducts>> = localDataSource.readOrderWithProducts()
 
     suspend fun _readOrders(): List<OrderModel> = localDataSource._readOrders()
 
@@ -78,51 +78,51 @@ class MainRepository
     fun readUnits()
             : LiveData<List<UnitModel>> = localDataSource.readUnits()
 
-    fun readItemWithUnitsByQuery(query: String): LiveData<List<ItemWithUnits>>
-    = localDataSource.readItemWithUnitsByQuery(query)
+    fun readProductWithUnitsByQuery(query: String): LiveData<List<ProductWithUnits>>
+    = localDataSource.readProductWithUnitsByQuery(query)
 
-    suspend fun susReadItemWithUnitsByQuery(query: String)
-            : List<ItemWithUnits> = localDataSource.susReadItemWithUnitsByQuery(query)
+    suspend fun susReadProductWithUnitsByQuery(query: String)
+            : List<ProductWithUnits> = localDataSource.susReadProductWithUnitsByQuery(query)
 
     suspend fun _readUnits(): List<UnitModel> = localDataSource._readUnits()
 
     fun readUnitById(unitId: String)
             : UnitModel? = localDataSource.readUnitById(unitId)
 
-    fun readUnitByNameWithItems(unitName: String)
-            : LiveData<UnitWithItems> = localDataSource.readUnitByNameWithItems(unitName)
+    fun readUnitByNameWithProducts(unitName: String)
+            : LiveData<UnitWithProducts> = localDataSource.readUnitByNameWithProducts(unitName)
 
-    //OrderItem Model
-    fun insertOrderItems(orders: List<OrderItemModel>) {
-        localDataSource.insertOrderItems(orders)
+    //OrderProduct Model
+    fun insertOrderProducts(orders: List<OrderProductModel>) {
+        localDataSource.insertOrderProducts(orders)
     }
 
-    suspend fun _readOrderItems(): List<OrderItemModel> = localDataSource._readOrderItems()
+    suspend fun _readOrderProducts(): List<OrderProductModel> = localDataSource._readOrderProducts()
 
-    //ItemUnitModel
-    fun readItemByItemAndUnitId(itemId: String, unitId: String)
-            : ItemUnitModel? = localDataSource.readItemByItemAndUnitId(itemId, unitId)
+    //ProductUnitModel
+    fun readProductByProductAndUnitId(ProductId: String, unitId: String)
+            : ProductUnitModel? = localDataSource.readProductByProductAndUnitId(ProductId, unitId)
 
-    fun insertItemUnit(itemUnit: ItemUnitModel) {
-        localDataSource.insertItemUnit(itemUnit)
+    fun insertProductUnit(productUnit: ProductUnitModel) {
+        localDataSource.insertProductUnit(productUnit)
     }
 
-    fun insertItemUnits(itemUnitList: List<ItemUnitModel>) {
-        localDataSource.insertItemUnits(itemUnitList)
+    fun insertProductUnits(productUnitList: List<ProductUnitModel>) {
+        localDataSource.insertProductUnits(productUnitList)
     }
 
-    fun updateItemUnits(itemUnitList: List<ItemUnitModel>) {
-        localDataSource.updateItemUnits(itemUnitList)
+    fun updateProductUnits(productUnitList: List<ProductUnitModel>) {
+        localDataSource.updateProductUnits(productUnitList)
     }
 
-    fun deleteItemUnitById(id: Long) {
-        localDataSource.deleteItemUnitById(id)
+    fun deleteProductUnitById(id: Long) {
+        localDataSource.deleteProductUnitById(id)
     }
 
-    fun deleteItemUnitsByItemId(itemId: String) {
-        localDataSource.deleteItemUnitsByItemId(itemId)
+    fun deleteProductUnitsByProductId(ProductId: String) {
+        localDataSource.deleteProductUnitsByProductId(ProductId)
     }
 
-    suspend fun _readItemUnits(): List<ItemUnitModel> = localDataSource._readItemUnits()
+    suspend fun _readProductUnits(): List<ProductUnitModel> = localDataSource._readProductUnits()
 
 }

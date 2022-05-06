@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderProduct2Binding
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemUnitWithUnit
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ProductUnitWithUnit
 import com.rmyfactory.rmyinventorybarcode.util.dotPriceIND
 
 class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ItemViewHolder>() {
 
-    private val itemList = mutableListOf<ItemUnitWithUnit>()
+    private val itemList = mutableListOf<ProductUnitWithUnit>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val binding =
@@ -24,7 +24,7 @@ class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ItemViewHolder>() {
 
     override fun getItemCount() = itemList.size
 
-    fun addProducts(products: List<ItemUnitWithUnit>) {
+    fun addProducts(products: List<ProductUnitWithUnit>) {
         itemList.clear()
         itemList.addAll(products)
         notifyDataSetChanged()
@@ -34,10 +34,10 @@ class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ItemViewHolder>() {
         private val binding: ItemHolderProduct2Binding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(product: ItemUnitWithUnit) {
-            binding.tvProduct2Stock.text = product.itemUnit.stock.toString()
-            binding.tvProduct2Unit.text = product.itemUnit.unitId
-            binding.tvProduct2Price.text = product.itemUnit.price.dotPriceIND()
+        fun bind(product: ProductUnitWithUnit) {
+            binding.tvProduct2Stock.text = product.productUnit.stock.toString()
+            binding.tvProduct2Unit.text = product.productUnit.unitId
+            binding.tvProduct2Price.text = product.productUnit.price.dotPriceIND()
         }
 
     }

@@ -4,11 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ItemModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.ProductModel
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.UnitModel
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.ProductDetailHolder
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ItemUnitModel
-import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ItemWithUnits
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ProductUnitModel
+import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ProductWithUnits
 import com.rmyfactory.rmyinventorybarcode.model.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,17 +19,17 @@ import javax.inject.Inject
 class DetailViewModel
 @Inject constructor(private val repository: MainRepository) : ViewModel() {
 
-//    val itemUnitRemovedIds = mutableListOf<List<Long>>()
-    val itemUnitRemovedIds = mutableMapOf<Int, Long>()
+//    val ProductUnitRemovedIds = mutableListOf<List<Long>>()
+    val productUnitRemovedIds = mutableMapOf<Int, Long>()
     var firstInit = true
 
     fun insertProduct(product: ProductDetailHolder) = viewModelScope.launch(Dispatchers.IO) {
 
-        insertItem(
-            ItemModel(
-                itemId = product.productId,
-                itemName = product.productName,
-                itemNote = product.productNote
+        insertProduct(
+            ProductModel(
+                productId = product.productId,
+                productName = product.productName,
+                productNote = product.productNote
             )
         )
 
@@ -43,11 +43,11 @@ class DetailViewModel
         }
         if (units.isNotEmpty()) insertUnits(units)
 
-        val itemUnits = mutableListOf<ItemUnitModel>().apply {
+        val productUnits = mutableListOf<ProductUnitModel>().apply {
             product.productUnit.forEachIndexed { index, _ ->
                 this.add(
-                    ItemUnitModel(
-                        itemId = product.productId,
+                    ProductUnitModel(
+                        productId = product.productId,
                         unitId = product.productUnit[index],
                         stock = product.productStock[index],
                         price = product.productPrice[index],
@@ -56,16 +56,16 @@ class DetailViewModel
                 )
             }
         }
-        if (itemUnits.isNotEmpty()) insertItemUnits(itemUnits)
+        if (productUnits.isNotEmpty()) insertProductUnits(productUnits)
 
     }
 
     fun updateProduct(product: ProductDetailHolder) = viewModelScope.launch(Dispatchers.IO) {
-        updateItem(
-            ItemModel(
-                itemId = product.productId,
-                itemName = product.productName,
-                itemNote = product.productNote
+        updateProduct(
+            ProductModel(
+                productId = product.productId,
+                productName = product.productName,
+                productNote = product.productNote
             )
         )
 
@@ -79,25 +79,25 @@ class DetailViewModel
         }
         if (units.isNotEmpty()) insertUnits(units)
 
-        Log.d("RMYFACTORYX", "$itemUnitRemovedIds")
-        val itemUnitsAdd = mutableListOf<ItemUnitModel>()
-        if (itemUnitRemovedIds.isNotEmpty()) {
-            itemUnitRemovedIds.forEach {
-                deleteItemUnitById(it.value)
+        Log.d("RMYFACTORYX", "$productUnitRemovedIds")
+        val ProductUnitsAdd = mutableListOf<ProductUnitModel>()
+        if (productUnitRemovedIds.isNotEmpty()) {
+            productUnitRemovedIds.forEach {
+                deleteProductUnitById(it.value)
             }
 
             product.productUnit.forEachIndexed { index, _ ->
                 var noUnitRemoved = true
-                itemUnitRemovedIds.forEach breaking@ {
+                productUnitRemovedIds.forEach breaking@ {
                     if(index == it.key) {
                         noUnitRemoved = false
                         return@breaking
                     }
                 }
                 if(noUnitRemoved) {
-                    itemUnitsAdd.add(
-                        ItemUnitModel(
-                            itemId = product.productId,
+                    ProductUnitsAdd.add(
+                        ProductUnitModel(
+                            productId = product.productId,
                             unitId = product.productUnit[index],
                             stock = product.productStock[index],
                             price = product.productPrice[index],
@@ -106,12 +106,12 @@ class DetailViewModel
                     )
                 }
             }
-            itemUnitRemovedIds.clear()
+            productUnitRemovedIds.clear()
         } else {
             product.productUnit.forEachIndexed { index, _ ->
-                itemUnitsAdd.add(
-                    ItemUnitModel(
-                        itemId = product.productId,
+                ProductUnitsAdd.add(
+                    ProductUnitModel(
+                        productId = product.productId,
                         unitId = product.productUnit[index],
                         stock = product.productStock[index],
                         price = product.productPrice[index],
@@ -121,34 +121,34 @@ class DetailViewModel
             }
         }
 
-        deleteItemUnitsByItemId(product.productId)
-        insertItemUnits(itemUnitsAdd)
+        deleteProductUnitsByProductId(product.productId)
+        insertProductUnits(ProductUnitsAdd)
     }
 
-    fun deleteProduct(itemId: String) = viewModelScope.launch(Dispatchers.IO) {
-        deleteItemById(itemId)
-        deleteItemUnitsByItemId(itemId)
+    fun deleteProduct(ProductId: String) = viewModelScope.launch(Dispatchers.IO) {
+        deleteProductById(ProductId)
+        deleteProductUnitsByProductId(ProductId)
     }
 
-    // Item Model
-    fun insertItem(item: ItemModel) {
-        repository.insertItem(item)
+    // Product Model
+    fun insertProduct(product: ProductModel) {
+        repository.insertProduct(product)
     }
 
-    fun updateItem(item: ItemModel) {
-        repository.updateItem(item)
+    fun updateProduct(product: ProductModel) {
+        repository.updateProduct(product)
     }
 
-    fun deleteItemById(itemId: String) {
-        repository.deleteItemById(itemId)
+    fun deleteProductById(ProductId: String) {
+        repository.deleteProductById(ProductId)
     }
 
-    fun readItemById(itemId: String): LiveData<ItemModel> {
-        return repository.readItemById(itemId)
+    fun readProductById(ProductId: String): LiveData<ProductModel> {
+        return repository.readProductById(ProductId)
     }
 
-    fun readItemByIdWithUnits(itemId: String)
-            : LiveData<ItemWithUnits> = repository.readItemByIdWithUnits(itemId)
+    fun readProductByIdWithUnits(ProductId: String)
+            : LiveData<ProductWithUnits> = repository.readProductByIdWithUnits(ProductId)
 
     // Unit Model
     fun insertUnit(unit: UnitModel) {
@@ -161,29 +161,29 @@ class DetailViewModel
 
     fun readUnits(): LiveData<List<UnitModel>> = repository.readUnits()
 
-    // ItemUnitModel
-    fun readItemByItemAndUnitId(itemId: String, unitId: String)
-            : ItemUnitModel? {
-        return repository.readItemByItemAndUnitId(itemId, unitId)
+    // ProductUnitModel
+    fun readProductByProductAndUnitId(ProductId: String, unitId: String)
+            : ProductUnitModel? {
+        return repository.readProductByProductAndUnitId(ProductId, unitId)
     }
 
-    fun updateItemUnits(itemUnitList: List<ItemUnitModel>) {
-        repository.updateItemUnits(itemUnitList)
+    fun updateProductUnits(productUnitList: List<ProductUnitModel>) {
+        repository.updateProductUnits(productUnitList)
     }
 
-    fun insertItemUnit(itemUnit: ItemUnitModel) {
-        repository.insertItemUnit(itemUnit)
+    fun insertProductUnit(productUnit: ProductUnitModel) {
+        repository.insertProductUnit(productUnit)
     }
 
-    fun insertItemUnits(itemUnitList: List<ItemUnitModel>) {
-        repository.insertItemUnits(itemUnitList)
+    fun insertProductUnits(productUnitList: List<ProductUnitModel>) {
+        repository.insertProductUnits(productUnitList)
     }
 
-    fun deleteItemUnitById(id: Long) = viewModelScope.launch(Dispatchers.IO) {
-        repository.deleteItemUnitById(id)
+    fun deleteProductUnitById(id: Long) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteProductUnitById(id)
     }
 
-    fun deleteItemUnitsByItemId(itemId: String) {
-        repository.deleteItemUnitsByItemId(itemId)
+    fun deleteProductUnitsByProductId(ProductId: String) {
+        repository.deleteProductUnitsByProductId(ProductId)
     }
 }
