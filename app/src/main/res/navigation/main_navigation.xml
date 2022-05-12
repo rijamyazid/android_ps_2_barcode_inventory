@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/bnv_home"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.HomeFragment"
+        android:name="com.rmyfactory.inventorybarcode.view.fragment.HomeFragment"
         android:label="fragment_camera"
         tools:layout="@layout/fragment_home">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <activity
         android:id="@+id/detailActivity"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.activity.DetailActivity"
+        android:name="com.rmyfactory.inventorybarcode.view.activity.DetailActivity"
         android:label="activity_detail"
         tools:layout="@layout/activity_detail">
         <argument
@@ -28,7 +28,7 @@
     </activity>
     <fragment
         android:id="@+id/bnv_product"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.ProductFragment"
+        android:name="com.rmyfactory.inventorybarcode.view.fragment.ProductFragment"
         android:label="fragment_item"
         tools:layout="@layout/fragment_product">
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/bnv_cart"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.CartFragment"
+        android:name="com.rmyfactory.inventorybarcode.view.fragment.CartFragment"
         android:label="fragment_transaction"
         tools:layout="@layout/fragment_cart">
         <action
@@ -47,37 +47,25 @@
             android:id="@+id/action_bnm_transactions_to_orderFragment"
             app:destination="@id/orderFragment"
             app:enterAnim="@anim/slide_in_up"
-            app:exitAnim="@anim/slide_out_up_20"
-            app:popEnterAnim="@anim/slide_in_down_20"
+            app:exitAnim="@anim/slide_out_up_10"
+            app:popEnterAnim="@anim/slide_in_down_10"
             app:popExitAnim="@anim/slide_out_down" />
-        <action
-            android:id="@+id/action_bnm_transactions_to_orderActivity"
-            app:destination="@id/orderActivity" />
         <action
             android:id="@+id/action_bnv_cart_to_bnv_product"
             app:destination="@id/bnv_product" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.OrderFragment"
+        android:name="com.rmyfactory.inventorybarcode.view.fragment.OrderFragment"
         android:label="fragment_order_confirmation"
         tools:layout="@layout/fragment_order">
         <argument
             android:name="products"
-            app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder[]" />
+            app:argType="com.rmyfactory.inventorybarcode.model.data.local.model.holder.CartHolder[]" />
     </fragment>
-    <activity
-        android:id="@+id/orderActivity"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.activity.OrderConfActivity"
-        android:label="activity_order_confirmation"
-        tools:layout="@layout/activity_order">
-        <argument
-            android:name="products"
-            app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder[]" />
-    </activity>
     <fragment
         android:id="@+id/logFragment"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.LogFragment"
+        android:name="com.rmyfactory.inventorybarcode.view.fragment.LogFragment"
         android:label="fragment_order_log"
         tools:layout="@layout/fragment_log" />
 </navigation>
