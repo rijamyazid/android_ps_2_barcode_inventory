@@ -26,8 +26,8 @@ import com.rmyfactory.rmyinventorybarcode.util.BarcodeAnalyzer
 import com.rmyfactory.rmyinventorybarcode.util.Permissions
 import com.rmyfactory.rmyinventorybarcode.util.toCartHolder
 import com.rmyfactory.rmyinventorybarcode.view.adapter.CartAdapter
+import com.rmyfactory.rmyinventorybarcode.viewmodel.CartViewModel
 import com.rmyfactory.rmyinventorybarcode.viewmodel.ProductCartViewModel
-import com.rmyfactory.rmyinventorybarcode.viewmodel.TransactionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -36,7 +36,7 @@ import java.util.concurrent.Executors
 class CartFragment : BaseFragment() {
 
     private lateinit var binding: FragmentCartBinding
-    private val viewModel: TransactionViewModel by viewModels()
+    private val viewModel: CartViewModel by viewModels()
     private val productCartViewModel: ProductCartViewModel by activityViewModels()
     private lateinit var cartAdapter: CartAdapter
 
@@ -87,12 +87,12 @@ class CartFragment : BaseFragment() {
             findNavController()
                 .navigate(
                     CartFragmentDirections
-                        .actionBnmTransactionsToOrderConfirmationFragment(viewModel.itemList.toTypedArray())
+                        .actionBnmTransactionsToOrderFragment(viewModel.itemList.toTypedArray())
                 )
 //            findNavController()
 //                .navigate(
 //                    TransactionFragmentDirections
-//                        .actionBnmTransactionsToOrderConfirmationActivity(viewModel.itemList.toTypedArray())
+//                        .actionBnmTransactionsToOrderActivity(viewModel.itemList.toTypedArray())
 //                )
         }
 

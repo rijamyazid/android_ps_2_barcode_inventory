@@ -98,7 +98,7 @@ class HomeFragment : BaseFragment() {
                         },
                         loadingResult = { result ->
                             when (result) {
-                                is SealedResult.Success -> {
+                                is ResultResponse.Success -> {
                                     result.data.byteInputStream().use { input ->
                                         outputStream.use { output ->
                                             input.copyTo(output!!)
@@ -106,7 +106,7 @@ class HomeFragment : BaseFragment() {
                                     }
                                     loadingDialogFragment?.dismiss()
                                 }
-                                is SealedResult.Failure -> {
+                                is ResultResponse.Failure -> {
                                     loadingDialogFragment?.dismiss()
                                 }
                                 else -> {}
@@ -144,10 +144,10 @@ class HomeFragment : BaseFragment() {
                         },
                         loadingResult = { result ->
                             when(result) {
-                                is SealedResult.Success -> {
+                                is ResultResponse.Success -> {
                                     loadingDialogFragment?.dismiss()
                                 }
-                                is SealedResult.Failure -> {
+                                is ResultResponse.Failure -> {
                                     loadingDialogFragment?.dismiss()
                                 }
                                 else -> {}
@@ -181,7 +181,7 @@ class HomeFragment : BaseFragment() {
         binding.btnLog.apply {
             setOnClickListener {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionBnvHomeToOrderLogFragment()
+                    HomeFragmentDirections.actionBnvHomeToLogFragment()
                 )
             }
         }

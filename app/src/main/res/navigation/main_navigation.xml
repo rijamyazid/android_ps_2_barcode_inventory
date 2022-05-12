@@ -14,8 +14,8 @@
             android:id="@+id/action_bnm_scan_to_detailActivity"
             app:destination="@id/detailActivity" />
         <action
-            android:id="@+id/action_bnv_home_to_orderLogFragment"
-            app:destination="@id/orderLogFragment" />
+            android:id="@+id/action_bnv_home_to_logFragment"
+            app:destination="@id/logFragment" />
     </fragment>
     <activity
         android:id="@+id/detailActivity"
@@ -44,40 +44,40 @@
             android:id="@+id/action_bnm_transactions_to_detailActivity"
             app:destination="@id/detailActivity" />
         <action
-            android:id="@+id/action_bnm_transactions_to_orderConfirmationFragment"
-            app:destination="@id/orderConfirmationFragment"
-            app:enterAnim="@anim/slide_down_enter"
-            app:exitAnim="@anim/slide_down_exit"
-            app:popEnterAnim="@anim/slide_up_enter"
-            app:popExitAnim="@anim/slide_up_exit" />
+            android:id="@+id/action_bnm_transactions_to_orderFragment"
+            app:destination="@id/orderFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_out_up_20"
+            app:popEnterAnim="@anim/slide_in_down_20"
+            app:popExitAnim="@anim/slide_out_down" />
         <action
-            android:id="@+id/action_bnm_transactions_to_orderConfirmationActivity"
-            app:destination="@id/orderConfirmationActivity" />
+            android:id="@+id/action_bnm_transactions_to_orderActivity"
+            app:destination="@id/orderActivity" />
         <action
             android:id="@+id/action_bnv_cart_to_bnv_product"
             app:destination="@id/bnv_product" />
     </fragment>
     <fragment
-        android:id="@+id/orderConfirmationFragment"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.OrderConfFragment"
+        android:id="@+id/orderFragment"
+        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.OrderFragment"
         android:label="fragment_order_confirmation"
-        tools:layout="@layout/fragment_order_confirmation">
+        tools:layout="@layout/fragment_order">
         <argument
             android:name="products"
             app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder[]" />
     </fragment>
     <activity
-        android:id="@+id/orderConfirmationActivity"
+        android:id="@+id/orderActivity"
         android:name="com.rmyfactory.rmyinventorybarcode.view.activity.OrderConfActivity"
         android:label="activity_order_confirmation"
-        tools:layout="@layout/activity_order_confirmation">
+        tools:layout="@layout/activity_order">
         <argument
             android:name="products"
             app:argType="com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder[]" />
     </activity>
     <fragment
-        android:id="@+id/orderLogFragment"
-        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.OrderLogFragment"
+        android:id="@+id/logFragment"
+        android:name="com.rmyfactory.rmyinventorybarcode.view.fragment.LogFragment"
         android:label="fragment_order_log"
-        tools:layout="@layout/fragment_order_log" />
+        tools:layout="@layout/fragment_log" />
 </navigation>

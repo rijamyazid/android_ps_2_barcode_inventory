@@ -5,26 +5,26 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.R
-import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderOrderConfirmationBinding
+import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderOrderBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.OrderHolder
-import com.rmyfactory.rmyinventorybarcode.util.dotPriceIND
+import com.rmyfactory.rmyinventorybarcode.util.toCurrencyFormat
 
-class OrderConfAdapter(private val context: Context) :
-    RecyclerView.Adapter<OrderConfAdapter.OrderConfViewHolder>() {
+class OrderAdapter(private val context: Context) :
+    RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     private val productList = mutableListOf<OrderHolder>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderConfViewHolder {
-        val binding = ItemHolderOrderConfirmationBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
+        val binding = ItemHolderOrderBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return OrderConfViewHolder(binding)
+        return OrderViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: OrderConfViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val product = productList[position]
         holder.bind(product)
     }
@@ -59,18 +59,18 @@ class OrderConfAdapter(private val context: Context) :
 
     }
 
-    inner class OrderConfViewHolder(private val binding: ItemHolderOrderConfirmationBinding) :
+    inner class OrderViewHolder(private val binding: ItemHolderOrderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(product: OrderHolder) {
             binding.tvOrderConfId.text = product.productId
             binding.tvOrderConfName.text = product.productName
-            binding.tvOrderConfPrice.text = product.productPrice.dotPriceIND()
+            binding.tvOrderConfPrice.text = product.productPrice.toCurrencyFormat()
             binding.tvOrderConfUnit.text = product.productUnit
             binding.tvOrderConfQty.text =
                 context.getString(R.string.order_conf_qty, product.productQty.toString())
             binding.tvOrderConfTotalPrice.text =
-                ((product.productPrice.toLong() * product.productQty).toString()).dotPriceIND()
+                ((product.productPrice.toLong() * product.productQty).toString()).toCurrencyFormat()
         }
 
     }

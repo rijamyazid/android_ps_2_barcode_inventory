@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class OrderLogViewModel
+class LogViewModel
 @Inject constructor(private val repository: MainRepository) : ViewModel() {
 
     fun readOrderWithItems() = repository.readOrderWithProducts()

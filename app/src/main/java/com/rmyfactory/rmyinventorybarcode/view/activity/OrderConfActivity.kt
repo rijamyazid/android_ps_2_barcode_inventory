@@ -7,33 +7,33 @@ import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rmyfactory.rmyinventorybarcode.databinding.FragmentOrderConfirmationBinding
+import com.rmyfactory.rmyinventorybarcode.databinding.FragmentOrderBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartUnitHolder
 import com.rmyfactory.rmyinventorybarcode.util.Functions
-import com.rmyfactory.rmyinventorybarcode.view.adapter.OrderConfAdapter
+import com.rmyfactory.rmyinventorybarcode.view.adapter.OrderAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class OrderConfActivity : AppCompatActivity() {
 
-    private lateinit var binding: FragmentOrderConfirmationBinding
+    private lateinit var binding: FragmentOrderBinding
     private val args: OrderConfActivityArgs by navArgs()
-    private lateinit var orderConfAdapter: OrderConfAdapter
+    private lateinit var orderAdapter: OrderAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = FragmentOrderConfirmationBinding.inflate(layoutInflater)
+        binding = FragmentOrderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        orderConfAdapter = OrderConfAdapter(this)
+        orderAdapter = OrderAdapter(this)
         binding.rvOrderConf.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = orderConfAdapter
+            adapter = orderAdapter
         }
 
         val productWithoutZeroQty = args.products.toList().filterZeroQtyProduct()
-        orderConfAdapter.addProducts(productWithoutZeroQty)
+        orderAdapter.addProducts(productWithoutZeroQty)
         var sumPrice = 0L
         productWithoutZeroQty.forEach { cart ->
             cart.productUnits.forEach {

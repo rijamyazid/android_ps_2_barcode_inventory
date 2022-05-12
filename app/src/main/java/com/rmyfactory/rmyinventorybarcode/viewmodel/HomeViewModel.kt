@@ -10,7 +10,7 @@ import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.Order
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.ProductUnitModel
 import com.rmyfactory.rmyinventorybarcode.model.repository.MainRepository
 import com.rmyfactory.rmyinventorybarcode.util.Constants
-import com.rmyfactory.rmyinventorybarcode.util.SealedResult
+import com.rmyfactory.rmyinventorybarcode.util.ResultResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,7 +27,7 @@ class HomeViewModel
     private suspend fun _readProductUnits(): List<ProductUnitModel> = repository._readProductUnits()
     private suspend fun _readOrderProducts(): List<OrderProductModel> = repository._readOrderProducts()
 
-    fun exportDataset(loadingProgress: (Int) -> Unit, loadingResult: (SealedResult<String>) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
+    fun exportDataset(loadingProgress: (Int) -> Unit, loadingResult: (ResultResponse<String>) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
         val listOfProductModel = _readProducts()
 
         try {
@@ -65,16 +65,16 @@ class HomeViewModel
             loadingProgress(30)
 
 //            viewModelScope.launch(Dispatchers.Main) {
-                loadingResult(SealedResult.Success(exportContent))
+                loadingResult(ResultResponse.Success(exportContent))
 //            }
         } catch (e: Exception) {
 //            viewModelScope.launch(Dispatchers.Main) {
-                loadingResult(SealedResult.Failure(e))
+                loadingResult(ResultResponse.Failure(e))
 //            }
         }
     }
 
-    fun importDataset(inputStream: InputStream?, loadingProgress: (Int) -> Unit, loadingResult: (SealedResult<Any>) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
+    fun importDataset(inputStream: InputStream?, loadingProgress: (Int) -> Unit, loadingResult: (ResultResponse<Any>) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
         val mapOfImportedData = mutableMapOf<String, MutableList<BaseModel>>()
         var currentTable = "none"
 
@@ -148,11 +148,11 @@ class HomeViewModel
                 loadingProgress(progress)
             }
 //            viewModelScope.launch(Dispatchers.Main) {
-                loadingResult(SealedResult.Success(Any()))
+                loadingResult(ResultResponse.Success(Any()))
 //            }
         } catch (e: Exception) {
 //            viewModelScope.launch(Dispatchers.Main) {
-                loadingResult(SealedResult.Failure(e))
+                loadingResult(ResultResponse.Failure(e))
 //            }
         }
     }

@@ -5,21 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.rmyfactory.rmyinventorybarcode.databinding.FragmentOrderLogBinding
-import com.rmyfactory.rmyinventorybarcode.viewmodel.OrderLogViewModel
+import com.rmyfactory.rmyinventorybarcode.databinding.FragmentLogBinding
+import com.rmyfactory.rmyinventorybarcode.viewmodel.LogViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OrderLogFragment : BaseFragment() {
+class LogFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentOrderLogBinding
-    private val viewModel: OrderLogViewModel by viewModels()
+    private lateinit var binding: FragmentLogBinding
+    private val viewModel: LogViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentOrderLogBinding.inflate(inflater, container, false)
+        binding = FragmentLogBinding.inflate(inflater, container, false)
         return binding.root
     }
 

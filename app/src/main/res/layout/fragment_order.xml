@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.OrderConfFragment">
+    tools:context=".view.fragment.OrderFragment">
 
     <include layout="@layout/appbar_default"/>
 
@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false"
                         android:overScrollMode="never"
-                        tools:listitem="@layout/item_holder_order_confirmation" />
+                        tools:listitem="@layout/item_holder_order" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.rmyinventorybarcode.databinding.ItemHolderProduct2Binding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.with.ProductUnitWithUnit
-import com.rmyfactory.rmyinventorybarcode.util.dotPriceIND
+import com.rmyfactory.rmyinventorybarcode.util.toCurrencyFormat
 
 class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ItemViewHolder>() {
 
@@ -37,7 +37,7 @@ class ProductAdapter2 : RecyclerView.Adapter<ProductAdapter2.ItemViewHolder>() {
         fun bind(product: ProductUnitWithUnit) {
             binding.tvProduct2Stock.text = product.productUnit.stock.toString()
             binding.tvProduct2Unit.text = product.productUnit.unitId
-            binding.tvProduct2Price.text = product.productUnit.price.dotPriceIND()
+            binding.tvProduct2Price.text = product.productUnit.price.toCurrencyFormat()
         }
 
     }

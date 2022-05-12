@@ -11,25 +11,25 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rmyfactory.rmyinventorybarcode.databinding.FragmentOrderConfirmationBinding
+import com.rmyfactory.rmyinventorybarcode.databinding.FragmentOrderBinding
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.OrderModel
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartHolder
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.holder.CartUnitHolder
 import com.rmyfactory.rmyinventorybarcode.model.data.local.model.relations.OrderProductModel
 import com.rmyfactory.rmyinventorybarcode.util.Functions.dotPriceIND
 import com.rmyfactory.rmyinventorybarcode.util.Functions.millisToOrderId
-import com.rmyfactory.rmyinventorybarcode.view.adapter.OrderConfAdapter
-import com.rmyfactory.rmyinventorybarcode.viewmodel.OrderConfViewModel
+import com.rmyfactory.rmyinventorybarcode.view.adapter.OrderAdapter
+import com.rmyfactory.rmyinventorybarcode.viewmodel.OrderViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class OrderConfFragment : BaseFragment() {
+class OrderFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentOrderConfirmationBinding
-    private val confViewModel: OrderConfViewModel by viewModels()
-    private val args: OrderConfFragmentArgs by navArgs()
-    private lateinit var orderConfAdapter: OrderConfAdapter
+    private lateinit var binding: FragmentOrderBinding
+    private val viewModel: OrderViewModel by viewModels()
+    private val args: OrderFragmentArgs by navArgs()
+    private lateinit var orderAdapter: OrderAdapter
     private lateinit var order: OrderModel
     private lateinit var orderProducts: MutableList<OrderProductModel>
     private var sumPrice by Delegates.notNull<Long>()
@@ -39,23 +39,23 @@ class OrderConfFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentOrderConfirmationBinding.inflate(layoutInflater, container, false)
+        binding = FragmentOrderBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        orderConfAdapter = OrderConfAdapter(requireContext())
+        orderAdapter = OrderAdapter(requireContext())
         binding.rvOrderConf.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = orderConfAdapter
+            adapter = orderAdapter
         }
 
         Log.d("RMYDFACTORYX", "OrderFrag1: ${args.products.toList()}")
         val productWithoutZeroQty = args.products.toList().filterZeroQtyProduct()
         Log.d("RMYDFACTORYX", "OrderFrag2: $productWithoutZeroQty")
-        orderConfAdapter.addProducts(productWithoutZeroQty)
+        orderAdapter.addProducts(productWithoutZeroQty)
         sumPrice = 0L
         orderProducts = mutableListOf()
         productWithoutZeroQty.forEach { cart ->
@@ -86,7 +86,7 @@ class OrderConfFragment : BaseFragment() {
             orderProducts.forEach {
                 it.orderId = orderTime
             }
-            confViewModel.insertOrders(
+            viewModel.insertOrders(
                 order,
                 orderProducts
             )

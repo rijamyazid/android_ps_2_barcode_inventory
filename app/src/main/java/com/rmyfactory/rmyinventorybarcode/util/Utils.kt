@@ -27,7 +27,7 @@ fun Fragment.toastMessage(message: String="", duration: Int = Toast.LENGTH_SHORT
     Toast.makeText(this.requireContext(), message, duration).show()
 }
 
-fun String.dotPriceIND(): String {
+fun String.toCurrencyFormat(currencyType: String = "Rp."): String {
     if (this.length <= 3) return "Rp. $this"
 
     val reverseNominal = this.reversed()
@@ -36,7 +36,7 @@ fun String.dotPriceIND(): String {
         dotPriced += c
         if ((index + 1) % 3 == 0) dotPriced += "."
     }
-    return "Rp. ${dotPriced.reversed()}"
+    return "$currencyType ${dotPriced.reversed()}"
 }
 
 fun ProductWithUnits.toCartHolder(): CartHolder {

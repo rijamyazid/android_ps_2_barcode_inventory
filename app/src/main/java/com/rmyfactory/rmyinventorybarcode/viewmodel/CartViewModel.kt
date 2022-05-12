@@ -9,7 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class TransactionViewModel
+class CartViewModel
 @Inject constructor(private val repository: MainRepository) : ViewModel() {
 
     //    val itemList = mutableListOf<MutableMap<String, String>>()
