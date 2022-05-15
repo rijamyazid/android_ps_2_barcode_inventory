@@ -2,6 +2,7 @@ package com.rmyfactory.inventorybarcode.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rmyfactory.inventorybarcode.model.data.local.model.ProductModel
@@ -10,6 +11,7 @@ import com.rmyfactory.inventorybarcode.model.data.local.model.holder.ProductDeta
 import com.rmyfactory.inventorybarcode.model.data.local.model.relations.ProductUnitModel
 import com.rmyfactory.inventorybarcode.model.data.local.model.with.ProductWithUnits
 import com.rmyfactory.inventorybarcode.model.repository.MainRepository
+import com.rmyfactory.inventorybarcode.util.ResponseResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,6 +24,9 @@ class DetailViewModel
 //    val ProductUnitRemovedIds = mutableListOf<List<Long>>()
     val productUnitRemovedIds = mutableMapOf<Int, Long>()
     var firstInit = true
+
+    private val _productWithUnitsResult = MutableLiveData<ResponseResult<ProductWithUnits>>()
+    val productWithUnitsResult : LiveData<ResponseResult<ProductWithUnits>> get() = _productWithUnitsResult
 
     fun insertProduct(product: ProductDetailHolder) = viewModelScope.launch(Dispatchers.IO) {
 
@@ -147,8 +152,16 @@ class DetailViewModel
         return repository.readProductById(ProductId)
     }
 
-    fun readProductByIdWithUnits(ProductId: String)
-            : LiveData<ProductWithUnits> = repository.readProductByIdWithUnits(ProductId)
+    fun readProductWithUnitsById(productId: String) = viewModelScope.launch(Dispatchers.IO) {
+        _productWithUnitsResult.postValue(ResponseResult.Loading(true))
+        val productWithUnits = repository.susReadProductWithUnitsById(productId)
+
+        if (productWithUnits != null) {
+            _productWithUnitsResult.postValue(ResponseResult.Success(productWithUnits))
+        } else {
+            _productWithUnitsResult.postValue(ResponseResult.Failure(Exception()))
+        }
+    }
 
     // Unit Model
     fun insertUnit(unit: UnitModel) {

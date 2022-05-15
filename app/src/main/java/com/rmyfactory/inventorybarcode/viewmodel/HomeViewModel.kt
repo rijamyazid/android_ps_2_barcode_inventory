@@ -10,7 +10,7 @@ import com.rmyfactory.inventorybarcode.model.data.local.model.relations.OrderPro
 import com.rmyfactory.inventorybarcode.model.data.local.model.relations.ProductUnitModel
 import com.rmyfactory.inventorybarcode.model.repository.MainRepository
 import com.rmyfactory.inventorybarcode.util.Constants
-import com.rmyfactory.inventorybarcode.util.ResultResponse
+import com.rmyfactory.inventorybarcode.util.ResponseResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,7 +27,7 @@ class HomeViewModel
     private suspend fun _readProductUnits(): List<ProductUnitModel> = repository._readProductUnits()
     private suspend fun _readOrderProducts(): List<OrderProductModel> = repository._readOrderProducts()
 
-    fun exportDataset(loadingProgress: (Int) -> Unit, loadingResult: (ResultResponse<String>) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
+    fun exportDataset(loadingProgress: (Int) -> Unit, loadingResult: (ResponseResult<String>) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
         val listOfProductModel = _readProducts()
 
         try {
@@ -54,7 +54,7 @@ class HomeViewModel
             val listOfOrderProductModel = _readOrderProducts()
             exportContent += "\n#${Constants.TABLE_ORDER_PRODUCT}\n"
             listOfOrderProductModel.forEach { orderProduct ->
-                exportContent += "${orderProduct.orderId};${orderProduct.productId};${orderProduct.qty};${orderProduct.price};${orderProduct.totalPrice}\n"
+                exportContent += "${orderProduct.orderId};${orderProduct.productId};${orderProduct.unit};${orderProduct.qty};${orderProduct.price};${orderProduct.totalPrice}\n"
             }
             loadingProgress(20)
             val listOfProductUnitModel = _readProductUnits()
@@ -65,16 +65,16 @@ class HomeViewModel
             loadingProgress(30)
 
 //            viewModelScope.launch(Dispatchers.Main) {
-                loadingResult(ResultResponse.Success(exportContent))
+                loadingResult(ResponseResult.Success(exportContent))
 //            }
         } catch (e: Exception) {
 //            viewModelScope.launch(Dispatchers.Main) {
-                loadingResult(ResultResponse.Failure(e))
+                loadingResult(ResponseResult.Failure(e))
 //            }
         }
     }
 
-    fun importDataset(inputStream: InputStream?, loadingProgress: (Int) -> Unit, loadingResult: (ResultResponse<Any>) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
+    fun importDataset(inputStream: InputStream?, loadingProgress: (Int) -> Unit, loadingResult: (ResponseResult<Any>) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
         val mapOfImportedData = mutableMapOf<String, MutableList<BaseModel>>()
         var currentTable = "none"
 
@@ -121,9 +121,10 @@ class HomeViewModel
                                             OrderProductModel(
                                                 orderId = lineSplit[0],
                                                 productId = lineSplit[1],
-                                                qty = lineSplit[2].toInt(),
-                                                price = lineSplit[3],
-                                                totalPrice = lineSplit[4]
+                                                unit = lineSplit[2],
+                                                qty = lineSplit[3].toInt(),
+                                                price = lineSplit[4],
+                                                totalPrice = lineSplit[5]
                                             )
                                         )
                                     }
@@ -148,11 +149,11 @@ class HomeViewModel
                 loadingProgress(progress)
             }
 //            viewModelScope.launch(Dispatchers.Main) {
-                loadingResult(ResultResponse.Success(Any()))
+                loadingResult(ResponseResult.Success(Any()))
 //            }
         } catch (e: Exception) {
 //            viewModelScope.launch(Dispatchers.Main) {
-                loadingResult(ResultResponse.Failure(e))
+                loadingResult(ResponseResult.Failure(e))
 //            }
         }
     }

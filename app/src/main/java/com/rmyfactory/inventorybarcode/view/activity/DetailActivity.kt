@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rmyfactory.inventorybarcode.databinding.ActivityDetailBinding
 import com.rmyfactory.inventorybarcode.model.data.local.model.holder.ProductDetailHolder
 import com.rmyfactory.inventorybarcode.util.Functions.fillProductDetailHolder
+import com.rmyfactory.inventorybarcode.util.ResponseResult
 import com.rmyfactory.inventorybarcode.util.ifEmptySetDefault
 import com.rmyfactory.inventorybarcode.view.adapter.DetailUnitAdapter
 import com.rmyfactory.inventorybarcode.viewmodel.DetailViewModel
@@ -31,6 +32,8 @@ class DetailActivity : AppCompatActivity() {
 
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel.readProductWithUnitsById(args.itemId)
 
         detailUnitAdapter = DetailUnitAdapter(this,
             onUnitRemoved = { isAdd, position, id ->
@@ -82,8 +85,8 @@ class DetailActivity : AppCompatActivity() {
                     it.value.edtItemStockRv.editText?.text.toString().isNotEmpty()
                 ) {
 
-                    if(it.value.contSpinnerRv.visibility == View.VISIBLE) {
-                        if(it.value.spinItemUnitRv.selectedItem.toString() == "Pilih...") {
+                    if (it.value.contSpinnerRv.visibility == View.VISIBLE) {
+                        if (it.value.spinItemUnitRv.selectedItem.toString() == "Pilih...") {
                             productDetail.productUnit.add("Buah")
                         } else {
                             productDetail.productUnit.add(
@@ -92,7 +95,8 @@ class DetailActivity : AppCompatActivity() {
                         }
                     } else {
                         productDetail.productUnit.add(
-                            it.value.edtItemUnitRv.editText?.text.toString().ifEmptySetDefault("Buah")
+                            it.value.edtItemUnitRv.editText?.text.toString()
+                                .ifEmptySetDefault("Buah")
                         )
                     }
                     productDetail.productPrice.add(
@@ -103,7 +107,8 @@ class DetailActivity : AppCompatActivity() {
                             .toInt()
                     )
                     productDetail.productIncrement.add(
-                        it.value.edtItemIncrementRv.editText?.text.toString().ifEmptySetDefault("1.0")
+                        it.value.edtItemIncrementRv.editText?.text.toString()
+                            .ifEmptySetDefault("1.0")
                             .toFloat()
                     )
                 }
@@ -135,8 +140,8 @@ class DetailActivity : AppCompatActivity() {
 //                    it.value.edtItemPriceRv.editText?.text.toString().isNotEmpty() ||
 //                    it.value.edtItemStockRv.editText?.text.toString().isNotEmpty()) {
 
-                if(it.value.contSpinnerRv.visibility == View.VISIBLE) {
-                    if(it.value.spinItemUnitRv.selectedItem.toString() == "Pilih...") {
+                if (it.value.contSpinnerRv.visibility == View.VISIBLE) {
+                    if (it.value.spinItemUnitRv.selectedItem.toString() == "Pilih...") {
                         productDetail.productUnit.add("Buah")
                     } else {
                         productDetail.productUnit.add(
@@ -179,29 +184,28 @@ class DetailActivity : AppCompatActivity() {
 //                        "Cek Price At Binding ${it.key} = ${it.value.edtItemPriceRv.editText?.text.toString()}")
 //            }
         }
-
-        viewModel.readProductByIdWithUnits(args.itemId).observe(this, {
-            if (viewModel.firstInit) {
-                if (it != null) {
-
-//                if(it.itemUnitList.size > 1) {
-//                    binding.btnUnit2.visibility = View.GONE
-//                    binding.constraint2.visibility = View.VISIBLE
-//                    binding.btnUnitDelete2.visibility = View.VISIBLE
-//                }
-
-                    binding.edtItemName.editText?.setText(it.product.productName)
-                    binding.edtItemNote.editText?.setText(it.product.productNote)
-                    if (it.productUnitList.isNotEmpty()) {
-                        detailUnitAdapter.addItemUnits(it.productUnitList.size, it.productUnitList)
+        viewModel.productWithUnitsResult.observe(this, {
+            when (it) {
+                is ResponseResult.Loading -> {
+                }
+                is ResponseResult.Success -> {
+                    binding.edtItemName.editText?.setText(it.data.product.productName)
+                    binding.edtItemNote.editText?.setText(it.data.product.productNote)
+                    if (it.data.productUnitList.isNotEmpty()) {
+                        detailUnitAdapter.addItemUnits(
+                            it.data.productUnitList.size,
+                            it.data.productUnitList
+                        )
                     }
                     binding.btnAddItem.visibility = View.GONE
                     binding.llButtonsDetail.visibility = View.VISIBLE
-                } else {
+                }
+                is ResponseResult.Failure -> {
                     binding.btnAddItem.visibility = View.VISIBLE
                     binding.llButtonsDetail.visibility = View.GONE
                 }
-                viewModel.firstInit = false
+                else -> {
+                }
             }
         })
 

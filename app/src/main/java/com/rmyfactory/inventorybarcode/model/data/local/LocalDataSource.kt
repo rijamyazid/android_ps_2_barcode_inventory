@@ -57,8 +57,8 @@ class LocalDataSource
 
     suspend fun readProductWithUnits_(): List<ProductWithUnits> = productDao.readProductWithUnits_()
 
-    fun readProductByIdWithUnits(ProductId: String)
-            : LiveData<ProductWithUnits> = productDao.readProductByIdWithUnits(ProductId)
+    suspend fun susReadProductWithUnitsById(productId: String)
+            : ProductWithUnits? = productDao.susReadProductWithUnitsById(productId)
 
     //Order Model
     fun insertOrder(order: OrderModel) {

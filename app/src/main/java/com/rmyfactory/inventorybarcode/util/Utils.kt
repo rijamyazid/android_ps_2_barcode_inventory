@@ -34,9 +34,23 @@ fun String.toCurrencyFormat(currencyType: String = "Rp."): String {
     var dotPriced = ""
     reverseNominal.forEachIndexed { index, c ->
         dotPriced += c
-        if ((index + 1) % 3 == 0) dotPriced += "."
+        if ((index + 1) % 3 == 0 && index != reverseNominal.length - 1) dotPriced += "."
     }
     return "$currencyType ${dotPriced.reversed()}"
+}
+
+fun <T> ResponseResult<T>.responses(
+    isLoading: (Boolean?) -> Unit = {},
+    isSuccess: (T) -> Unit = {},
+    isFailure: (Throwable?) -> Unit = {}) {
+
+    when(this) {
+        is ResponseResult.Loading -> { isLoading(this.status) }
+        is ResponseResult.Success -> { isSuccess(this.data) }
+        is ResponseResult.Failure -> { isFailure(this.exception) }
+        else -> {}
+    }
+
 }
 
 fun ProductWithUnits.toCartHolder(): CartHolder {

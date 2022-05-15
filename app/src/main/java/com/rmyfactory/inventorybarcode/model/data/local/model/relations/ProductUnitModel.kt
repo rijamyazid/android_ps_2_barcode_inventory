@@ -15,9 +15,9 @@ data class ProductUnitModel(
     @ColumnInfo(name = "unit_id", index = true)
     val unitId: String,
     @ColumnInfo(name = "stock")
-    val stock: Int,
+    var stock: Int,
     @ColumnInfo(name = "price")
-    val price: String,
+    var price: String,
     @ColumnInfo(name = "increment")
     val increment: Float = 1.0F
 ): BaseModel

@@ -24,6 +24,7 @@ import com.rmyfactory.inventorybarcode.databinding.FragmentCartBinding
 import com.rmyfactory.inventorybarcode.model.data.local.model.holder.CartHolder
 import com.rmyfactory.inventorybarcode.util.BarcodeAnalyzer
 import com.rmyfactory.inventorybarcode.util.Permissions
+import com.rmyfactory.inventorybarcode.util.ResponseResult
 import com.rmyfactory.inventorybarcode.util.toCartHolder
 import com.rmyfactory.inventorybarcode.view.adapter.CartAdapter
 import com.rmyfactory.inventorybarcode.viewmodel.CartViewModel
@@ -193,36 +194,33 @@ class CartFragment : BaseFragment() {
     }
 
     private fun onScanSuccess(itemId: String?) {
-        itemId?.let {
-            viewModel.readProductByIdWithUnits(it).observe(viewLifecycleOwner, { item ->
-                item?.let { _item ->
-                    if (!checkIdOnList(_item.product.productId, viewModel.itemList)) {
-//                        val order = OrderHolder(
-//                            _item.item.itemId,
-//                            _item.item.itemName,
-//                            _item.itemUnitList[0].itemUnit.price,
-//                            1
-//                        )
-//                        val orderMap = mutableMapOf(
-//                            "orderId" to _item.itemId,
-//                            "orderName" to _item.itemName,
-//                            "orderPrice" to _item.itemPrice,
-//                            "orderQty" to "1"
-//                        )
-                        viewModel.itemList.add(_item.toCartHolder())
-                        cartAdapter.addOrder(viewModel.itemList)
-                    } else {
+        itemId?.let { productId ->
+            viewModel.readProductWithUnitsById(productId)
+            viewModel.productWithUnitsResult.observe(viewLifecycleOwner, { product ->
+
+                when(product) {
+                    is ResponseResult.Loading -> {}
+                    is ResponseResult.Success -> {
+                        if (!checkIdOnList(product.data.product.productId, viewModel.itemList)) {
+                            viewModel.itemList.add(product.data.toCartHolder())
+                            cartAdapter.addOrder(viewModel.itemList)
+                        } else {
+                            Toast
+                                .makeText(
+                                    requireContext(),
+                                    "Item sudah ada dalam keranjang",
+                                    Toast.LENGTH_SHORT
+                                )
+                                .show()
+                        }
+                    }
+                    is ResponseResult.Failure -> {
                         Toast
-                            .makeText(
-                                requireContext(),
-                                "Item sudah ada dalam keranjang",
-                                Toast.LENGTH_SHORT
-                            )
+                            .makeText(requireContext(), "Item tidak ada dalam database", Toast.LENGTH_SHORT)
                             .show()
                     }
-                } ?: Toast
-                    .makeText(requireContext(), "Item tidak ada dalam database", Toast.LENGTH_SHORT)
-                    .show()
+                    else -> {}
+                }
             })
         }
     }

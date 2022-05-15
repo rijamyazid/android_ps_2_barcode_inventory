@@ -45,8 +45,8 @@ class MainRepository
 
     suspend fun readProductWithUnits_(): List<ProductWithUnits> = localDataSource.readProductWithUnits_()
 
-    fun readProductByIdWithUnits(ProductId: String)
-            : LiveData<ProductWithUnits> = localDataSource.readProductByIdWithUnits(ProductId)
+    suspend fun susReadProductWithUnitsById(productId: String)
+            : ProductWithUnits? = localDataSource.susReadProductWithUnitsById(productId)
 
     //Order Model
     fun insertOrder(order: OrderModel) {

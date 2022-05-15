@@ -43,15 +43,15 @@ interface ProductDao {
     fun readProductWithUnitsByQuery(query: String): LiveData<List<ProductWithUnits>>
 
     @Transaction
+    @Query("SELECT * FROM product_table WHERE id=:productId")
+    suspend fun susReadProductWithUnitsById(productId: String): ProductWithUnits?
+
+    @Transaction
     @Query("SELECT * FROM product_table WHERE product_name LIKE :query")
     suspend fun susReadProductWithUnitsByQuery(query: String): List<ProductWithUnits>
 
     @Transaction
     @Query("SELECT * FROM product_table")
     suspend fun readProductWithUnits_(): List<ProductWithUnits>
-
-    @Transaction
-    @Query("SELECT * FROM product_table WHERE id=:productId")
-    fun readProductByIdWithUnits(productId: String): LiveData<ProductWithUnits>
 
 }

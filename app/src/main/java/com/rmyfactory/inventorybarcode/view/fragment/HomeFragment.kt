@@ -98,7 +98,7 @@ class HomeFragment : BaseFragment() {
                         },
                         loadingResult = { result ->
                             when (result) {
-                                is ResultResponse.Success -> {
+                                is ResponseResult.Success -> {
                                     result.data.byteInputStream().use { input ->
                                         outputStream.use { output ->
                                             input.copyTo(output!!)
@@ -106,7 +106,7 @@ class HomeFragment : BaseFragment() {
                                     }
                                     loadingDialogFragment?.dismiss()
                                 }
-                                is ResultResponse.Failure -> {
+                                is ResponseResult.Failure -> {
                                     loadingDialogFragment?.dismiss()
                                 }
                                 else -> {}
@@ -144,10 +144,10 @@ class HomeFragment : BaseFragment() {
                         },
                         loadingResult = { result ->
                             when(result) {
-                                is ResultResponse.Success -> {
+                                is ResponseResult.Success -> {
                                     loadingDialogFragment?.dismiss()
                                 }
-                                is ResultResponse.Failure -> {
+                                is ResponseResult.Failure -> {
                                     loadingDialogFragment?.dismiss()
                                 }
                                 else -> {}

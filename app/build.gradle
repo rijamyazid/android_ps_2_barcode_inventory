@@ -70,6 +70,7 @@ dependencies {
     // Lifecycle
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
 
     // Hilt
     implementation 'com.google.dagger:hilt-android:2.38.1'
