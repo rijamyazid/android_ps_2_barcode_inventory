@@ -25,7 +25,7 @@ interface ProductDao {
     fun readProducts(): LiveData<List<ProductModel>>
 
     @Query("SELECT * FROM product_table")
-    suspend fun _readProducts(): List<ProductModel>
+    suspend fun susReadProducts(): List<ProductModel>
 
     @Query("DELETE FROM product_table WHERE id=:productId")
     fun deleteProductById(productId: String)
@@ -52,6 +52,6 @@ interface ProductDao {
 
     @Transaction
     @Query("SELECT * FROM product_table")
-    suspend fun readProductWithUnits_(): List<ProductWithUnits>
+    suspend fun susReadProductWithUnits(): List<ProductWithUnits>
 
 }

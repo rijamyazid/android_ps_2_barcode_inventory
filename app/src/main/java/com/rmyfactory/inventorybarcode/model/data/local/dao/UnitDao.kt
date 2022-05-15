@@ -24,7 +24,7 @@ interface UnitDao {
     fun readUnits(): LiveData<List<UnitModel>>
 
     @Query("SELECT * FROM unit_table")
-    suspend fun _readUnits(): List<UnitModel>
+    suspend fun susReadUnits(): List<UnitModel>
 
     @Query("SELECT * FROM unit_table WHERE id=:unitId")
     fun readUnitById(unitId: String): UnitModel?

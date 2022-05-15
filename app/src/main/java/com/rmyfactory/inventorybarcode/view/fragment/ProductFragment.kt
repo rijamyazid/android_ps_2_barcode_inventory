@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rmyfactory.inventorybarcode.databinding.FragmentProductBinding
+import com.rmyfactory.inventorybarcode.view.activity.MainActivity
 import com.rmyfactory.inventorybarcode.view.adapter.ProductAdapter
-import com.rmyfactory.inventorybarcode.viewmodel.ProductCartViewModel
+import com.rmyfactory.inventorybarcode.viewmodel.MainActivityViewModel
 import com.rmyfactory.inventorybarcode.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +23,7 @@ class ProductFragment : BaseFragment() {
     private var _binding: FragmentProductBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ProductViewModel by viewModels()
-    private val productCartViewModel: ProductCartViewModel by activityViewModels()
+    private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
 
     private lateinit var productAdapter: ProductAdapter
 
@@ -63,8 +65,9 @@ class ProductFragment : BaseFragment() {
             productAdapter.addProducts(it)
         })
 
-        if(productCartViewModel.productCartState.value != 0) {
+        if(mainActivityViewModel.productCartState != 0) {
             binding.fabProductAdd.visibility = View.GONE
+            (activity as MainActivity).hideBottomNav()
         } else {
             binding.fabProductAdd.visibility = View.VISIBLE
         }
@@ -75,6 +78,14 @@ class ProductFragment : BaseFragment() {
             )
         }
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                mainActivityViewModel.productCartState = 2
+                isEnabled = false
+                requireActivity().onBackPressed()
+            }
+        })
+
     }
 
     override fun onDestroyView() {
@@ -84,15 +95,15 @@ class ProductFragment : BaseFragment() {
 
     private fun initVars() {
         productAdapter = ProductAdapter {
-            if(productCartViewModel.productCartState.value == 0) {
+            if(mainActivityViewModel.productCartState == 0) {
                 findNavController().navigate(
                     ProductFragmentDirections.actionItemFragmentToDetailActivity(
                         it.product.productId
                     )
                 )
             } else {
-                productCartViewModel.setProductCartState(2)
-                productCartViewModel.productWithUnits = it
+                mainActivityViewModel.productCartState = 2
+                mainActivityViewModel.productWithUnits.value = it
                 findNavController().popBackStack()
             }
         }

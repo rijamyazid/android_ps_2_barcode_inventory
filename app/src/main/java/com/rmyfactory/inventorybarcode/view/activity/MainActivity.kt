@@ -35,11 +35,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showBottomNav() {
+    fun showBottomNav() {
         binding.bnvMain.visibility = View.VISIBLE
     }
 
-    private fun hideBottomNav() {
+    fun hideBottomNav() {
         binding.bnvMain.visibility = View.GONE
     }
 }

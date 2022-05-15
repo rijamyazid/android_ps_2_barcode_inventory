@@ -35,7 +35,7 @@ class MainRepository
     fun readProducts()
             : LiveData<List<ProductModel>> = localDataSource.readProducts()
 
-    suspend fun _readProducts(): List<ProductModel> = localDataSource._readProducts()
+    suspend fun susReadProducts(): List<ProductModel> = localDataSource.susReadProducts()
 
     fun readProductById(ProductId: String)
             : LiveData<ProductModel> = localDataSource.readProductById(ProductId)
@@ -60,7 +60,7 @@ class MainRepository
     fun readOrderWithProducts()
             : LiveData<List<OrderWithProducts>> = localDataSource.readOrderWithProducts()
 
-    suspend fun _readOrders(): List<OrderModel> = localDataSource._readOrders()
+    suspend fun susReadOrders(): List<OrderModel> = localDataSource.susReadOrders()
 
     //Unit Model
     fun insertUnit(unit: UnitModel) {
@@ -84,7 +84,7 @@ class MainRepository
     suspend fun susReadProductWithUnitsByQuery(query: String)
             : List<ProductWithUnits> = localDataSource.susReadProductWithUnitsByQuery(query)
 
-    suspend fun _readUnits(): List<UnitModel> = localDataSource._readUnits()
+    suspend fun susReadUnits(): List<UnitModel> = localDataSource.susReadUnits()
 
     fun readUnitById(unitId: String)
             : UnitModel? = localDataSource.readUnitById(unitId)
@@ -97,7 +97,7 @@ class MainRepository
         localDataSource.insertOrderProducts(orders)
     }
 
-    suspend fun _readOrderProducts(): List<OrderProductModel> = localDataSource._readOrderProducts()
+    suspend fun susReadOrderProducts(): List<OrderProductModel> = localDataSource.susReadOrderProducts()
 
     //ProductUnitModel
     fun readProductByProductAndUnitId(ProductId: String, unitId: String)
@@ -123,6 +123,6 @@ class MainRepository
         localDataSource.deleteProductUnitsByProductId(ProductId)
     }
 
-    suspend fun _readProductUnits(): List<ProductUnitModel> = localDataSource._readProductUnits()
+    suspend fun susReadProductUnits(): List<ProductUnitModel> = localDataSource.susReadProductUnits()
 
 }

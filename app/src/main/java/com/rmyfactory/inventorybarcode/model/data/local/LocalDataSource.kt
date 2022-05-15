@@ -47,7 +47,7 @@ class LocalDataSource
     suspend fun susReadProductWithUnitsByQuery(query: String)
             : List<ProductWithUnits> = productDao.susReadProductWithUnitsByQuery(query)
 
-    suspend fun _readProducts(): List<ProductModel> = productDao._readProducts()
+    suspend fun susReadProducts(): List<ProductModel> = productDao.susReadProducts()
 
     fun readProductById(ProductId: String)
             : LiveData<ProductModel> = productDao.readProduct(ProductId)
@@ -55,7 +55,7 @@ class LocalDataSource
     fun readProductWithUnits()
             : LiveData<List<ProductWithUnits>> = productDao.readProductWithUnits()
 
-    suspend fun readProductWithUnits_(): List<ProductWithUnits> = productDao.readProductWithUnits_()
+    suspend fun readProductWithUnits_(): List<ProductWithUnits> = productDao.susReadProductWithUnits()
 
     suspend fun susReadProductWithUnitsById(productId: String)
             : ProductWithUnits? = productDao.susReadProductWithUnitsById(productId)
@@ -72,7 +72,7 @@ class LocalDataSource
     fun readOrderWithProducts()
             : LiveData<List<OrderWithProducts>> = orderDao.readOrderWithProducts()
 
-    suspend fun _readOrders(): List<OrderModel> = orderDao._readOrders()
+    suspend fun susReadOrders(): List<OrderModel> = orderDao.susReadOrders()
 
     //Unit Model
     fun insertUnit(unit: UnitModel) {
@@ -90,7 +90,7 @@ class LocalDataSource
     fun readUnits()
             : LiveData<List<UnitModel>> = unitDao.readUnits()
 
-    suspend fun _readUnits(): List<UnitModel> = unitDao._readUnits()
+    suspend fun susReadUnits(): List<UnitModel> = unitDao.susReadUnits()
 
     fun readUnitById(unitId: String)
             : UnitModel? = unitDao.readUnitById(unitId)
@@ -103,7 +103,7 @@ class LocalDataSource
         orderProductDao.insertOrderProducts(orderList)
     }
 
-    suspend fun _readOrderProducts(): List<OrderProductModel> = orderProductDao._readOrderProducts()
+    suspend fun susReadOrderProducts(): List<OrderProductModel> = orderProductDao.susReadOrderProducts()
 
     //ProductUnit Model
     fun insertProductUnit(productUnit: ProductUnitModel) {
@@ -126,7 +126,7 @@ class LocalDataSource
         productUnitDao.deleteProductUnitsByProductId(ProductId)
     }
 
-    suspend fun _readProductUnits(): List<ProductUnitModel> = productUnitDao._readProductUnits()
+    suspend fun susReadProductUnits(): List<ProductUnitModel> = productUnitDao.susReadProductUnits()
 
     fun readProductByProductAndUnitId(ProductId: String, unitId: String): ProductUnitModel? =
         productUnitDao.readProductByProductAndUnitId(ProductId, unitId)

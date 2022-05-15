@@ -21,14 +21,14 @@ import javax.inject.Inject
 class HomeViewModel
 @Inject constructor(private val repository: MainRepository): ViewModel() {
 
-    private suspend fun _readProducts(): List<ProductModel> = repository._readProducts()
-    private suspend fun _readOrders(): List<OrderModel> = repository._readOrders()
-    private suspend fun _readUnits(): List<UnitModel> = repository._readUnits()
-    private suspend fun _readProductUnits(): List<ProductUnitModel> = repository._readProductUnits()
-    private suspend fun _readOrderProducts(): List<OrderProductModel> = repository._readOrderProducts()
+    private suspend fun susReadProducts(): List<ProductModel> = repository.susReadProducts()
+    private suspend fun susReadOrders(): List<OrderModel> = repository.susReadOrders()
+    private suspend fun susReadUnits(): List<UnitModel> = repository.susReadUnits()
+    private suspend fun susReadProductUnits(): List<ProductUnitModel> = repository.susReadProductUnits()
+    private suspend fun susReadOrderProducts(): List<OrderProductModel> = repository.susReadOrderProducts()
 
     fun exportDataset(loadingProgress: (Int) -> Unit, loadingResult: (ResponseResult<String>) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
-        val listOfProductModel = _readProducts()
+        val listOfProductModel = susReadProducts()
 
         try {
             var exportContent = "#${Constants.TABLE_PRODUCT}\n"
@@ -37,27 +37,27 @@ class HomeViewModel
             }
             loadingProgress(20)
 
-            val listOfOrderModel = _readOrders()
+            val listOfOrderModel = susReadOrders()
             exportContent += "\n#${Constants.TABLE_ORDER}\n"
             listOfOrderModel.forEach { order ->
                 exportContent += "${order.orderId};${order.orderPay};${order.orderExchange};${order.orderTotalPrice}\n"
             }
             loadingProgress(20)
 
-            val listOfUnitModel = _readUnits()
+            val listOfUnitModel = susReadUnits()
             exportContent += "\n#${Constants.TABLE_UNIT}\n"
             listOfUnitModel.forEach { unit ->
                 exportContent += "${unit.unitId}\n"
             }
             loadingProgress(10)
 
-            val listOfOrderProductModel = _readOrderProducts()
+            val listOfOrderProductModel = susReadOrderProducts()
             exportContent += "\n#${Constants.TABLE_ORDER_PRODUCT}\n"
             listOfOrderProductModel.forEach { orderProduct ->
                 exportContent += "${orderProduct.orderId};${orderProduct.productId};${orderProduct.unit};${orderProduct.qty};${orderProduct.price};${orderProduct.totalPrice}\n"
             }
             loadingProgress(20)
-            val listOfProductUnitModel = _readProductUnits()
+            val listOfProductUnitModel = susReadProductUnits()
             exportContent += "\n#${Constants.TABLE_PRODUCT_UNIT}\n"
             listOfProductUnitModel.forEach { ProductUnit ->
                 exportContent += "${ProductUnit.id};${ProductUnit.productId};${ProductUnit.unitId};${ProductUnit.stock};${ProductUnit.price}\n"

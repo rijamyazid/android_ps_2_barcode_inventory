@@ -22,7 +22,7 @@ interface ProductUnitDao {
     fun deleteProductUnitsByProductId(productId: String)
 
     @Query("SELECT * FROM product_unit_table")
-    suspend fun _readProductUnits(): List<ProductUnitModel>
+    suspend fun susReadProductUnits(): List<ProductUnitModel>
 
     @Query("SELECT * FROM product_unit_table WHERE product_id=:productId AND unit_id=:unitId")
     fun readProductByProductAndUnitId(productId: String, unitId: String): ProductUnitModel?

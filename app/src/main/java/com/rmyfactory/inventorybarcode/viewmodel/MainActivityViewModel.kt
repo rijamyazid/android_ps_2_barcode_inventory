@@ -7,14 +7,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductCartViewModel @Inject constructor(): ViewModel() {
+class MainActivityViewModel @Inject constructor(): ViewModel() {
 
-    val productCartState = MutableLiveData(0)
+    var productCartState = 0
 
-    fun setProductCartState(state: Int) {
-        productCartState.value = state
-    }
-
-    lateinit var productWithUnits: ProductWithUnits
+    val productWithUnits = MutableLiveData<ProductWithUnits>()
 
 }

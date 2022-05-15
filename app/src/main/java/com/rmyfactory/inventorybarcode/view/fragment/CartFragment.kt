@@ -28,7 +28,7 @@ import com.rmyfactory.inventorybarcode.util.ResponseResult
 import com.rmyfactory.inventorybarcode.util.toCartHolder
 import com.rmyfactory.inventorybarcode.view.adapter.CartAdapter
 import com.rmyfactory.inventorybarcode.viewmodel.CartViewModel
-import com.rmyfactory.inventorybarcode.viewmodel.ProductCartViewModel
+import com.rmyfactory.inventorybarcode.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -38,7 +38,7 @@ class CartFragment : BaseFragment() {
 
     private lateinit var binding: FragmentCartBinding
     private val viewModel: CartViewModel by viewModels()
-    private val productCartViewModel: ProductCartViewModel by activityViewModels()
+    private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private lateinit var cartAdapter: CartAdapter
 
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
@@ -90,15 +90,10 @@ class CartFragment : BaseFragment() {
                     CartFragmentDirections
                         .actionBnmTransactionsToOrderFragment(viewModel.itemList.toTypedArray())
                 )
-//            findNavController()
-//                .navigate(
-//                    TransactionFragmentDirections
-//                        .actionBnmTransactionsToOrderActivity(viewModel.itemList.toTypedArray())
-//                )
         }
 
         binding.fabCartAdd.setOnClickListener {
-            productCartViewModel.setProductCartState(1)
+            mainActivityViewModel.productCartState = 1
             findNavController().navigate(CartFragmentDirections.actionBnvCartToBnvProduct())
         }
 
@@ -107,11 +102,11 @@ class CartFragment : BaseFragment() {
             cartAdapter.addOrder(viewModel.itemList)
         }
 
-        productCartViewModel.productCartState.observe(viewLifecycleOwner, {
-            if(it == 2) {
-                viewModel.itemList.add(productCartViewModel.productWithUnits.toCartHolder())
-                productCartViewModel.setProductCartState(0)
+        mainActivityViewModel.productWithUnits.observe(viewLifecycleOwner, {
+            if(mainActivityViewModel.productCartState == 2) {
+                viewModel.itemList.add(it.toCartHolder())
                 cartAdapter.addOrder(viewModel.itemList)
+                mainActivityViewModel.productCartState = 0
             }
         })
 

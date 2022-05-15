@@ -20,6 +20,6 @@ interface OrderProductDao {
     fun readOrderProducts(): LiveData<List<OrderProductModel>>
 
     @Query("SELECT * FROM order_product_table")
-    suspend fun _readOrderProducts(): List<OrderProductModel>
+    suspend fun susReadOrderProducts(): List<OrderProductModel>
 
 }

@@ -15,7 +15,7 @@ interface OrderDao {
     fun insertOrders(orders: List<OrderModel>)
 
     @Query("SELECT * FROM order_table")
-    suspend fun _readOrders(): List<OrderModel>
+    suspend fun susReadOrders(): List<OrderModel>
 
     @Query("SELECT * FROM order_table WHERE id=:orderId")
     fun readOrderById(orderId: String): LiveData<OrderModel>
