@@ -2,7 +2,9 @@ package com.rmyfactory.inventorybarcode.model.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.rmyfactory.inventorybarcode.model.data.local.dao.*
+import com.rmyfactory.inventorybarcode.model.data.local.database.converters.DateConverter
 import com.rmyfactory.inventorybarcode.model.data.local.model.OrderModel
 import com.rmyfactory.inventorybarcode.model.data.local.model.ProductModel
 import com.rmyfactory.inventorybarcode.model.data.local.model.UnitModel
@@ -20,6 +22,7 @@ import com.rmyfactory.inventorybarcode.model.data.local.model.relations.ProductU
     ],
     version = 1, exportSchema = false
 )
+@TypeConverters(DateConverter::class)
 abstract class MainDatabase : RoomDatabase() {
 
     abstract fun productDao(): ProductDao

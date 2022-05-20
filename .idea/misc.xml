@@ -37,6 +37,8 @@
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/fragment_cart.xml" value="0.22447916666666667" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/fragment_item.xml" value="0.22447916666666667" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/fragment_log.xml" value="0.18" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/fragment_order.xml" value="0.22447916666666667" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/fragment_order_confirmation.xml" value="0.2" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/fragment_order_log.xml" value="0.22447916666666667" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/fragment_product.xml" value="0.25" />
@@ -45,6 +47,9 @@
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_cart_2.xml" value="0.33" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_detail_unit.xml" value="0.33" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_item.xml" value="0.25" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_log.xml" value="0.25" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_log_2.xml" value="0.22447916666666667" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_order.xml" value="0.33" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_order_confirmation.xml" value="0.67" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_order_item.xml" value="0.33" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_product.xml" value="0.3699421965317919" />

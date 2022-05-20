@@ -15,6 +15,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.InputStream
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,7 +42,7 @@ class HomeViewModel
             val listOfOrderModel = susReadOrders()
             exportContent += "\n#${Constants.TABLE_ORDER}\n"
             listOfOrderModel.forEach { order ->
-                exportContent += "${order.orderId};${order.orderPay};${order.orderExchange};${order.orderTotalPrice}\n"
+                exportContent += "${order.orderId};${order.orderPay};${order.orderExchange};${order.orderTotalPrice};${order.orderDate}\n"
             }
             loadingProgress(20)
 
@@ -100,12 +102,15 @@ class HomeViewModel
                                         )
                                     }
                                     Constants.TABLE_ORDER -> {
+                                        val sdf = SimpleDateFormat("dd M yyyy hh:mm:ss", Locale("id", "ID"))
+                                        val dateFormatted = sdf.parse(lineSplit[4])
                                         mapOfImportedData[currentTable]?.add(
                                             OrderModel(
                                                 orderId = lineSplit[0],
                                                 orderPay = lineSplit[1],
                                                 orderExchange = lineSplit[2],
-                                                orderTotalPrice = lineSplit[3]
+                                                orderTotalPrice = lineSplit[3],
+                                                orderDate = dateFormatted
                                             )
                                         )
                                     }

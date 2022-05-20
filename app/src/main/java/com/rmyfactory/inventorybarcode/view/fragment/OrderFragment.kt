@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -21,8 +22,10 @@ import com.rmyfactory.inventorybarcode.util.Functions.millisToOrderId
 import com.rmyfactory.inventorybarcode.util.responses
 import com.rmyfactory.inventorybarcode.util.toCurrencyFormat
 import com.rmyfactory.inventorybarcode.view.adapter.OrderAdapter
+import com.rmyfactory.inventorybarcode.viewmodel.MainActivityViewModel
 import com.rmyfactory.inventorybarcode.viewmodel.OrderViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
@@ -30,6 +33,7 @@ class OrderFragment : BaseFragment() {
 
     private lateinit var binding: FragmentOrderBinding
     private val viewModel: OrderViewModel by viewModels()
+    private val activityViewModel: MainActivityViewModel by activityViewModels()
     private val args: OrderFragmentArgs by navArgs()
     private lateinit var orderAdapter: OrderAdapter
     private lateinit var order: OrderModel
@@ -85,7 +89,8 @@ class OrderFragment : BaseFragment() {
                 orderId = orderTime,
                 orderTotalPrice = sumPrice.toString(),
                 orderPay = binding.edtOrderConfPay.editText?.text.toString(),
-                orderExchange = exchange.toString()
+                orderExchange = exchange.toString(),
+                orderDate = Calendar.getInstance().time
             )
             orderProducts.forEach {
                 it.orderId = orderTime
@@ -94,6 +99,8 @@ class OrderFragment : BaseFragment() {
                 order,
                 orderProducts
             )
+            activityViewModel.productCartState = 2
+            activityViewModel.productWithUnits.value = null
         }
 
         binding.edtOrderConfPay.editText?.addTextChangedListener(object : TextWatcher {

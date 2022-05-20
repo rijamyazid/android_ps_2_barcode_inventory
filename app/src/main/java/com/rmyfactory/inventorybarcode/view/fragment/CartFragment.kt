@@ -104,9 +104,14 @@ class CartFragment : BaseFragment() {
 
         mainActivityViewModel.productWithUnits.observe(viewLifecycleOwner, {
             if(mainActivityViewModel.productCartState == 2) {
-                viewModel.itemList.add(it.toCartHolder())
-                cartAdapter.addOrder(viewModel.itemList)
-                mainActivityViewModel.productCartState = 0
+                if (it != null) {
+                    viewModel.itemList.add(it.toCartHolder())
+                    cartAdapter.addOrder(viewModel.itemList)
+                    mainActivityViewModel.productCartState = 0
+                } else {
+                    viewModel.itemList.clear()
+                    cartAdapter.addOrder(viewModel.itemList)
+                }
             }
         })
 

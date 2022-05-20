@@ -3,6 +3,7 @@ package com.rmyfactory.inventorybarcode.model.data.local.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(tableName = "order_table")
 data class OrderModel(
@@ -15,6 +16,8 @@ data class OrderModel(
     @ColumnInfo(name = "order_pay")
     val orderPay: String,
     @ColumnInfo(name = "order_exchange")
-    val orderExchange: String
+    val orderExchange: String,
+    @ColumnInfo(name = "order_date")
+    val orderDate: Date?
 
 ): BaseModel

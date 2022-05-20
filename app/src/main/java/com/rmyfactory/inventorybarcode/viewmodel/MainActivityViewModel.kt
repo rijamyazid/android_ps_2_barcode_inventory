@@ -11,6 +11,6 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
 
     var productCartState = 0
 
-    val productWithUnits = MutableLiveData<ProductWithUnits>()
+    val productWithUnits = MutableLiveData<ProductWithUnits?>()
 
 }
