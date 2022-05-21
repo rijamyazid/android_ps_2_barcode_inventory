@@ -1,6 +1,10 @@
 package com.rmyfactory.inventorybarcode.model.repository
 
 import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.rmyfactory.inventorybarcode.model.data.local.LocalDataSource
 import com.rmyfactory.inventorybarcode.model.data.local.model.OrderModel
 import com.rmyfactory.inventorybarcode.model.data.local.model.ProductModel
@@ -40,8 +44,13 @@ class MainRepository
     fun readProductById(ProductId: String)
             : LiveData<ProductModel> = localDataSource.readProductById(ProductId)
 
-    fun readProductWithUnits()
-            : LiveData<List<ProductWithUnits>> = localDataSource.readProductWithUnits()
+    fun readProductWithUnits(): LiveData<PagingData<ProductWithUnits>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20)
+        ) {
+            localDataSource.readProductWithUnits()
+        }.liveData
+    }
 
     suspend fun readProductWithUnits_(): List<ProductWithUnits> = localDataSource.readProductWithUnits_()
 
@@ -78,8 +87,13 @@ class MainRepository
     fun readUnits()
             : LiveData<List<UnitModel>> = localDataSource.readUnits()
 
-    fun readProductWithUnitsByQuery(query: String): LiveData<List<ProductWithUnits>>
-    = localDataSource.readProductWithUnitsByQuery(query)
+    fun readProductWithUnitsByQuery(query: String): LiveData<PagingData<ProductWithUnits>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20)
+        ) {
+            localDataSource.readProductWithUnitsByQuery(query)
+        }.liveData
+    }
 
     suspend fun susReadProductWithUnitsByQuery(query: String)
             : List<ProductWithUnits> = localDataSource.susReadProductWithUnitsByQuery(query)

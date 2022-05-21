@@ -1,0 +1,3 @@
+package com.rmyfactory.inventorybarcode.model.paging
+
+class ProductPagingSource

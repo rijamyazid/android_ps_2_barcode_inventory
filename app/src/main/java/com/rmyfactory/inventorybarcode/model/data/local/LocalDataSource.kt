@@ -1,6 +1,7 @@
 package com.rmyfactory.inventorybarcode.model.data.local
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import com.rmyfactory.inventorybarcode.model.data.local.dao.*
 import com.rmyfactory.inventorybarcode.model.data.local.model.OrderModel
 import com.rmyfactory.inventorybarcode.model.data.local.model.ProductModel
@@ -41,7 +42,7 @@ class LocalDataSource
     fun readProducts()
             : LiveData<List<ProductModel>> = productDao.readProducts()
 
-    fun readProductWithUnitsByQuery(query: String): LiveData<List<ProductWithUnits>>
+    fun readProductWithUnitsByQuery(query: String): PagingSource<Int, ProductWithUnits>
     = productDao.readProductWithUnitsByQuery(query)
 
     suspend fun susReadProductWithUnitsByQuery(query: String)
@@ -53,7 +54,7 @@ class LocalDataSource
             : LiveData<ProductModel> = productDao.readProduct(ProductId)
 
     fun readProductWithUnits()
-            : LiveData<List<ProductWithUnits>> = productDao.readProductWithUnits()
+            : PagingSource<Int, ProductWithUnits> = productDao.readProductWithUnits()
 
     suspend fun readProductWithUnits_(): List<ProductWithUnits> = productDao.susReadProductWithUnits()
 

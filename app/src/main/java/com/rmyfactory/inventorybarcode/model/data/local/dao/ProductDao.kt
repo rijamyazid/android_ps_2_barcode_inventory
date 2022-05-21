@@ -1,6 +1,7 @@
 package com.rmyfactory.inventorybarcode.model.data.local.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import androidx.room.*
 import com.rmyfactory.inventorybarcode.model.data.local.model.ProductModel
 import com.rmyfactory.inventorybarcode.model.data.local.model.with.ProductWithOrders
@@ -36,11 +37,11 @@ interface ProductDao {
 
     @Transaction
     @Query("SELECT * FROM product_table")
-    fun readProductWithUnits(): LiveData<List<ProductWithUnits>>
+    fun readProductWithUnits(): PagingSource<Int, ProductWithUnits>
 
     @Transaction
     @Query("SELECT * FROM product_table WHERE product_name LIKE :query")
-    fun readProductWithUnitsByQuery(query: String): LiveData<List<ProductWithUnits>>
+    fun readProductWithUnitsByQuery(query: String): PagingSource<Int, ProductWithUnits>
 
     @Transaction
     @Query("SELECT * FROM product_table WHERE id=:productId")

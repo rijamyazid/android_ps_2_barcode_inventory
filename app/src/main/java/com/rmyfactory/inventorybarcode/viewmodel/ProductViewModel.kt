@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
+import androidx.paging.PagingData
 import com.rmyfactory.inventorybarcode.model.data.local.model.with.ProductWithUnits
 import com.rmyfactory.inventorybarcode.model.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,8 +18,10 @@ class ProductViewModel
     val productWithUnitsByQuery = productQuery.switchMap {
         if (it.isEmpty()) {
             repository.readProductWithUnits()
+//            repository.readProductWithUnits()
         } else {
             repository.readProductWithUnitsByQuery("$it%")
+//            repository.readProductWithUnitsByQuery("$it%")
         }
     }
 
@@ -26,7 +29,7 @@ class ProductViewModel
         productQuery.value = query
     }
 
-    fun readProductWithUnits(): LiveData<List<ProductWithUnits>> {
+    fun readProductWithUnits(): LiveData<PagingData<ProductWithUnits>> {
         return repository.readProductWithUnits()
     }
 
