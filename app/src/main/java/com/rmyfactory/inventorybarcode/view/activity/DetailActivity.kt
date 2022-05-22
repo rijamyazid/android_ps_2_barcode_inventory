@@ -1,7 +1,6 @@
 package com.rmyfactory.inventorybarcode.view.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +18,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDetailBinding
+    private var _binding: ActivityDetailBinding? = null
+    private val binding get() = _binding!!
+
     private val args: DetailActivityArgs by navArgs()
     private val viewModel: DetailViewModel by viewModels()
     private lateinit var detailUnitAdapter: DetailUnitAdapter
@@ -30,28 +31,18 @@ class DetailActivity : AppCompatActivity() {
 
         productDetail = fillProductDetailHolder()
 
-        binding = ActivityDetailBinding.inflate(layoutInflater)
+        _binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         viewModel.readProductWithUnitsById(args.itemId)
 
         detailUnitAdapter = DetailUnitAdapter(this,
             onUnitRemoved = { isAdd, position, id ->
-                Log.d("RMYFACTORYX", "isAdd? $isAdd")
                 if (isAdd) {
-//                    detailUnitAdapter.refreshSize(detailUnitAdapter.getUnitListSize() - 1)
                     viewModel.productUnitRemovedIds[position] = id
                 } else {
                     viewModel.productUnitRemovedIds.remove(position)
-//                    detailUnitAdapter.refreshSize(detailUnitAdapter.getUnitListSize() + 1)
-//                    viewModel.itemUnitRemovedIds.forEachIndexed breaking@ { index, value ->
-//                        if (value[1] == id) {
-//                            viewModel.itemUnitRemovedIds.removeAt(index)
-//                            return@breaking
-//                        }
-//                    }
                 }
-//                viewModel.deleteItemUnitById(it)
             })
 
         binding.rvDetailUnit.apply {
@@ -61,129 +52,13 @@ class DetailActivity : AppCompatActivity() {
 
         binding.edtItemId.editText?.setText(args.itemId)
 
-        binding.btnUnit2.setOnClickListener {
-            detailUnitAdapter.addItemUnits((detailUnitAdapter.getUnitListSize() + 1))
-        }
+        binding.btnBackTb.setOnClickListener(AppBarOnClickListener())
 
-        binding.btnAddItem.setOnClickListener {
+        binding.btnUnit2.setOnClickListener(MainOnClickListener())
+        binding.btnAddItem.setOnClickListener(MainOnClickListener())
+        binding.btnUpdateItem.setOnClickListener(MainOnClickListener())
+        binding.btnDeleteItem.setOnClickListener(MainOnClickListener())
 
-            productDetail.productUnit.clear()
-            productDetail.productPrice.clear()
-            productDetail.productStock.clear()
-
-            val edtItemName = binding.edtItemName.editText?.text.toString()
-            val edtItemNote = binding.edtItemNote.editText?.text.toString()
-
-            productDetail.productId = args.itemId
-            productDetail.productName = edtItemName.ifEmptySetDefault("No Name")
-            productDetail.productNote = edtItemNote.ifEmptySetDefault("")
-
-            detailUnitAdapter.getBindingList().forEach {
-
-                if (it.value.spinItemUnitRv.selectedItem.toString() != "Pilih..." ||
-                    it.value.edtItemPriceRv.editText?.text.toString().isNotEmpty() ||
-                    it.value.edtItemStockRv.editText?.text.toString().isNotEmpty()
-                ) {
-
-                    if (it.value.contSpinnerRv.visibility == View.VISIBLE) {
-                        if (it.value.spinItemUnitRv.selectedItem.toString() == "Pilih...") {
-                            productDetail.productUnit.add("Buah")
-                        } else {
-                            productDetail.productUnit.add(
-                                it.value.spinItemUnitRv.selectedItem.toString()
-                            )
-                        }
-                    } else {
-                        productDetail.productUnit.add(
-                            it.value.edtItemUnitRv.editText?.text.toString()
-                                .ifEmptySetDefault("Buah")
-                        )
-                    }
-                    productDetail.productPrice.add(
-                        it.value.edtItemPriceRv.editText?.text.toString().ifEmptySetDefault("0")
-                    )
-                    productDetail.productStock.add(
-                        it.value.edtItemStockRv.editText?.text.toString().ifEmptySetDefault("0")
-                            .toInt()
-                    )
-                    productDetail.productIncrement.add(
-                        it.value.edtItemIncrementRv.editText?.text.toString()
-                            .ifEmptySetDefault("1.0")
-                            .toFloat()
-                    )
-                }
-            }
-
-            viewModel.insertProduct(
-                productDetail
-            )
-
-            finish()
-        }
-
-        binding.btnUpdateItem.setOnClickListener {
-
-            productDetail.productUnit.clear()
-            productDetail.productPrice.clear()
-            productDetail.productStock.clear()
-
-            val edtItemName = binding.edtItemName.editText?.text.toString()
-            val edtItemNote = binding.edtItemNote.editText?.text.toString()
-
-            productDetail.productId = args.itemId
-            productDetail.productName = edtItemName.ifEmptySetDefault("No Name")
-            productDetail.productNote = edtItemNote.ifEmptySetDefault("")
-
-            detailUnitAdapter.getBindingList().forEach {
-
-//                if(it.value.spinItemUnitRv.selectedItem.toString() != "Pilih..." ||
-//                    it.value.edtItemPriceRv.editText?.text.toString().isNotEmpty() ||
-//                    it.value.edtItemStockRv.editText?.text.toString().isNotEmpty()) {
-
-                if (it.value.contSpinnerRv.visibility == View.VISIBLE) {
-                    if (it.value.spinItemUnitRv.selectedItem.toString() == "Pilih...") {
-                        productDetail.productUnit.add("Buah")
-                    } else {
-                        productDetail.productUnit.add(
-                            it.value.spinItemUnitRv.selectedItem.toString()
-                        )
-                    }
-                } else {
-                    productDetail.productUnit.add(
-                        it.value.edtItemUnitRv.editText?.text.toString().ifEmptySetDefault("Buah")
-                    )
-                }
-                productDetail.productPrice.add(
-                    it.value.edtItemPriceRv.editText?.text.toString().ifEmptySetDefault("0")
-                )
-                productDetail.productStock.add(
-                    it.value.edtItemStockRv.editText?.text.toString().ifEmptySetDefault("0")
-                        .toInt()
-                )
-                productDetail.productIncrement.add(
-                    it.value.edtItemIncrementRv.editText?.text.toString().ifEmptySetDefault("1.0")
-                        .toFloat()
-                )
-//                }
-            }
-
-//            detailUnitAdapter.addItemUnits((detailUnitAdapter.getUnitListSize() - viewModel.itemUnitRemovedIds.size))
-            viewModel.updateProduct(
-                productDetail
-            )
-
-            finish()
-        }
-
-        binding.btnDeleteItem.setOnClickListener {
-            viewModel.deleteProduct(args.itemId)
-            finish()
-
-//            detailUnitAdapter.getBindingList().forEach {
-//                Log.d("RMYFACTORYX", "binding size = ${detailUnitAdapter.getBindingList().size}\n" +
-//                        "Cek Price At Binding ${it.key} = ${it.value.edtItemPriceRv.editText?.text.toString()}")
-//            }
-        }
         viewModel.productWithUnitsResult.observe(this, {
             when (it) {
                 is ResponseResult.Loading -> {
@@ -220,12 +95,141 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
-//    override fun onBackPressed() {
-////        val initialUnit = detailUnitAdapter.getUnitListSize()
-////        if ((initialUnit - viewModel.itemUnitRemovedIds.size) < initialUnit) {
-////            detailUnitAdapter.addItemUnits((detailUnitAdapter.getUnitListSize() + viewModel.itemUnitRemovedIds.size))
-////        }
-//        super.onBackPressed()
-//        viewModel.itemUnitRemovedIds.clear()
-//    }
+    inner class AppBarOnClickListener : View.OnClickListener {
+        override fun onClick(v: View?) {
+            when (v?.id) {
+                binding.btnBackTb.id -> {
+                    finish()
+                }
+            }
+        }
+    }
+
+    inner class MainOnClickListener : View.OnClickListener {
+        override fun onClick(v: View?) {
+            when (v?.id) {
+                binding.btnAddItem.id -> {
+                    productDetail.productUnit.clear()
+                    productDetail.productPrice.clear()
+                    productDetail.productStock.clear()
+
+                    val edtItemName = binding.edtItemName.editText?.text.toString()
+                    val edtItemNote = binding.edtItemNote.editText?.text.toString()
+
+                    productDetail.productId = args.itemId
+                    productDetail.productName = edtItemName.ifEmptySetDefault("No Name")
+                    productDetail.productNote = edtItemNote.ifEmptySetDefault("")
+
+                    detailUnitAdapter.getBindingList().forEach {
+
+                        if (it.value.spinItemUnitRv.selectedItem.toString() != "Pilih..." ||
+                            it.value.edtItemPriceRv.editText?.text.toString().isNotEmpty() ||
+                            it.value.edtItemStockRv.editText?.text.toString().isNotEmpty()
+                        ) {
+
+                            if (it.value.contSpinnerRv.visibility == View.VISIBLE) {
+                                if (it.value.spinItemUnitRv.selectedItem.toString() == "Pilih...") {
+                                    productDetail.productUnit.add("Buah")
+                                } else {
+                                    productDetail.productUnit.add(
+                                        it.value.spinItemUnitRv.selectedItem.toString()
+                                    )
+                                }
+                            } else {
+                                productDetail.productUnit.add(
+                                    it.value.edtItemUnitRv.editText?.text.toString()
+                                        .ifEmptySetDefault("Buah")
+                                )
+                            }
+                            productDetail.productPrice.add(
+                                it.value.edtItemPriceRv.editText?.text.toString()
+                                    .ifEmptySetDefault("0")
+                            )
+                            productDetail.productStock.add(
+                                it.value.edtItemStockRv.editText?.text.toString()
+                                    .ifEmptySetDefault("0")
+                                    .toInt()
+                            )
+                            productDetail.productIncrement.add(
+                                it.value.edtItemIncrementRv.editText?.text.toString()
+                                    .ifEmptySetDefault("1.0")
+                                    .toFloat()
+                            )
+                        }
+                    }
+
+                    viewModel.insertProduct(
+                        productDetail
+                    )
+
+                    finish()
+                }
+
+                binding.btnUpdateItem.id -> {
+                    productDetail.productUnit.clear()
+                    productDetail.productPrice.clear()
+                    productDetail.productStock.clear()
+
+                    val edtItemName = binding.edtItemName.editText?.text.toString()
+                    val edtItemNote = binding.edtItemNote.editText?.text.toString()
+
+                    productDetail.productId = args.itemId
+                    productDetail.productName = edtItemName.ifEmptySetDefault("No Name")
+                    productDetail.productNote = edtItemNote.ifEmptySetDefault("")
+
+                    detailUnitAdapter.getBindingList().forEach {
+
+                        if (it.value.contSpinnerRv.visibility == View.VISIBLE) {
+                            if (it.value.spinItemUnitRv.selectedItem.toString() == "Pilih...") {
+                                productDetail.productUnit.add("Buah")
+                            } else {
+                                productDetail.productUnit.add(
+                                    it.value.spinItemUnitRv.selectedItem.toString()
+                                )
+                            }
+                        } else {
+                            productDetail.productUnit.add(
+                                it.value.edtItemUnitRv.editText?.text.toString()
+                                    .ifEmptySetDefault("Buah")
+                            )
+                        }
+                        productDetail.productPrice.add(
+                            it.value.edtItemPriceRv.editText?.text.toString().ifEmptySetDefault("0")
+                        )
+                        productDetail.productStock.add(
+                            it.value.edtItemStockRv.editText?.text.toString().ifEmptySetDefault("0")
+                                .toInt()
+                        )
+                        productDetail.productIncrement.add(
+                            it.value.edtItemIncrementRv.editText?.text.toString()
+                                .ifEmptySetDefault("1.0")
+                                .toFloat()
+                        )
+                    }
+
+                    viewModel.updateProduct(
+                        productDetail
+                    )
+
+                    finish()
+                }
+
+                binding.btnDeleteItem.id -> {
+                    viewModel.deleteProduct(args.itemId)
+                    finish()
+                }
+
+                binding.btnUnit2.id -> {
+                    detailUnitAdapter.addItemUnits((detailUnitAdapter.getUnitListSize() + 1))
+                }
+            }
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
 }

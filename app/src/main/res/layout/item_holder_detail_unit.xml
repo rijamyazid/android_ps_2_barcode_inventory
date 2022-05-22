@@ -60,7 +60,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
-                            android:maxLength="4" />
+                            android:maxLength="4"
+                            tools:text="50" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -96,18 +97,19 @@
                             tools:ignore="SpeakableTextPresentCheck" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/edt_item_unit_rv"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginStart="@dimen/margin_padding_size_small"
                         android:layout_marginBottom="@dimen/margin_padding_size_small"
+                        android:layout_weight="1"
                         android:hint="@string/edt_product_unit"
-                        app:expandedHintEnabled="false"
+                        android:visibility="gone"
                         app:endIconMode="clear_text"
-                        android:visibility="gone">
+                        app:expandedHintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -116,27 +118,31 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/edt_item_price_rv"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="@dimen/margin_padding_size_small"
-                    android:hint="@string/edt_product_price"
-                    app:expandedHintEnabled="false"
-                    app:prefixText="Rp.">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edt_item_price_rv"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLength="8" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginEnd="@dimen/margin_padding_size_small"
+                        android:layout_weight="1"
+                        android:hint="@string/edt_product_price"
+                        app:expandedHintEnabled="false"
+                        app:prefixText="Rp.">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLength="8"
+                            tools:text="2.000" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/edt_item_increment_rv"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -144,15 +150,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:hint="Kenaikan"
-                        app:expandedHintEnabled="false"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        app:expandedHintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
-                            android:text="1.0"
-                            android:maxLength="8" />
+                            android:maxLength="8"
+                            android:text="1.0" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -161,25 +167,26 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_delete_unit_rv"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.1"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_marginTop="@dimen/margin_padding_size_small"
             android:layout_marginStart="@dimen/margin_padding_size_small"
+            android:layout_marginTop="@dimen/margin_padding_size_small"
+            android:layout_weight="0.1"
             app:icon="@drawable/ic_baseline_restore_from_trash_24"
-            app:iconTint="@android:color/holo_red_dark"
-            app:iconGravity="textTop" />
+            app:iconGravity="textTop"
+            app:iconTint="@android:color/holo_red_dark" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_deleted_unit_rv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.1"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/margin_padding_size_small"
             android:layout_marginStart="@dimen/margin_padding_size_small"
-            app:icon="@drawable/ic_baseline_restore_from_trash_24"
+            android:layout_marginTop="@dimen/margin_padding_size_small"
+            android:layout_weight="0.1"
             android:backgroundTint="@android:color/holo_red_dark"
+            android:visibility="gone"
+            app:icon="@drawable/ic_baseline_restore_from_trash_24"
             app:iconGravity="textTop" />
     </LinearLayout>
 </LinearLayout>
