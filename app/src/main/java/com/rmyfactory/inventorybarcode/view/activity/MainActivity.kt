@@ -29,9 +29,10 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.orderFragment -> hideBottomNav()
-                R.id.logFragment -> hideBottomNav()
-                else -> showBottomNav()
+                R.id.bnv_home -> showBottomNav()
+                R.id.bnv_product -> showBottomNav()
+                R.id.bnv_cart -> showBottomNav()
+                else -> hideBottomNav()
             }
         }
     }

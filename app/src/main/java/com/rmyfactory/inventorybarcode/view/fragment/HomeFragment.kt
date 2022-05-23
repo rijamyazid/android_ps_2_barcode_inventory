@@ -347,7 +347,7 @@ class HomeFragment : BaseFragment() {
 
     private fun onScanSuccess(itemId: String?) {
         itemId?.let {
-            navigateToDetailActivity(it)
+            navigateToProductDetailFragment(it)
         }
     }
 
@@ -364,7 +364,7 @@ class HomeFragment : BaseFragment() {
         activityResultImport.launch(intent)
     }
 
-    private fun navigateToDetailActivity(itemId: String) {
-        findNavController().navigate(HomeFragmentDirections.actionBnmScanToDetailActivity(itemId))
+    private fun navigateToProductDetailFragment(itemId: String) {
+        findNavController().navigate(HomeFragmentDirections.actionBnvHomeToProductDetailFragment(itemId))
     }
 }

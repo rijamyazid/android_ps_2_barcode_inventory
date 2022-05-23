@@ -81,7 +81,7 @@ class ProductFragment : BaseFragment() {
 
         binding.fabProductAdd.setOnClickListener {
             findNavController().navigate(
-                ProductFragmentDirections.actionItemFragmentToDetailActivity(
+                ProductFragmentDirections.actionBnvProductToProductDetailFragment(
                     System.currentTimeMillis().toString()
                 )
             )
@@ -108,7 +108,7 @@ class ProductFragment : BaseFragment() {
         productPagingAdapter = ProductPagingAdapter {
             if (mainActivityViewModel.productCartState == 0) {
                 findNavController().navigate(
-                    ProductFragmentDirections.actionItemFragmentToDetailActivity(
+                    ProductFragmentDirections.actionBnvProductToProductDetailFragment(
                         it.product.productId
                     )
                 )
@@ -121,7 +121,7 @@ class ProductFragment : BaseFragment() {
         productAdapter = ProductAdapter {
             if (mainActivityViewModel.productCartState == 0) {
                 findNavController().navigate(
-                    ProductFragmentDirections.actionItemFragmentToDetailActivity(
+                    ProductFragmentDirections.actionBnvProductToProductDetailFragment(
                         it.product.productId
                     )
                 )

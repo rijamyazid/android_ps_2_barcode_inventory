@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_bnv_home_to_logFragment"
             app:destination="@id/logFragment" />
+        <action
+            android:id="@+id/action_bnv_home_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <activity
         android:id="@+id/detailActivity"
@@ -34,6 +37,9 @@
         <action
             android:id="@+id/action_itemFragment_to_detailActivity"
             app:destination="@id/detailActivity" />
+        <action
+            android:id="@+id/action_bnv_product_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/bnv_cart"
@@ -53,6 +59,9 @@
         <action
             android:id="@+id/action_bnv_cart_to_bnv_product"
             app:destination="@id/bnv_product" />
+        <action
+            android:id="@+id/action_bnv_cart_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -71,6 +80,9 @@
         <action
             android:id="@+id/action_logFragment_to_logDetailActivity"
             app:destination="@id/logDetailActivity" />
+        <action
+            android:id="@+id/action_logFragment_to_logDetailFragment"
+            app:destination="@id/logDetailFragment" />
     </fragment>
     <activity
         android:id="@+id/logDetailActivity"
@@ -81,4 +93,22 @@
             android:name="orderId"
             app:argType="string" />
     </activity>
+    <fragment
+        android:id="@+id/logDetailFragment"
+        android:name="com.rmyfactory.inventorybarcode.view.fragment.LogDetailFragment"
+        android:label="LogDetailFragment"
+        tools:layout="@layout/fragment_log_detail">
+        <argument
+            android:name="orderId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.rmyfactory.inventorybarcode.view.fragment.ProductDetailFragment"
+        android:label="fragment_product_detail"
+        tools:layout="@layout/fragment_product_detail">
+        <argument
+            android:name="item_id"
+            app:argType="string" />
+    </fragment>
 </navigation>

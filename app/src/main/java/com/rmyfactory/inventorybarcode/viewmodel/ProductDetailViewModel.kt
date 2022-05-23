@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel
+class ProductDetailViewModel
 @Inject constructor(private val repository: MainRepository) : ViewModel() {
 
 //    val ProductUnitRemovedIds = mutableListOf<List<Long>>()
