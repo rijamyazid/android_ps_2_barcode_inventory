@@ -36,7 +36,7 @@ class LogFragment : BaseFragment() {
 
         logAdapter = LogAdapter()
         logPagingAdapter = LogPagingAdapter(onItemClick = {
-            findNavController().navigate(LogFragmentDirections.actionLogFragmentToLogDetailActivity(it.orderId))
+            findNavController().navigate(LogFragmentDirections.actionLogFragmentToLogDetailFragment(it.orderId))
         })
 
         binding.rvLog.apply {

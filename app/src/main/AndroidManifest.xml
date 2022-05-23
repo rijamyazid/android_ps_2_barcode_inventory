@@ -17,12 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RMYInventoryBarcodeScanner">
         <activity
-            android:name=".view.activity.LogDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.activity.DetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.activity.MainActivity"
             android:exported="true">
             <intent-filter>

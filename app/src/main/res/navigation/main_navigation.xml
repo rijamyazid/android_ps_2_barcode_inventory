@@ -11,32 +11,17 @@
         android:label="fragment_camera"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_bnm_scan_to_detailActivity"
-            app:destination="@id/detailActivity" />
-        <action
             android:id="@+id/action_bnv_home_to_logFragment"
             app:destination="@id/logFragment" />
         <action
             android:id="@+id/action_bnv_home_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
     </fragment>
-    <activity
-        android:id="@+id/detailActivity"
-        android:name="com.rmyfactory.inventorybarcode.view.activity.DetailActivity"
-        android:label="activity_detail"
-        tools:layout="@layout/activity_detail">
-        <argument
-            android:name="item_id"
-            app:argType="string" />
-    </activity>
     <fragment
         android:id="@+id/bnv_product"
         android:name="com.rmyfactory.inventorybarcode.view.fragment.ProductFragment"
         android:label="fragment_item"
         tools:layout="@layout/fragment_product">
-        <action
-            android:id="@+id/action_itemFragment_to_detailActivity"
-            app:destination="@id/detailActivity" />
         <action
             android:id="@+id/action_bnv_product_to_productDetailFragment"
             app:destination="@id/productDetailFragment" />
@@ -46,9 +31,6 @@
         android:name="com.rmyfactory.inventorybarcode.view.fragment.CartFragment"
         android:label="fragment_transaction"
         tools:layout="@layout/fragment_cart">
-        <action
-            android:id="@+id/action_bnm_transactions_to_detailActivity"
-            app:destination="@id/detailActivity" />
         <action
             android:id="@+id/action_bnm_transactions_to_orderFragment"
             app:destination="@id/orderFragment"
@@ -78,21 +60,9 @@
         android:label="fragment_order_log"
         tools:layout="@layout/fragment_log" >
         <action
-            android:id="@+id/action_logFragment_to_logDetailActivity"
-            app:destination="@id/logDetailActivity" />
-        <action
             android:id="@+id/action_logFragment_to_logDetailFragment"
             app:destination="@id/logDetailFragment" />
     </fragment>
-    <activity
-        android:id="@+id/logDetailActivity"
-        android:name="com.rmyfactory.inventorybarcode.view.activity.LogDetailActivity"
-        android:label="activity_log_detail"
-        tools:layout="@layout/activity_log_detail" >
-        <argument
-            android:name="orderId"
-            app:argType="string" />
-    </activity>
     <fragment
         android:id="@+id/logDetailFragment"
         android:name="com.rmyfactory.inventorybarcode.view.fragment.LogDetailFragment"
