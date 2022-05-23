@@ -10,5 +10,6 @@ class LogViewModel
 @Inject constructor(private val repository: MainRepository) : ViewModel() {
 
     fun readOrderWithItems() = repository.readOrderWithProducts()
+    fun readOrders() = repository.readOrders()
 
 }

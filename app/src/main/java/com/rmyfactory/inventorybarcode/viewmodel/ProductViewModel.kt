@@ -18,10 +18,8 @@ class ProductViewModel
     val productWithUnitsByQuery = productQuery.switchMap {
         if (it.isEmpty()) {
             repository.readProductWithUnits()
-//            repository.readProductWithUnits()
         } else {
             repository.readProductWithUnitsByQuery("$it%")
-//            repository.readProductWithUnitsByQuery("$it%")
         }
     }
 

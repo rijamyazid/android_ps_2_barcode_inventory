@@ -5,24 +5,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rmyfactory.inventorybarcode.databinding.FragmentLogBinding
 import com.rmyfactory.inventorybarcode.view.adapter.LogAdapter
+import com.rmyfactory.inventorybarcode.view.adapter_paging.LogPagingAdapter
 import com.rmyfactory.inventorybarcode.viewmodel.LogViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LogFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentLogBinding
+    private var _binding: FragmentLogBinding? = null
+    private val binding get() = _binding!!
     private lateinit var logAdapter: LogAdapter
+    private lateinit var logPagingAdapter: LogPagingAdapter
     private val viewModel: LogViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentLogBinding.inflate(inflater, container, false)
+        _binding = FragmentLogBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -30,16 +35,26 @@ class LogFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         logAdapter = LogAdapter()
+        logPagingAdapter = LogPagingAdapter(onItemClick = {
+            findNavController().navigate(LogFragmentDirections.actionLogFragmentToLogDetailActivity(it.orderId))
+        })
 
         binding.rvLog.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = logAdapter
+            adapter = logPagingAdapter
         }
 
-        viewModel.readOrderWithItems().observe(viewLifecycleOwner, {
-            logAdapter.addAdapterData(it)
+        viewModel.readOrders().observe(viewLifecycleOwner, {
+            lifecycleScope.launchWhenStarted {
+                logPagingAdapter.submitData(it)
+            }
         })
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

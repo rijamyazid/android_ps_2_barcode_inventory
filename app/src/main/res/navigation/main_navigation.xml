@@ -67,5 +67,18 @@
         android:id="@+id/logFragment"
         android:name="com.rmyfactory.inventorybarcode.view.fragment.LogFragment"
         android:label="fragment_order_log"
-        tools:layout="@layout/fragment_log" />
+        tools:layout="@layout/fragment_log" >
+        <action
+            android:id="@+id/action_logFragment_to_logDetailActivity"
+            app:destination="@id/logDetailActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/logDetailActivity"
+        android:name="com.rmyfactory.inventorybarcode.view.activity.LogDetailActivity"
+        android:label="activity_log_detail"
+        tools:layout="@layout/activity_log_detail" >
+        <argument
+            android:name="orderId"
+            app:argType="string" />
+    </activity>
 </navigation>

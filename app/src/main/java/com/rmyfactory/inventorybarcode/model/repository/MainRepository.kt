@@ -52,7 +52,8 @@ class MainRepository
         }.liveData
     }
 
-    suspend fun readProductWithUnits_(): List<ProductWithUnits> = localDataSource.readProductWithUnits_()
+    suspend fun readProductWithUnits_(): List<ProductWithUnits> =
+        localDataSource.readProductWithUnits_()
 
     suspend fun susReadProductWithUnitsById(productId: String)
             : ProductWithUnits? = localDataSource.susReadProductWithUnitsById(productId)
@@ -66,10 +67,23 @@ class MainRepository
         localDataSource.insertOrders(orders)
     }
 
-    fun readOrderWithProducts()
-            : LiveData<List<OrderWithProducts>> = localDataSource.readOrderWithProducts()
-
     suspend fun susReadOrders(): List<OrderModel> = localDataSource.susReadOrders()
+
+    fun readOrders(): LiveData<PagingData<OrderModel>>  {
+        return Pager(config = PagingConfig(pageSize = 30)) {
+            localDataSource.readOrders()
+        }.liveData
+    }
+
+    fun readOrderWithProducts()
+            : LiveData<PagingData<OrderWithProducts>> {
+        return Pager(config = PagingConfig(pageSize = 30)) {
+            localDataSource.readOrderWithProducts()
+        }.liveData
+    }
+
+    suspend fun susReadOrderWithProductById(orderId: String): OrderWithProducts =
+        localDataSource.susReadOrderWithProductById(orderId)
 
     //Unit Model
     fun insertUnit(unit: UnitModel) {
@@ -111,7 +125,8 @@ class MainRepository
         localDataSource.insertOrderProducts(orders)
     }
 
-    suspend fun susReadOrderProducts(): List<OrderProductModel> = localDataSource.susReadOrderProducts()
+    suspend fun susReadOrderProducts(): List<OrderProductModel> =
+        localDataSource.susReadOrderProducts()
 
     //ProductUnitModel
     fun readProductByProductAndUnitId(ProductId: String, unitId: String)
@@ -137,6 +152,7 @@ class MainRepository
         localDataSource.deleteProductUnitsByProductId(ProductId)
     }
 
-    suspend fun susReadProductUnits(): List<ProductUnitModel> = localDataSource.susReadProductUnits()
+    suspend fun susReadProductUnits(): List<ProductUnitModel> =
+        localDataSource.susReadProductUnits()
 
 }

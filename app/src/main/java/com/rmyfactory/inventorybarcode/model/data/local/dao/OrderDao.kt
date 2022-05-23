@@ -1,6 +1,7 @@
 package com.rmyfactory.inventorybarcode.model.data.local.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import androidx.room.*
 import com.rmyfactory.inventorybarcode.model.data.local.model.OrderModel
 import com.rmyfactory.inventorybarcode.model.data.local.model.with.OrderWithProducts
@@ -15,6 +16,9 @@ interface OrderDao {
     fun insertOrders(orders: List<OrderModel>)
 
     @Query("SELECT * FROM order_table")
+    fun readOrders(): PagingSource<Int, OrderModel>
+
+    @Query("SELECT * FROM order_table")
     suspend fun susReadOrders(): List<OrderModel>
 
     @Query("SELECT * FROM order_table WHERE id=:orderId")
@@ -22,6 +26,10 @@ interface OrderDao {
 
     @Transaction
     @Query("SELECT * FROM order_table")
-    fun readOrderWithProducts(): LiveData<List<OrderWithProducts>>
+    fun readOrderWithProducts(): PagingSource<Int, OrderWithProducts>
+
+    @Transaction
+    @Query("SELECT * FROM order_table WHERE id=:orderId")
+    suspend fun susReadOrderWithProductById(orderId: String): OrderWithProducts
 
 }

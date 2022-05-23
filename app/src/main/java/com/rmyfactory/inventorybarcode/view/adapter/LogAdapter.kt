@@ -2,7 +2,6 @@ package com.rmyfactory.inventorybarcode.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.inventorybarcode.databinding.ItemHolderLogBinding
 import com.rmyfactory.inventorybarcode.model.data.local.model.with.OrderWithProducts
@@ -41,15 +40,15 @@ class LogAdapter: RecyclerView.Adapter<LogAdapter.ViewHolder>() {
             binding.tvId.text = order.order.orderId
 
             logAdapter2 = LogAdapter2()
-            binding.rvLog.apply {
-                layoutManager = LinearLayoutManager(context)
-                adapter = logAdapter2
-            }
+//            binding.rvLog.apply {
+//                layoutManager = LinearLayoutManager(context)
+//                adapter = logAdapter2
+//            }
             logAdapter2.addAdapterData(order.orderWithProducts)
 
             binding.tvTotalPrice.text = order.order.orderTotalPrice.toCurrencyFormat()
-            binding.tvTotalPay.text = order.order.orderPay.toCurrencyFormat()
-            binding.tvTotalExchange.text = order.order.orderExchange.toCurrencyFormat()
+//            binding.tvTotalPay.text = order.order.orderPay.toCurrencyFormat()
+//            binding.tvTotalExchange.text = order.order.orderExchange.toCurrencyFormat()
         }
     }
 

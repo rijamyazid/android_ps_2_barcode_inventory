@@ -48,7 +48,6 @@ fun <T> ResponseResult<T>.responses(
         is ResponseResult.Loading -> { isLoading(this.status) }
         is ResponseResult.Success -> { isSuccess(this.data) }
         is ResponseResult.Failure -> { isFailure(this.exception) }
-        else -> {}
     }
 
 }

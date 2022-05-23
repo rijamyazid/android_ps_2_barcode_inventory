@@ -70,10 +70,15 @@ class LocalDataSource
         orderDao.insertOrders(orders)
     }
 
-    fun readOrderWithProducts()
-            : LiveData<List<OrderWithProducts>> = orderDao.readOrderWithProducts()
-
     suspend fun susReadOrders(): List<OrderModel> = orderDao.susReadOrders()
+
+    fun readOrders(): PagingSource<Int, OrderModel> = orderDao.readOrders()
+
+    fun readOrderWithProducts()
+            : PagingSource<Int, OrderWithProducts> = orderDao.readOrderWithProducts()
+
+    suspend fun susReadOrderWithProductById(orderId: String): OrderWithProducts
+    = orderDao.susReadOrderWithProductById(orderId)
 
     //Unit Model
     fun insertUnit(unit: UnitModel) {
