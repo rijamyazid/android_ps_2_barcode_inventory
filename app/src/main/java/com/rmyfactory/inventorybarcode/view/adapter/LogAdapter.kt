@@ -39,12 +39,12 @@ class LogAdapter: RecyclerView.Adapter<LogAdapter.ViewHolder>() {
             binding.tvDate.text = dateFormatted
             binding.tvId.text = order.order.orderId
 
-            logAdapter2 = LogAdapter2()
+//            logAdapter2 = LogAdapter2(context)
 //            binding.rvLog.apply {
 //                layoutManager = LinearLayoutManager(context)
 //                adapter = logAdapter2
 //            }
-            logAdapter2.addAdapterData(order.orderWithProducts)
+//            logAdapter2.submitData(order.orderWithProducts)
 
             binding.tvTotalPrice.text = order.order.orderTotalPrice.toCurrencyFormat()
 //            binding.tvTotalPay.text = order.order.orderPay.toCurrencyFormat()

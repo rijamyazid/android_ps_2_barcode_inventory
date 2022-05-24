@@ -30,6 +30,6 @@ interface OrderDao {
 
     @Transaction
     @Query("SELECT * FROM order_table WHERE id=:orderId")
-    suspend fun susReadOrderWithProductById(orderId: String): OrderWithProducts
+    suspend fun susReadOrderWithProductById(orderId: String): OrderWithProducts?
 
 }

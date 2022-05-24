@@ -77,7 +77,7 @@ class LocalDataSource
     fun readOrderWithProducts()
             : PagingSource<Int, OrderWithProducts> = orderDao.readOrderWithProducts()
 
-    suspend fun susReadOrderWithProductById(orderId: String): OrderWithProducts
+    suspend fun susReadOrderWithProductById(orderId: String): OrderWithProducts?
     = orderDao.susReadOrderWithProductById(orderId)
 
     //Unit Model

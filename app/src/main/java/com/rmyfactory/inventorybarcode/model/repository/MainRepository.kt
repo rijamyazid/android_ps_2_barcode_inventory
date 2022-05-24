@@ -82,7 +82,7 @@ class MainRepository
         }.liveData
     }
 
-    suspend fun susReadOrderWithProductById(orderId: String): OrderWithProducts =
+    suspend fun susReadOrderWithProductById(orderId: String): OrderWithProducts? =
         localDataSource.susReadOrderWithProductById(orderId)
 
     //Unit Model
