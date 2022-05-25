@@ -17,6 +17,10 @@ data class OrderModel(
     val orderPay: String,
     @ColumnInfo(name = "order_exchange")
     val orderExchange: String,
+    @ColumnInfo(name="order_buyer")
+    val orderBuyer: String = "",
+    @ColumnInfo(name="order_note")
+    val orderNote: String = "",
     @ColumnInfo(name = "order_date")
     val orderDate: Date?
 
