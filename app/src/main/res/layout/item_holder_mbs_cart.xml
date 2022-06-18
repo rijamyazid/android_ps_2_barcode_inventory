@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="@dimen/margin_padding_size_small"
+    android:layout_marginHorizontal="2dp"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_padding_size_small"
+        android:orientation="horizontal">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_ih_cart_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Buah"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -27,6 +27,7 @@
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/drawable/ic_process_failure.xml" value="0.23692307692307693" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/drawable/ic_process_failure_24.xml" value="0.23692307692307693" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/drawable/ic_process_success.xml" value="0.23692307692307693" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/drawable/shape_rounded_corner_gray.xml" value="0.22962962962962963" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout-v26/item_holder_detail_unit.xml" value="0.22447916666666667" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/activity_detail.xml" value="0.22541841004184102" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/activity_log_detail.xml" value="0.18" />
@@ -49,15 +50,21 @@
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/fragment_transaction.xml" value="0.25" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_cart.xml" value="0.25" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_cart_2.xml" value="0.33" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_cart_mbs.xml" value="0.25" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_cart_single_unit.xml" value="0.33" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_detail_unit.xml" value="0.33" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_item.xml" value="0.25" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_log.xml" value="0.25" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_log_2.xml" value="0.22447916666666667" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_mbs_cart.xml" value="0.3656716417910448" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_new_cart.xml" value="0.25" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_order.xml" value="0.2733812949640288" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_order_confirmation.xml" value="0.67" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_order_item.xml" value="0.33" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_product.xml" value="0.3699421965317919" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/item_holder_product_2.xml" value="0.33" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/mbs_cart.xml" value="0.25" />
+        <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/layout/modal_bottom_sheet_cart.xml" value="0.33" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.22447916666666667" />
         <entry key="..\:/Algoritma/Mobile/_Android/_Projects/RMYInventoryBarcode/app/src/main/res/menu/bottom_navigation_menu_float.xml" value="0.22447916666666667" />
       </map>
