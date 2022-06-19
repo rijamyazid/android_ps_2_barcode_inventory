@@ -59,27 +59,26 @@ class OrderFragment : BaseFragment() {
         }
 
         Log.d("RMYDFACTORYX", "OrderFrag1: ${args.products.toList()}")
-        val productWithoutZeroQty = args.products.toList().filterZeroQtyProduct()
-        Log.d("RMYDFACTORYX", "OrderFrag2: $productWithoutZeroQty")
-        orderAdapter.addProducts(productWithoutZeroQty)
+        val productCart = args.products.toList()
+//        val productWithoutZeroQty = args.products.toList().filterZeroQtyProduct()
+//        Log.d("RMYDFACTORYX", "OrderFrag2: $productWithoutZeroQty")
+        orderAdapter.submitCart(productCart)
         sumPrice = 0L
         orderProducts = mutableListOf()
-        productWithoutZeroQty.forEach { cart ->
-            cart.productUnits.forEach { cartUnit ->
-                val totalPrice = (cartUnit.productPrice.toLong() * cartUnit.productQty)
-                sumPrice += totalPrice
-                orderProducts.add(
-                    OrderProductModel(
-                        orderId = "0",
-                        productId = cart.productId,
-                        unit = cartUnit.productUnit,
-                        qty = cartUnit.productQty,
-                        price = cartUnit.productPrice,
-                        totalPrice = totalPrice.toString()
-                    )
+        productCart.forEach { cart ->
+            val totalPrice = (cart.productPrice.toLong() * cart.productQty)
+            sumPrice += totalPrice
+            orderProducts.add(
+                OrderProductModel(
+                    orderId = "0",
+                    productId = cart.productId,
+                    unit = cart.productUnit,
+                    qty = cart.productQty,
+                    price = cart.productPrice,
+                    totalPrice = totalPrice.toString()
                 )
-                Log.d("RMYDFACTORYX", "OrderFrag3: $cartUnit")
-            }
+            )
+            Log.d("RMYDFACTORYX", "OrderFrag3: $cart")
         }
         binding.tvOrderConfSummPrice.text = sumPrice.toString().toCurrencyFormat()
 
@@ -130,12 +129,12 @@ class OrderFragment : BaseFragment() {
         }
         )
 
-        viewModel.productWithUnitsResult.observe(viewLifecycleOwner, { data ->
+        viewModel.productWithUnitsResult.observe(viewLifecycleOwner) { data ->
             data.responses(
                 isSuccess = {
                     findNavController().popBackStack()
                 })
-        })
+        }
 
     }
 

@@ -24,7 +24,10 @@ import com.rmyfactory.inventorybarcode.R
 import com.rmyfactory.inventorybarcode.databinding.FragmentCartBinding
 import com.rmyfactory.inventorybarcode.model.data.local.model.holder.CartHolder
 import com.rmyfactory.inventorybarcode.model.data.local.model.holder.CartHolder2
-import com.rmyfactory.inventorybarcode.util.*
+import com.rmyfactory.inventorybarcode.util.BarcodeAnalyzer
+import com.rmyfactory.inventorybarcode.util.Permissions
+import com.rmyfactory.inventorybarcode.util.isSingleUnit
+import com.rmyfactory.inventorybarcode.util.toCHDomainSingleUnit
 import com.rmyfactory.inventorybarcode.view.adapter.CartAdapter
 import com.rmyfactory.inventorybarcode.view.adapter.CartSingleUnitAdapter
 import com.rmyfactory.inventorybarcode.view.bottomsheet_modal.CartModalBottomSheet
@@ -103,7 +106,7 @@ class CartFragment : BaseFragment() {
             findNavController()
                 .navigate(
                     CartFragmentDirections
-                        .actionBnmTransactionsToOrderFragment(viewModel.itemList.toTypedArray())
+                        .actionBnmTransactionsToOrderFragment(viewModel.productList.toTypedArray())
                 )
         }
 
@@ -113,27 +116,88 @@ class CartFragment : BaseFragment() {
         }
 
         binding.btnClearCart.setOnClickListener {
-            viewModel.itemList.clear()
-            cartAdapter.addOrder(viewModel.itemList)
+//            viewModel.itemList.clear()
+//            cartAdapter.addOrder(viewModel.itemList)
+            viewModel.productList.clear()
+            viewModel.productMap.clear()
+            cartSingleUnitAdapter.submitToCart(viewModel.productList)
         }
 
-        mainActivityViewModel.productWithUnits.observe(viewLifecycleOwner, {
-            if(mainActivityViewModel.productCartState == 2) {
+        mainActivityViewModel.productWithUnits.observe(viewLifecycleOwner) {
+            if (mainActivityViewModel.productCartState == 2) {
                 if (it != null) {
-                    viewModel.itemList.add(it.toCartHolder())
-                    cartAdapter.addOrder(viewModel.itemList)
+                    val productId = it.product.productId
+                    if (it.isSingleUnit()) {
+                        val unitId = it.productUnitList[0].unit.unitId
+                        if (viewModel.productMap[productId]?.get(unitId) == null) {
+                            viewModel.productMap[productId] = mutableMapOf(unitId to true)
+                            viewModel.productList.add(it.toCHDomainSingleUnit())
+                            cartSingleUnitAdapter.submitToCart(viewModel.productList)
+                        }
+                    } else {
+                        Log.d("CartFragmentt", "activityViewModel = $it")
+                        modalBottomSheet = CartModalBottomSheet(this)
+                        modalBottomSheet?.let { modal ->
+                            modal.submitData(it, viewModel.productMap)
+                            modal.onUnitClickListener(object :
+                                CartModalBottomSheet.OnUnitClickListener {
+                                override fun onUnitClick(cartHolders: List<CartHolder2>) {
+                                    if (cartHolders.size == 1) {
+                                        if (viewModel.productMap[cartHolders[0].productId] == null) {
+                                            Log.d(
+                                                "CartFragmentt",
+                                                "before = " + viewModel.productMap.toString()
+                                            )
+                                            viewModel.productMap[cartHolders[0].productId] =
+                                                mutableMapOf(
+                                                    cartHolders[0].productUnit to true
+                                                )
+                                            Log.d(
+                                                "CartFragmentt",
+                                                "after = " + viewModel.productMap.toString()
+                                            )
+
+                                        } else {
+                                            Log.d(
+                                                "CartFragmentt",
+                                                "before = " + viewModel.productMap.toString()
+                                            )
+                                            viewModel.productMap[cartHolders[0].productId]?.put(
+                                                cartHolders[0].productUnit, true
+                                            )
+                                            Log.d(
+                                                "CartFragmentt",
+                                                "after = " + viewModel.productMap.toString()
+                                            )
+                                        }
+                                        viewModel.productList.add(cartHolders[0])
+                                        cartSingleUnitAdapter.submitToCart(viewModel.productList)
+                                    }
+                                }
+                            })
+                            modal.show(childFragmentManager, CartModalBottomSheet.TAG)
+                        }
+                    }
                     mainActivityViewModel.productCartState = 0
                 } else {
-                    viewModel.itemList.clear()
-                    cartAdapter.addOrder(viewModel.itemList)
+                    viewModel.productList.clear()
+                    viewModel.productMap.clear()
+                    cartSingleUnitAdapter.submitToCart(viewModel.productList)
                 }
             }
-        })
+        }
 
     }
 
     private fun initVars() {
-        cartSingleUnitAdapter = CartSingleUnitAdapter()
+        cartSingleUnitAdapter = CartSingleUnitAdapter { pos, isIncrease ->
+            val currentQty = viewModel.productList[pos].productQty
+            if (isIncrease) {
+                viewModel.productList[pos].productQty = currentQty + 1
+            } else {
+                viewModel.productList[pos].productQty = currentQty - 1
+            }
+        }
         cartAdapter = CartAdapter { cartPos, unitPos, isIncreased ->
             viewModel.itemList[cartPos].productUnits[unitPos].productQty =
                 if (isIncreased) {
@@ -147,8 +211,8 @@ class CartFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         scanTimeStamp = 0L
-        Log.d("RMYFACTORYX", "CartFrag: ${viewModel.itemList}")
-        cartAdapter.addOrder(viewModel.itemList)
+        Log.d("RMYFACTORYX", "CartFrag: ${viewModel.productList}")
+        cartSingleUnitAdapter.submitToCart(viewModel.productList)
         imageAnalyzer?.clearAnalyzer()
         imageAnalyzer?.setAnalyzer(cameraExecutor!!, barcodeAnalyzer!!)
     }
@@ -235,8 +299,8 @@ class CartFragment : BaseFragment() {
                         val unitId = productWithUnits.productUnitList[0].unit.unitId
                         if(viewModel.productMap[productId]?.get(unitId) == null) {
                             viewModel.productMap[productId] = mutableMapOf(unitId to true)
-                            viewModel.itemList2.add(productWithUnits.toCHDomainSingleUnit())
-                            cartSingleUnitAdapter.submitToCart(viewModel.itemList2)
+                            viewModel.productList.add(productWithUnits.toCHDomainSingleUnit())
+                            cartSingleUnitAdapter.submitToCart(viewModel.productList)
                         }
                     } else {
                         modalBottomSheet?.let {
@@ -244,15 +308,35 @@ class CartFragment : BaseFragment() {
                             it.onUnitClickListener(object: CartModalBottomSheet.OnUnitClickListener {
                                 override fun onUnitClick(cartHolders: List<CartHolder2>) {
                                     if(cartHolders.size == 1) {
-                                        if (viewModel.productMap[cartHolders[0].productId]?.get(
-                                                cartHolders[0].productUnit
-                                            ) == null
-                                        ) {
+                                        if (viewModel.productMap[cartHolders[0].productId] == null) {
+                                            Log.d(
+                                                "CartFragmentt",
+                                                "before = " + viewModel.productMap.toString()
+                                            )
                                             viewModel.productMap[cartHolders[0].productId] =
-                                                mutableMapOf(cartHolders[0].productUnit to true)
-                                            viewModel.itemList2.add(cartHolders[0])
-                                            cartSingleUnitAdapter.submitToCart(viewModel.itemList2)
+                                                mutableMapOf(
+                                                    cartHolders[0].productUnit to true
+                                                )
+                                            Log.d(
+                                                "CartFragmentt",
+                                                "after = " + viewModel.productMap.toString()
+                                            )
+
+                                        } else {
+                                            Log.d(
+                                                "CartFragmentt",
+                                                "before = " + viewModel.productMap.toString()
+                                            )
+                                            viewModel.productMap[cartHolders[0].productId]?.put(
+                                                cartHolders[0].productUnit, true
+                                            )
+                                            Log.d(
+                                                "CartFragmentt",
+                                                "after = " + viewModel.productMap.toString()
+                                            )
                                         }
+                                        viewModel.productList.add(cartHolders[0])
+                                        cartSingleUnitAdapter.submitToCart(viewModel.productList)
                                     }
                                 }
                             })

@@ -14,7 +14,7 @@ fun ProductWithUnits.toCHDomainSingleUnit() : CartHolder2 {
         productUnit = this.productUnitList[0].productUnit.unitId,
         productStock = this.productUnitList[0].productUnit.stock,
         productPrice = this.productUnitList[0].productUnit.price,
-        productQty = 0,
+        productQty = 1,
         productIncrement = 1.0f
     )
 }

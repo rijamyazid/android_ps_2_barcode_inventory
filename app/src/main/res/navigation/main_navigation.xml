@@ -52,7 +52,7 @@
         tools:layout="@layout/fragment_order">
         <argument
             android:name="products"
-            app:argType="com.rmyfactory.inventorybarcode.model.data.local.model.holder.CartHolder[]" />
+            app:argType="com.rmyfactory.inventorybarcode.model.data.local.model.holder.CartHolder2[]" />
     </fragment>
     <fragment
         android:id="@+id/logFragment"

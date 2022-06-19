@@ -21,9 +21,11 @@ class CartViewModel
     //    val itemList = mutableListOf<MutableMap<String, String>>()
 //    val itemList = mutableListOf<OrderHolder>()
     val itemList = mutableListOf<CartHolder>()
-    val itemList2 = mutableListOf<CartHolder2>()
+    val productList = mutableListOf<CartHolder2>()
 
     val productListLiveData = MutableLiveData<MutableList<CartHolder2>>()
+
+    //    val productList = mutableListOf<>()
     val productMap = mutableMapOf<String, MutableMap<String, Boolean>>()
 
     private val _productWithUnitsResult = MutableLiveData<ResponseResult<ProductWithUnits>>()

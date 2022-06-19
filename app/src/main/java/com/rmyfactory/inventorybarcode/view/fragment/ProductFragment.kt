@@ -60,17 +60,17 @@ class ProductFragment : BaseFragment() {
             adapter = productPagingAdapter
         }
 
-        viewModel.readProductWithUnits().observe(viewLifecycleOwner, {
+        viewModel.readProductWithUnits().observe(viewLifecycleOwner) {
             lifecycleScope.launchWhenCreated {
                 productPagingAdapter.submitData(it)
             }
-        })
+        }
 
-        viewModel.productWithUnitsByQuery.observe(viewLifecycleOwner, {
+        viewModel.productWithUnitsByQuery.observe(viewLifecycleOwner) {
             lifecycleScope.launchWhenCreated {
                 productPagingAdapter.submitData(it)
             }
-        })
+        }
 
         if (mainActivityViewModel.productCartState != 0) {
             binding.fabProductAdd.visibility = View.GONE
