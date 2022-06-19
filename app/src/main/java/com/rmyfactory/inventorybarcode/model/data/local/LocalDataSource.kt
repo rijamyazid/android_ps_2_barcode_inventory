@@ -42,8 +42,8 @@ class LocalDataSource
     fun readProducts()
             : LiveData<List<ProductModel>> = productDao.readProducts()
 
-    fun readProductWithUnitsByQuery(query: String): PagingSource<Int, ProductWithUnits>
-    = productDao.readProductWithUnitsByQuery(query)
+    fun readProductWithUnitsByQuery(query: String): LiveData<List<ProductWithUnits>> =
+        productDao.readProductWithUnitsByQuery(query)
 
     suspend fun susReadProductWithUnitsByQuery(query: String)
             : List<ProductWithUnits> = productDao.susReadProductWithUnitsByQuery(query)
@@ -54,7 +54,7 @@ class LocalDataSource
             : LiveData<ProductModel> = productDao.readProduct(ProductId)
 
     fun readProductWithUnits()
-            : PagingSource<Int, ProductWithUnits> = productDao.readProductWithUnits()
+            : LiveData<List<ProductWithUnits>> = productDao.readProductWithUnits()
 
     suspend fun readProductWithUnits_(): List<ProductWithUnits> = productDao.susReadProductWithUnits()
 

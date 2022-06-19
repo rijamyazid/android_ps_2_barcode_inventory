@@ -9,23 +9,23 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/margin_padding_size_medium"
-        android:backgroundTint="?attr/colorPrimary">
+        android:backgroundTint="?attr/colorPrimary"
+        android:paddingHorizontal="@dimen/margin_padding_size_medium">
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:contentInsetStart="0dp"
-            android:paddingVertical="@dimen/margin_padding_size_small">
+            android:paddingVertical="@dimen/margin_padding_size_small"
+            app:contentInsetStart="0dp">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/sv_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_gray_light"
-                app:queryHint="Cari Barang"
-                app:queryBackground="@color/transparent"
                 app:iconifiedByDefault="false"
+                app:queryBackground="@color/transparent"
+                app:queryHint="Cari Barang"
                 app:searchIcon="@drawable/ic_baseline_search_24" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -36,10 +36,64 @@
         android:background="@color/gray_light"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <LinearLayout
+            android:id="@+id/ll_product_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/img_product_empty_logo"
+                android:layout_width="250dp"
+                android:layout_height="300dp"
+                tools:src="@drawable/img_product_empty" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_product_empty_title"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/brandon_grotesque_bold"
+                android:gravity="center"
+                app:fontFamily="@font/brandon_grotesque_bold"
+                tools:text="@string/lbl_product_empty_title" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_product_empty_caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/margin_padding_size_small"
+                android:fontFamily="@font/brandon_grotesque_regular"
+                android:gravity="center"
+                android:textSize="16sp"
+                app:fontFamily="@font/brandon_grotesque_regular"
+                tools:text="@string/lbl_product_empty_caption" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_product_empty_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/margin_padding_size_small"
+                android:fontFamily="@font/brandon_grotesque_bold"
+                android:gravity="center"
+                app:fontFamily="@font/brandon_grotesque_bold"
+                app:icon="@drawable/ic_baseline_add_24"
+                tools:text="@string/lbl_product_empty_btn_add" />
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -56,5 +110,6 @@
         android:layout_margin="@dimen/margin_padding_size_medium"
         android:backgroundTint="?attr/colorPrimary"
         android:src="@drawable/ic_baseline_add_24"
+        android:visibility="gone"
         app:tint="@color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

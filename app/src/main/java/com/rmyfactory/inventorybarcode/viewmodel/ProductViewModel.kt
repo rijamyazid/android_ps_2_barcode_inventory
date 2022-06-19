@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import androidx.paging.PagingData
 import com.rmyfactory.inventorybarcode.model.data.local.model.with.ProductWithUnits
 import com.rmyfactory.inventorybarcode.model.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +26,7 @@ class ProductViewModel
         productQuery.value = query
     }
 
-    fun readProductWithUnits(): LiveData<PagingData<ProductWithUnits>> {
+    fun readProductWithUnits(): LiveData<List<ProductWithUnits>> {
         return repository.readProductWithUnits()
     }
 

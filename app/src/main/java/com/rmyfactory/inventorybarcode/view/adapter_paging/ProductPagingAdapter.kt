@@ -36,6 +36,12 @@ class ProductPagingAdapter (private val onItemClick: (productId: ProductWithUnit
         holder.bind(itemModel)
     }
 
+    override fun getItemCount(): Int {
+
+        Log.d("Productt", "Banyak data ${super.getItemCount()}")
+        return super.getItemCount()
+    }
+
     fun addProducts(products: List<ProductWithUnits>) {
         itemList.clear()
         itemList.addAll(products)

@@ -44,12 +44,8 @@ class MainRepository
     fun readProductById(ProductId: String)
             : LiveData<ProductModel> = localDataSource.readProductById(ProductId)
 
-    fun readProductWithUnits(): LiveData<PagingData<ProductWithUnits>> {
-        return Pager(
-            config = PagingConfig(pageSize = 20)
-        ) {
-            localDataSource.readProductWithUnits()
-        }.liveData
+    fun readProductWithUnits(): LiveData<List<ProductWithUnits>> {
+        return localDataSource.readProductWithUnits()
     }
 
     suspend fun readProductWithUnits_(): List<ProductWithUnits> =
@@ -101,12 +97,8 @@ class MainRepository
     fun readUnits()
             : LiveData<List<UnitModel>> = localDataSource.readUnits()
 
-    fun readProductWithUnitsByQuery(query: String): LiveData<PagingData<ProductWithUnits>> {
-        return Pager(
-            config = PagingConfig(pageSize = 20)
-        ) {
-            localDataSource.readProductWithUnitsByQuery(query)
-        }.liveData
+    fun readProductWithUnitsByQuery(query: String): LiveData<List<ProductWithUnits>> {
+        return localDataSource.readProductWithUnitsByQuery(query)
     }
 
     suspend fun susReadProductWithUnitsByQuery(query: String)
