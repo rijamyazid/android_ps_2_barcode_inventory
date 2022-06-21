@@ -20,6 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     style="@style/TextAppearance.MaterialComponents.Overline"
                     android:layout_width="match_parent"
@@ -82,13 +83,61 @@
 
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_transaction"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/margin_padding_size_small"
-                tools:listitem="@layout/item_holder_cart" />
+                android:layout_height="match_parent">
 
+                <LinearLayout
+                    android:id="@+id/ll_cart_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_padding_size_medium"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/img_cart_empty_logo"
+                        android:layout_width="200dp"
+                        android:layout_height="250dp"
+                        android:src="@drawable/img_cart_empty" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_cart_empty_title"
+                        style="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/brandon_grotesque_bold"
+                        android:gravity="center"
+                        app:fontFamily="@font/brandon_grotesque_bold"
+                        tools:text="@string/lbl_cart_empty_title" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_cart_empty_caption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/margin_padding_size_small"
+                        android:fontFamily="@font/brandon_grotesque_regular"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/brandon_grotesque_regular"
+                        tools:text="@string/lbl_cart_empty_caption" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_transaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_padding_size_small"
+                    android:visibility="gone"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_holder_cart_single_unit" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -101,6 +150,6 @@
         android:layout_marginEnd="@dimen/margin_padding_size_medium"
         android:layout_marginBottom="@dimen/margin_padding_size_medium"
         android:backgroundTint="?attr/colorPrimary"
-        app:tint="@color/white"
-        android:src="@drawable/ic_baseline_add_24"/>
+        android:src="@drawable/ic_baseline_add_24"
+        app:tint="@color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

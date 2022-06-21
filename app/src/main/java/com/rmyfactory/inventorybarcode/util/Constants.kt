@@ -11,4 +11,6 @@ object Constants {
     const val LOADING_INTERVAL_MEDIUM = 100L
     const val LOADING_INTERVAL_LONG = 150L
     const val LOADING_PROGRESS = 1
+
+    const val DEFAULT_TAG = "DEFAULT_TAG"
 }

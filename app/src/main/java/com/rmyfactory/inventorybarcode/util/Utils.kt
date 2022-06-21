@@ -1,6 +1,7 @@
 package com.rmyfactory.inventorybarcode.util
 
 import android.content.Context
+import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.annotation.AttrRes
@@ -23,8 +24,12 @@ fun String.ifEmptySetDefault(default: String): String {
     }
 }
 
-fun Fragment.toastMessage(message: String="", duration: Int = Toast.LENGTH_SHORT) {
+fun Fragment.toastMessage(message: String = "", duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this.requireContext(), message, duration).show()
+}
+
+fun logger(tag: String = Constants.DEFAULT_TAG, msg: String) {
+    Log.d(tag, msg)
 }
 
 fun String.toCurrencyFormat(currencyType: String = "Rp."): String {

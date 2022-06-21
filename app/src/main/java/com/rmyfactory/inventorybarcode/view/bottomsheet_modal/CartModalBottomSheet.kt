@@ -52,7 +52,8 @@ class CartModalBottomSheet(private val fragmentParent: Fragment): BottomSheetDia
         savedInstanceState: Bundle?
     ): View {
         _binding = MbsCartBinding.inflate(inflater, container, false)
-        (fragmentParent as CartFragment).unbindCameraUseCase()
+        CartFragment.IS_CART_MODAL_OPEN = true
+//        (fragmentParent as CartFragment).unbindCameraUseCase()
         return binding.root
     }
 
@@ -94,8 +95,9 @@ class CartModalBottomSheet(private val fragmentParent: Fragment): BottomSheetDia
         super.dismiss()
         (fragmentParent as CartFragment).apply {
             modalBottomSheet = null
-            bindCameraUseCases()
+//            bindCameraUseCases()
         }
+        CartFragment.IS_CART_MODAL_OPEN = false
     }
 
     override fun onCancel(dialog: DialogInterface) {

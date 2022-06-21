@@ -42,5 +42,7 @@
     </string-array>
     <string name="lbl_product_empty_title">Oops! tidak ada \nproduk apapun!</string>
     <string name="lbl_product_empty_caption">Mulai tambahkan produk dengan melakukan\nscan barcode di beranda atau dengan\nmenekan tombol di bawah ini.</string>
+    <string name="lbl_cart_empty_title">Keranjang masih kosong!</string>
+    <string name="lbl_cart_empty_caption">Mulai tambahkan produk\nkedalam keranjang.</string>
     <string name="lbl_product_empty_btn_add">Mulai Tambahkan</string>
 </resources>

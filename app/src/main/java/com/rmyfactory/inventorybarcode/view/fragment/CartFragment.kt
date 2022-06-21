@@ -1,14 +1,11 @@
 package com.rmyfactory.inventorybarcode.view.fragment
 
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.util.Size
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -18,16 +15,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.common.util.concurrent.ListenableFuture
 import com.rmyfactory.inventorybarcode.R
 import com.rmyfactory.inventorybarcode.databinding.FragmentCartBinding
-import com.rmyfactory.inventorybarcode.model.data.local.model.holder.CartHolder
 import com.rmyfactory.inventorybarcode.model.data.local.model.holder.CartHolder2
-import com.rmyfactory.inventorybarcode.util.BarcodeAnalyzer
-import com.rmyfactory.inventorybarcode.util.Permissions
-import com.rmyfactory.inventorybarcode.util.isSingleUnit
-import com.rmyfactory.inventorybarcode.util.toCHDomainSingleUnit
+import com.rmyfactory.inventorybarcode.util.*
 import com.rmyfactory.inventorybarcode.view.adapter.CartAdapter
 import com.rmyfactory.inventorybarcode.view.adapter.CartSingleUnitAdapter
 import com.rmyfactory.inventorybarcode.view.bottomsheet_modal.CartModalBottomSheet
@@ -62,19 +58,18 @@ class CartFragment : BaseFragment() {
     private var scanTimeStamp = 0L
     private val SCAN_INTERVAL = 1000L
 
-    private val perReqLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
-            if (permission) {
-                startCamera()
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.camera_not_granted),
-                    Toast.LENGTH_SHORT
-                ).show()
-                requireActivity().finish()
-            }
+    companion object {
+        var IS_CART_MODAL_OPEN = false
+    }
+
+    private val cameraPermissionRequest = singlePermissionRequest { result ->
+        if (result) {
+            startCamera()
+        } else {
+            toastMessage(getString(R.string.camera_not_granted))
+            requireActivity().finish()
         }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,17 +85,47 @@ class CartFragment : BaseFragment() {
 
         initVars()
         setupCamera()
-        if (cameraPermissionsGranted()) {
+        if (hasPermission(requireContext(), Permissions.CAMERA_PERMISSION)) {
             startCamera()
         } else {
-            perReqLauncher.launch(Permissions.CAMERA_PERMISSION)
+            cameraPermissionRequest.launch(Permissions.CAMERA_PERMISSION)
         }
+
+        binding.apply {
+            tvCartEmptyTitle.text = resources.getString(R.string.lbl_cart_empty_title)
+            tvCartEmptyCaption.text = resources.getString(R.string.lbl_cart_empty_caption)
+        }
+        Glide.with(this).load(R.drawable.img_cart_empty)
+            .placeholder(R.drawable.img_cart_empty)
+            .into(binding.imgCartEmptyLogo)
 
         binding.rvTransaction.apply {
             layoutManager = LinearLayoutManager(requireContext())
 //            adapter = cartAdapter
             adapter = cartSingleUnitAdapter
         }
+        ItemTouchHelper(object :
+            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val pos = viewHolder.absoluteAdapterPosition
+                val product = viewModel.productList[pos]
+                viewModel.productList.removeAt(pos)
+                if ((viewModel.productMap[product.productId]?.size ?: 0) > 1) {
+                    viewModel.productMap[product.productId]?.remove(product.productUnit)
+                } else {
+                    viewModel.productMap.remove(product.productId)
+                }
+                cartSingleUnitAdapter.removeFromCartPos(pos)
+            }
+        }).attachToRecyclerView(binding.rvTransaction)
 
         binding.btnConfirmCart.setOnClickListener {
             findNavController()
@@ -116,11 +141,10 @@ class CartFragment : BaseFragment() {
         }
 
         binding.btnClearCart.setOnClickListener {
-//            viewModel.itemList.clear()
-//            cartAdapter.addOrder(viewModel.itemList)
             viewModel.productList.clear()
             viewModel.productMap.clear()
-            cartSingleUnitAdapter.submitToCart(viewModel.productList)
+            cartSingleUnitAdapter.clearCart()
+            setVisibleEmptyCart(true)
         }
 
         mainActivityViewModel.productWithUnits.observe(viewLifecycleOwner) {
@@ -131,11 +155,12 @@ class CartFragment : BaseFragment() {
                         val unitId = it.productUnitList[0].unit.unitId
                         if (viewModel.productMap[productId]?.get(unitId) == null) {
                             viewModel.productMap[productId] = mutableMapOf(unitId to true)
-                            viewModel.productList.add(it.toCHDomainSingleUnit())
+                            viewModel.productList.add(0, it.toCHDomainSingleUnit())
+
+                            setVisibleEmptyCart(false)
                             cartSingleUnitAdapter.submitToCart(viewModel.productList)
                         }
                     } else {
-                        Log.d("CartFragmentt", "activityViewModel = $it")
                         modalBottomSheet = CartModalBottomSheet(this)
                         modalBottomSheet?.let { modal ->
                             modal.submitData(it, viewModel.productMap)
@@ -144,33 +169,18 @@ class CartFragment : BaseFragment() {
                                 override fun onUnitClick(cartHolders: List<CartHolder2>) {
                                     if (cartHolders.size == 1) {
                                         if (viewModel.productMap[cartHolders[0].productId] == null) {
-                                            Log.d(
-                                                "CartFragmentt",
-                                                "before = " + viewModel.productMap.toString()
-                                            )
                                             viewModel.productMap[cartHolders[0].productId] =
                                                 mutableMapOf(
                                                     cartHolders[0].productUnit to true
                                                 )
-                                            Log.d(
-                                                "CartFragmentt",
-                                                "after = " + viewModel.productMap.toString()
-                                            )
-
                                         } else {
-                                            Log.d(
-                                                "CartFragmentt",
-                                                "before = " + viewModel.productMap.toString()
-                                            )
                                             viewModel.productMap[cartHolders[0].productId]?.put(
                                                 cartHolders[0].productUnit, true
                                             )
-                                            Log.d(
-                                                "CartFragmentt",
-                                                "after = " + viewModel.productMap.toString()
-                                            )
                                         }
-                                        viewModel.productList.add(cartHolders[0])
+                                        viewModel.productList.add(0, cartHolders[0])
+
+                                        setVisibleEmptyCart(false)
                                         cartSingleUnitAdapter.submitToCart(viewModel.productList)
                                     }
                                 }
@@ -182,6 +192,8 @@ class CartFragment : BaseFragment() {
                 } else {
                     viewModel.productList.clear()
                     viewModel.productMap.clear()
+
+                    setVisibleEmptyCart(true)
                     cartSingleUnitAdapter.submitToCart(viewModel.productList)
                 }
             }
@@ -191,6 +203,7 @@ class CartFragment : BaseFragment() {
 
     private fun initVars() {
         cartSingleUnitAdapter = CartSingleUnitAdapter { pos, isIncrease ->
+            logger(msg = "clicked position = $pos\nis_increased = $isIncrease\nproducts = ${viewModel.productList}")
             val currentQty = viewModel.productList[pos].productQty
             if (isIncrease) {
                 viewModel.productList[pos].productQty = currentQty + 1
@@ -212,6 +225,12 @@ class CartFragment : BaseFragment() {
         super.onResume()
         scanTimeStamp = 0L
         Log.d("RMYFACTORYX", "CartFrag: ${viewModel.productList}")
+
+        if (viewModel.productList.isEmpty()) {
+            setVisibleEmptyCart(true)
+        } else {
+            setVisibleEmptyCart(false)
+        }
         cartSingleUnitAdapter.submitToCart(viewModel.productList)
         imageAnalyzer?.clearAnalyzer()
         imageAnalyzer?.setAnalyzer(cameraExecutor!!, barcodeAnalyzer!!)
@@ -236,8 +255,11 @@ class CartFragment : BaseFragment() {
 
         barcodeAnalyzer = BarcodeAnalyzer(
             onScanSuccess = { barcode ->
-                Log.d("RMYINVENTORY: CART ", "timeInMillis = ${System.currentTimeMillis()}, scanTime = ${scanTimeStamp}, timeInMillis - scanTime = ${System.currentTimeMillis() - scanTimeStamp}")
-                if (System.currentTimeMillis() - scanTimeStamp > 3000L) {
+                Log.d(
+                    "RMYINVENTORY: CART ",
+                    "timeInMillis = ${System.currentTimeMillis()}, scanTime = ${scanTimeStamp}, timeInMillis - scanTime = ${System.currentTimeMillis() - scanTimeStamp}"
+                )
+                if (System.currentTimeMillis() - scanTimeStamp > 3000L && !IS_CART_MODAL_OPEN) {
                     scanTimeStamp = System.currentTimeMillis()
                     barcode?.let {
                         onScanSuccess(it)
@@ -268,10 +290,6 @@ class CartFragment : BaseFragment() {
         cameraProvider?.unbindAll()
     }
 
-    private fun cameraPermissionsGranted() = ContextCompat.checkSelfPermission(
-        requireContext(), Permissions.CAMERA_PERMISSION
-    ) == PackageManager.PERMISSION_GRANTED
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -293,21 +311,24 @@ class CartFragment : BaseFragment() {
                     viewModel.susReadProductWithUnitsById(it)
                 }
 
-                if(productWithUnits != null) {
+                if (productWithUnits != null) {
                     val productId = productWithUnits.product.productId
-                    if(productWithUnits.isSingleUnit()) {
+                    if (productWithUnits.isSingleUnit()) {
                         val unitId = productWithUnits.productUnitList[0].unit.unitId
-                        if(viewModel.productMap[productId]?.get(unitId) == null) {
+                        if (viewModel.productMap[productId]?.get(unitId) == null) {
                             viewModel.productMap[productId] = mutableMapOf(unitId to true)
-                            viewModel.productList.add(productWithUnits.toCHDomainSingleUnit())
+                            viewModel.productList.add(0, productWithUnits.toCHDomainSingleUnit())
+
+                            setVisibleEmptyCart(false)
                             cartSingleUnitAdapter.submitToCart(viewModel.productList)
                         }
                     } else {
                         modalBottomSheet?.let {
                             it.submitData(productWithUnits, viewModel.productMap)
-                            it.onUnitClickListener(object: CartModalBottomSheet.OnUnitClickListener {
+                            it.onUnitClickListener(object :
+                                CartModalBottomSheet.OnUnitClickListener {
                                 override fun onUnitClick(cartHolders: List<CartHolder2>) {
-                                    if(cartHolders.size == 1) {
+                                    if (cartHolders.size == 1) {
                                         if (viewModel.productMap[cartHolders[0].productId] == null) {
                                             Log.d(
                                                 "CartFragmentt",
@@ -335,7 +356,9 @@ class CartFragment : BaseFragment() {
                                                 "after = " + viewModel.productMap.toString()
                                             )
                                         }
-                                        viewModel.productList.add(cartHolders[0])
+                                        viewModel.productList.add(0, cartHolders[0])
+
+                                        setVisibleEmptyCart(false)
                                         cartSingleUnitAdapter.submitToCart(viewModel.productList)
                                     }
                                 }
@@ -348,55 +371,18 @@ class CartFragment : BaseFragment() {
         }
     }
 
-//    private fun onScanSuccess(itemId: String?) {
-//        itemId?.let { productId ->
-//            viewModel.readProductWithUnitsById(productId)
-//            viewModel.productWithUnitsResult.observe(viewLifecycleOwner, { product ->
-//
-//                when(product) {
-//                    is ResponseResult.Loading -> {}
-//                    is ResponseResult.Success -> {
-////                        if (!checkIdOnList(product.data.product.productId, viewModel.itemList)) {
-//                            viewModel.itemList.add(product.data.toCartHolder())
-//                            cartAdapter.addOrder(viewModel.itemList)
-//
-//                            modalBottomSheet = CartModalBottomSheet(this)
-//                            modalBottomSheet?.let {
-//                                it.submitData(product.data)
-////                                it.dismiss()
-//                                it.show(childFragmentManager, CartModalBottomSheet.TAG)
-//                            }
-//
-////                        } else {
-////                            Toast
-////                                .makeText(
-////                                    requireContext(),
-////                                    "Item sudah ada dalam keranjang",
-////                                    Toast.LENGTH_SHORT
-////                                )
-////                                .show()
-////                        }
-//                    }
-//                    is ResponseResult.Failure -> {
-//                        Toast
-//                            .makeText(requireContext(), "Item tidak ada dalam database", Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
-//                    else -> {}
-//                }
-//            })
-//        }
-//    }
-
-    private fun checkIdOnList(id: String, list: List<CartHolder>): Boolean {
-
-        var isInList = false
-        list.forEach { product ->
-            if (product.productId == id) {
-                isInList = true
+    private fun setVisibleEmptyCart(state: Boolean) {
+        if (state) {
+            if (binding.llCartEmpty.visibility == View.GONE) {
+                binding.rvTransaction.visibility = View.GONE
+                binding.llCartEmpty.visibility = View.VISIBLE
+            }
+        } else {
+            if (binding.rvTransaction.visibility == View.GONE) {
+                binding.rvTransaction.visibility = View.VISIBLE
+                binding.llCartEmpty.visibility = View.GONE
             }
         }
-        return isInList
     }
 
 }
