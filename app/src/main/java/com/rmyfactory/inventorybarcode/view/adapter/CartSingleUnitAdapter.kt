@@ -1,5 +1,6 @@
 package com.rmyfactory.inventorybarcode.view.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -10,9 +11,16 @@ import com.rmyfactory.inventorybarcode.model.data.local.model.holder.CartHolder2
 import com.rmyfactory.inventorybarcode.util.logger
 import com.rmyfactory.inventorybarcode.util.toCurrencyFormat
 
+@SuppressLint("NotifyDataSetChanged")
 class CartSingleUnitAdapter(private val onQtyChangeListener: (Int, Boolean) -> Unit) :
     RecyclerView.Adapter<CartSingleUnitAdapter.ViewHolder>() {
 
+    companion object {
+        const val ANIME_TYPE_NONE = "ANIME_TYPE_NONE"
+        const val ANIME_TYPE_INSERT = "ANIME_TYPE_INSERT"
+    }
+
+    private var animeType = ANIME_TYPE_NONE
     private val products = mutableListOf<CartHolder2>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,23 +36,30 @@ class CartSingleUnitAdapter(private val onQtyChangeListener: (Int, Boolean) -> U
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         logger(msg = "position = $position, list = $products")
         val product = products[position]
-        holder.rootView().animation =
-            AnimationUtils.loadAnimation(holder.itemView.context, R.anim.item_in_translate)
+        if (position == 0 && animeType == ANIME_TYPE_INSERT) {
+            holder.rootView().animation =
+                AnimationUtils.loadAnimation(holder.itemView.context, R.anim.item_in_translate)
+        }
         holder.bind(product, position)
     }
 
     override fun getItemCount() = products.size
 
-    fun submitToCart(products: List<CartHolder2>) {
+    fun submitToCart(products: List<CartHolder2>, animeType: String) {
         this.products.clear()
         this.products.addAll(products)
-//        notifyItemInserted(0)
+        this.animeType = animeType
+        notifyDataSetChanged()
+    }
+
+    fun refreshCart(products: List<CartHolder2>) {
+        this.products.clear()
+        this.products.addAll(products)
         notifyDataSetChanged()
     }
 
     fun removeFromCartPos(pos: Int) {
         this.products.removeAt(pos)
-//        notifyItemRemoved(pos)
         notifyDataSetChanged()
     }
 
@@ -65,13 +80,17 @@ class CartSingleUnitAdapter(private val onQtyChangeListener: (Int, Boolean) -> U
 
             binding.imgIncreaseQty.setOnClickListener {
                 val currentQty: Int = binding.tvCartProductQty.text.toString().toInt()
-                binding.tvCartProductQty.text = (currentQty + 1).toString()
+                binding.tvCartProductQty.text =
+                    binding.root.context.resources.getString(R.string.value_number, currentQty + 1)
                 onQtyChangeListener(position, true)
             }
             binding.imgDecreaseQty.setOnClickListener {
                 val currentQty: Int = binding.tvCartProductQty.text.toString().toInt()
                 if (currentQty > 0) {
-                    binding.tvCartProductQty.text = (currentQty - 1).toString()
+                    binding.tvCartProductQty.text = binding.root.context.resources.getString(
+                        R.string.value_number,
+                        currentQty - 1
+                    )
                     onQtyChangeListener(position, false)
                 }
             }

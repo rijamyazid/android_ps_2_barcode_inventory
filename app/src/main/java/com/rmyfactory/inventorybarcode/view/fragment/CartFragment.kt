@@ -124,6 +124,7 @@ class CartFragment : BaseFragment() {
                     viewModel.productMap.remove(product.productId)
                 }
                 cartSingleUnitAdapter.removeFromCartPos(pos)
+//                cartSingleUnitAdapter.removeFromCartPos(pos)
             }
         }).attachToRecyclerView(binding.rvTransaction)
 
@@ -144,6 +145,7 @@ class CartFragment : BaseFragment() {
             viewModel.productList.clear()
             viewModel.productMap.clear()
             cartSingleUnitAdapter.clearCart()
+//            cartSingleUnitAdapter.clearCart()
             setVisibleEmptyCart(true)
         }
 
@@ -158,7 +160,10 @@ class CartFragment : BaseFragment() {
                             viewModel.productList.add(0, it.toCHDomainSingleUnit())
 
                             setVisibleEmptyCart(false)
-                            cartSingleUnitAdapter.submitToCart(viewModel.productList)
+                            cartSingleUnitAdapter.submitToCart(
+                                viewModel.productList,
+                                CartSingleUnitAdapter.ANIME_TYPE_INSERT
+                            )
                         }
                     } else {
                         modalBottomSheet = CartModalBottomSheet(this)
@@ -181,7 +186,10 @@ class CartFragment : BaseFragment() {
                                         viewModel.productList.add(0, cartHolders[0])
 
                                         setVisibleEmptyCart(false)
-                                        cartSingleUnitAdapter.submitToCart(viewModel.productList)
+                                        cartSingleUnitAdapter.submitToCart(
+                                            viewModel.productList,
+                                            CartSingleUnitAdapter.ANIME_TYPE_INSERT
+                                        )
                                     }
                                 }
                             })
@@ -194,7 +202,10 @@ class CartFragment : BaseFragment() {
                     viewModel.productMap.clear()
 
                     setVisibleEmptyCart(true)
-                    cartSingleUnitAdapter.submitToCart(viewModel.productList)
+                    cartSingleUnitAdapter.submitToCart(
+                        viewModel.productList,
+                        CartSingleUnitAdapter.ANIME_TYPE_INSERT
+                    )
                 }
             }
         }
@@ -231,7 +242,7 @@ class CartFragment : BaseFragment() {
         } else {
             setVisibleEmptyCart(false)
         }
-        cartSingleUnitAdapter.submitToCart(viewModel.productList)
+        cartSingleUnitAdapter.refreshCart(viewModel.productList)
         imageAnalyzer?.clearAnalyzer()
         imageAnalyzer?.setAnalyzer(cameraExecutor!!, barcodeAnalyzer!!)
     }
@@ -320,7 +331,10 @@ class CartFragment : BaseFragment() {
                             viewModel.productList.add(0, productWithUnits.toCHDomainSingleUnit())
 
                             setVisibleEmptyCart(false)
-                            cartSingleUnitAdapter.submitToCart(viewModel.productList)
+                            cartSingleUnitAdapter.submitToCart(
+                                viewModel.productList,
+                                CartSingleUnitAdapter.ANIME_TYPE_INSERT
+                            )
                         }
                     } else {
                         modalBottomSheet?.let {
@@ -359,7 +373,10 @@ class CartFragment : BaseFragment() {
                                         viewModel.productList.add(0, cartHolders[0])
 
                                         setVisibleEmptyCart(false)
-                                        cartSingleUnitAdapter.submitToCart(viewModel.productList)
+                                        cartSingleUnitAdapter.submitToCart(
+                                            viewModel.productList,
+                                            CartSingleUnitAdapter.ANIME_TYPE_INSERT
+                                        )
                                     }
                                 }
                             })

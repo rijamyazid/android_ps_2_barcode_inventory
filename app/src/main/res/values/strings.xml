@@ -45,4 +45,5 @@
     <string name="lbl_cart_empty_title">Keranjang masih kosong!</string>
     <string name="lbl_cart_empty_caption">Mulai tambahkan produk\nkedalam keranjang.</string>
     <string name="lbl_product_empty_btn_add">Mulai Tambahkan</string>
+    <string name="value_number">%1$d</string>
 </resources>
