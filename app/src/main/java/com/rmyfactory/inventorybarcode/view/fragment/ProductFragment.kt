@@ -79,12 +79,9 @@ class ProductFragment : BaseFragment() {
             }
         }
 
-//        viewModel.productWithUnitsByQuery.observe(viewLifecycleOwner) {
-//            lifecycleScope.launchWhenCreated {
-//                Log.d("Productt", "2")
-//                productPagingAdapter.submitData(it)
-//            }
-//        }
+        viewModel.productWithUnitsByQuery.observe(viewLifecycleOwner) {
+            productAdapter.addProducts(it)
+        }
 
         if (mainActivityViewModel.productCartState == 1) {
             binding.fabProductAdd.visibility = View.GONE

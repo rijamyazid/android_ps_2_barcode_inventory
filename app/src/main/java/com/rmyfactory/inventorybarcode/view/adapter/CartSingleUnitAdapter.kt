@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rmyfactory.inventorybarcode.R
 import com.rmyfactory.inventorybarcode.databinding.ItemHolderCartSingleUnitBinding
 import com.rmyfactory.inventorybarcode.model.data.local.model.holder.CartHolder2
-import com.rmyfactory.inventorybarcode.util.logger
 import com.rmyfactory.inventorybarcode.util.toCurrencyFormat
 
 @SuppressLint("NotifyDataSetChanged")
@@ -34,7 +33,6 @@ class CartSingleUnitAdapter(private val onQtyChangeListener: (Int, Boolean) -> U
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        logger(msg = "position = $position, list = $products")
         val product = products[position]
         if (position == 0 && animeType == ANIME_TYPE_INSERT) {
             holder.rootView().animation =
@@ -45,7 +43,7 @@ class CartSingleUnitAdapter(private val onQtyChangeListener: (Int, Boolean) -> U
 
     override fun getItemCount() = products.size
 
-    fun submitToCart(products: List<CartHolder2>, animeType: String) {
+    fun submitToCartSingle(products: List<CartHolder2>, animeType: String) {
         this.products.clear()
         this.products.addAll(products)
         this.animeType = animeType

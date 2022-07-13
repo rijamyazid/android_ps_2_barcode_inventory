@@ -160,7 +160,7 @@ class CartFragment : BaseFragment() {
                             viewModel.productList.add(0, it.toCHDomainSingleUnit())
 
                             setVisibleEmptyCart(false)
-                            cartSingleUnitAdapter.submitToCart(
+                            cartSingleUnitAdapter.submitToCartSingle(
                                 viewModel.productList,
                                 CartSingleUnitAdapter.ANIME_TYPE_INSERT
                             )
@@ -186,7 +186,7 @@ class CartFragment : BaseFragment() {
                                         viewModel.productList.add(0, cartHolders[0])
 
                                         setVisibleEmptyCart(false)
-                                        cartSingleUnitAdapter.submitToCart(
+                                        cartSingleUnitAdapter.submitToCartSingle(
                                             viewModel.productList,
                                             CartSingleUnitAdapter.ANIME_TYPE_INSERT
                                         )
@@ -202,7 +202,7 @@ class CartFragment : BaseFragment() {
                     viewModel.productMap.clear()
 
                     setVisibleEmptyCart(true)
-                    cartSingleUnitAdapter.submitToCart(
+                    cartSingleUnitAdapter.submitToCartSingle(
                         viewModel.productList,
                         CartSingleUnitAdapter.ANIME_TYPE_INSERT
                     )
@@ -331,7 +331,7 @@ class CartFragment : BaseFragment() {
                             viewModel.productList.add(0, productWithUnits.toCHDomainSingleUnit())
 
                             setVisibleEmptyCart(false)
-                            cartSingleUnitAdapter.submitToCart(
+                            cartSingleUnitAdapter.submitToCartSingle(
                                 viewModel.productList,
                                 CartSingleUnitAdapter.ANIME_TYPE_INSERT
                             )
@@ -373,7 +373,7 @@ class CartFragment : BaseFragment() {
                                         viewModel.productList.add(0, cartHolders[0])
 
                                         setVisibleEmptyCart(false)
-                                        cartSingleUnitAdapter.submitToCart(
+                                        cartSingleUnitAdapter.submitToCartSingle(
                                             viewModel.productList,
                                             CartSingleUnitAdapter.ANIME_TYPE_INSERT
                                         )

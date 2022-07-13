@@ -15,7 +15,11 @@
             app:destination="@id/logFragment" />
         <action
             android:id="@+id/action_bnv_home_to_productDetailFragment"
-            app:destination="@id/productDetailFragment" />
+            app:destination="@id/productDetailFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_out_up_10"
+            app:popEnterAnim="@anim/slide_in_down_10"
+            app:popExitAnim="@anim/slide_out_down" />
     </fragment>
     <fragment
         android:id="@+id/bnv_product"
@@ -24,7 +28,11 @@
         tools:layout="@layout/fragment_product">
         <action
             android:id="@+id/action_bnv_product_to_productDetailFragment"
-            app:destination="@id/productDetailFragment" />
+            app:destination="@id/productDetailFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_out_up_10"
+            app:popEnterAnim="@anim/slide_in_down_10"
+            app:popExitAnim="@anim/slide_out_down" />
     </fragment>
     <fragment
         android:id="@+id/bnv_cart"
@@ -43,7 +51,11 @@
             app:destination="@id/bnv_product" />
         <action
             android:id="@+id/action_bnv_cart_to_productDetailFragment"
-            app:destination="@id/productDetailFragment" />
+            app:destination="@id/productDetailFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_out_up_10"
+            app:popEnterAnim="@anim/slide_in_down_10"
+            app:popExitAnim="@anim/slide_out_down" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"

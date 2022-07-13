@@ -73,6 +73,7 @@
         <entry key="..\:/_Codes/Android/Projects/ps-2-barcode-inventory/app/src/main/res/layout/fragment_product.xml" value="0.25" />
         <entry key="..\:/_Codes/Android/Projects/ps-2-barcode-inventory/app/src/main/res/layout/item_holder_cart.xml" value="0.25" />
         <entry key="..\:/_Codes/Android/Projects/ps-2-barcode-inventory/app/src/main/res/layout/item_holder_cart_single_unit.xml" value="0.5" />
+        <entry key="..\:/_Codes/Android/Projects/ps-2-barcode-inventory/app/src/main/res/layout/mbs_cart.xml" value="0.33" />
       </map>
     </option>
   </component>

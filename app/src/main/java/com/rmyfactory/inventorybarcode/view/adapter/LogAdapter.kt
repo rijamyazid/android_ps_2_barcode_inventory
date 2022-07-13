@@ -34,7 +34,7 @@ class LogAdapter: RecyclerView.Adapter<LogAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: ItemHolderLogBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(order: OrderWithProducts) {
 
-            val sdf = SimpleDateFormat("dd MMM yyyy hh:mm:ss", Locale("id", "ID"))
+            val sdf = SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale("id", "ID"))
             val dateFormatted = sdf.format(order.order.orderDate!!)
             binding.tvDate.text = dateFormatted
             binding.tvId.text = order.order.orderId

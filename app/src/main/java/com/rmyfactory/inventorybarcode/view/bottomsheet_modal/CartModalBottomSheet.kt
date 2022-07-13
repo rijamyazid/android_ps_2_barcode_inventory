@@ -76,6 +76,12 @@ class CartModalBottomSheet(private val fragmentParent: Fragment): BottomSheetDia
 
         }
 
+        product?.let {
+            binding.tvProductIdMbs.text = it.product.productId
+            binding.tvProductNameMbs.text = it.product.productName
+            binding.edtProductNoteMbs.editText?.setText(it.product.productNote)
+        }
+
         binding.rvCartMbs.apply {
             this.layoutManager = LinearLayoutManager(requireContext())
             this.adapter = mbsCartAdapter

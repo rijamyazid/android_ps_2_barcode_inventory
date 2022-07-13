@@ -1,5 +1,6 @@
 package com.rmyfactory.inventorybarcode.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rmyfactory.inventorybarcode.model.data.local.model.BaseModel
@@ -30,9 +31,8 @@ class HomeViewModel
     private suspend fun susReadOrderProducts(): List<OrderProductModel> = repository.susReadOrderProducts()
 
     fun exportDataset(loadingProgress: (Int) -> Unit, loadingResult: (ResponseResult<String>) -> Unit) = viewModelScope.launch(Dispatchers.IO) {
-        val listOfProductModel = susReadProducts()
-
         try {
+            val listOfProductModel = susReadProducts()
             var exportContent = "#${Constants.TABLE_PRODUCT}\n"
             listOfProductModel.forEach { Product ->
                 exportContent += "${Product.productId};${Product.productName};${Product.productNote}\n"
@@ -42,7 +42,12 @@ class HomeViewModel
             val listOfOrderModel = susReadOrders()
             exportContent += "\n#${Constants.TABLE_ORDER}\n"
             listOfOrderModel.forEach { order ->
-                exportContent += "${order.orderId};${order.orderPay};${order.orderExchange};${order.orderTotalPrice};${order.orderDate}\n"
+                val sdf = SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale("id", "ID"))
+                exportContent += "${order.orderId};${order.orderPay};${order.orderExchange};${order.orderTotalPrice};${
+                    sdf.format(
+                        order.orderDate!!
+                    )
+                }\n"
             }
             loadingProgress(20)
 
@@ -93,6 +98,7 @@ class HomeViewModel
                             if (lineSplit.isNotEmpty()) {
                                 when (currentTable) {
                                     Constants.TABLE_PRODUCT -> {
+                                        Log.d("Homee", "1")
                                         mapOfImportedData[currentTable]?.add(
                                             ProductModel(
                                                 productId = lineSplit[0],
@@ -102,7 +108,11 @@ class HomeViewModel
                                         )
                                     }
                                     Constants.TABLE_ORDER -> {
-                                        val sdf = SimpleDateFormat("dd M yyyy hh:mm:ss", Locale("id", "ID"))
+                                        Log.d("Homee", "2")
+                                        val sdf = SimpleDateFormat(
+                                            "dd MMM yyyy HH:mm:ss",
+                                            Locale("id", "ID")
+                                        )
                                         val dateFormatted = sdf.parse(lineSplit[4])
                                         mapOfImportedData[currentTable]?.add(
                                             OrderModel(
@@ -115,6 +125,7 @@ class HomeViewModel
                                         )
                                     }
                                     Constants.TABLE_UNIT -> {
+                                        Log.d("Homee", "3")
                                         mapOfImportedData[currentTable]?.add(
                                             UnitModel(
                                                 unitId = lineSplit[0]
@@ -122,6 +133,7 @@ class HomeViewModel
                                         )
                                     }
                                     Constants.TABLE_ORDER_PRODUCT -> {
+                                        Log.d("Homee", "4")
                                         mapOfImportedData[currentTable]?.add(
                                             OrderProductModel(
                                                 orderId = lineSplit[0],
@@ -134,6 +146,7 @@ class HomeViewModel
                                         )
                                     }
                                     Constants.TABLE_PRODUCT_UNIT -> {
+                                        Log.d("Homee", "5")
                                         mapOfImportedData[currentTable]?.add(
                                             ProductUnitModel(
                                                 id = lineSplit[0].toLong(),
@@ -157,6 +170,7 @@ class HomeViewModel
                 loadingResult(ResponseResult.Success(Any()))
 //            }
         } catch (e: Exception) {
+            Log.d("Homee", "e: $e")
 //            viewModelScope.launch(Dispatchers.Main) {
                 loadingResult(ResponseResult.Failure(e))
 //            }
